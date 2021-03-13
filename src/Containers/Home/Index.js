@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Button } from 'react-native'
+import { navigate } from '@/Navigators/Root'
 
 const IndexHomeContainer = () => {
   return (
-    <View>
-      <Text>Home Tab</Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button
+        onPress={() => navigate('')}
+        style={{ justifyContent: 'center', alignSelf: 'center' }}
+        title={'Click Button'}
+      />
     </View>
   )
 }
