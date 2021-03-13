@@ -16,6 +16,7 @@ const MainNavigator = () => {
         name={Config.containerNames.Home}
         component={HomeScreen}
         options={{
+          title: 'Conversation Creator',
           headerRight: () => (
             <Icon
               onPress={() => navigate(Config.containerNames.NewConversation)}
