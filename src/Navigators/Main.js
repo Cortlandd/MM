@@ -1,15 +1,19 @@
 import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { IndexHomeContainer } from '@/Containers'
+import { createStackNavigator } from '@react-navigation/stack'
+import { IndexHomeContainer as HomeScreen } from '@/Containers'
+import { Config } from '@/Config'
+import { NavigationContainer } from '@react-navigation/native'
 
-const Tab = createBottomTabNavigator()
+const Stack = createStackNavigator()
 
 // @refresh reset
 const MainNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={IndexHomeContainer} />
-    </Tab.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name={Config.containerNames.Home} component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 
