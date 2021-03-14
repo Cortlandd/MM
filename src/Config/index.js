@@ -1,4 +1,5 @@
 import { SeedData } from '@/Config/SeedData'
+import { Types } from '@/Config/Types'
 
 const ContainerNames = {
   Home: 'Home',
@@ -16,4 +17,5 @@ export const Config = {
   containerNames: ContainerNames,
   messengerPlatforms: MessengerPlatforms,
   seedData: SeedData,
+  types: Types,
 }
