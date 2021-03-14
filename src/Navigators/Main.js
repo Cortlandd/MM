@@ -2,6 +2,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { IndexHomeContainer as HomeScreen } from '@/Containers'
 import { IndexNewContainer as NewConversationScreen } from '@/Containers'
+import { IndexConversationContainer as ConversationScreen } from '@/Containers'
 import { Config } from '@/Config'
 import { Icon } from 'react-native-elements'
 import { navigate } from '@/Navigators/Root'
@@ -9,7 +10,7 @@ import { navigate } from '@/Navigators/Root'
 const Stack = createStackNavigator()
 
 // @refresh reset
-const MainNavigator = () => {
+const MainNavigator = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -28,6 +29,15 @@ const MainNavigator = () => {
       <Stack.Screen
         name={Config.containerNames.NewConversation}
         component={NewConversationScreen}
+      />
+      <Stack.Screen
+        name={Config.containerNames.Conversation}
+        component={ConversationScreen}
+        options={{
+          headerLeft: () => (
+            <Icon name="arrow-back" onPress={() => navigation.goBack()} />
+          ),
+        }}
       />
     </Stack.Navigator>
   )

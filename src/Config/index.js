@@ -4,6 +4,7 @@ import { Types } from '@/Config/Types'
 const ContainerNames = {
   Home: 'Home',
   NewConversation: 'New Conversation',
+  Conversation: 'Conversation',
 }
 
 const MessengerPlatforms = {
