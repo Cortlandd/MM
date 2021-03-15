@@ -2,21 +2,21 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { Avatar } from 'react-native-elements'
 
-const ReceivedMessage = ({ recipient, showProfile = true, message }) => {
+const SentMessage = ({ sender, showProfile = false, message }) => {
   return (
     <View
       style={{
-        maxWidth: '80%',
         flexDirection: 'row',
         alignItems: 'baseline',
+        alignSelf: 'flex-end',
+        maxWidth: '80%',
       }}
     >
-      {showProfile && <Avatar source={recipient.image} />}
       <Text
         style={{
-          marginLeft: 10,
+          marginRight: 10,
           padding: 10,
-          backgroundColor: 'lightblue',
+          backgroundColor: 'lightgreen',
           borderRadius: 12,
           borderColor: 'gray',
           overflow: 'hidden',
@@ -24,8 +24,9 @@ const ReceivedMessage = ({ recipient, showProfile = true, message }) => {
       >
         {message}
       </Text>
+      {showProfile && <Avatar source={sender.image} />}
     </View>
   )
 }
 
-export default ReceivedMessage
+export default SentMessage
