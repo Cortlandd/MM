@@ -22,6 +22,9 @@ const MainNavigator = ({ navigation }) => {
             <Icon
               onPress={() => navigate(Config.containerNames.NewConversation)}
               name="add"
+              style={{
+                marginRight: 5,
+              }}
             />
           ),
         }}
@@ -33,11 +36,18 @@ const MainNavigator = ({ navigation }) => {
       <Stack.Screen
         name={Config.containerNames.Conversation}
         component={ConversationScreen}
-        options={{
+        options={({ route }) => ({
+          title: route.params.item.recipient.name,
           headerLeft: () => (
-            <Icon name="arrow-back" onPress={() => navigation.goBack()} />
+            <Icon
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+              style={{
+                marginLeft: 5,
+              }}
+            />
           ),
-        }}
+        })}
       />
     </Stack.Navigator>
   )

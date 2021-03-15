@@ -1,17 +1,39 @@
+import Images from '@/Theme/Images'
+
+const images = Images()
+
 const TestConversationList = [
   {
-    recipient: 'Vito Corleone',
-    sender: 'Jack White',
+    recipient: {
+      name: 'Vito Corleone',
+      image: images.FacebookMessenger,
+    },
+    sender: {
+      name: 'Jack White',
+      image: images.FacebookMessenger,
+    },
     platform: 'FacebookMessenger',
   },
   {
-    recipient: 'Sonny Corleone',
-    sender: 'Sam Smith',
+    recipient: {
+      name: 'Sonny Corleone',
+      image: images.Instagram,
+    },
+    sender: {
+      name: 'Sam Smith',
+      image: images.Instagram,
+    },
     platform: 'Instagram',
   },
   {
-    recipient: 'Michael Corleone',
-    sender: 'Sydney Jones',
+    recipient: {
+      name: 'Michael Corleone',
+      image: images.Instagram,
+    },
+    sender: {
+      name: 'Sydney Jones',
+      image: images.Instagram,
+    },
     platform: 'Instagram',
   },
 ]

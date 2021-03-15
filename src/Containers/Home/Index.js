@@ -22,10 +22,10 @@ const IndexHomeContainer = ({ navigation }) => {
             }
           >
             <ListItem bottomDivider>
-              <Avatar source={Images[item.platform]} />
+              <Avatar source={item.recipient.image} />
               <ListItem.Content>
-                <ListItem.Title>To: {item.recipient}</ListItem.Title>
-                <ListItem.Subtitle>From: {item.sender}</ListItem.Subtitle>
+                <ListItem.Title>To: {item.recipient.name}</ListItem.Title>
+                <ListItem.Subtitle>From: {item.sender.name}</ListItem.Subtitle>
               </ListItem.Content>
               <ListItem.Chevron />
             </ListItem>
