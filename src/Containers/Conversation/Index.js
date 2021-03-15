@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Button, TextInput, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
+import { ReceivedMessage } from '@/Components'
 
 const IndexConversationContainer = ({ route, navigation }) => {
   const { item } = route.params
@@ -8,7 +9,13 @@ const IndexConversationContainer = ({ route, navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
-        <Text>{JSON.stringify(item)}</Text>
+        <ReceivedMessage
+          recipient={item.recipient}
+          message={
+            'This is me testing the message. This is me testing the message. This is me testing the message. This is me testing the message. This is me testing the message. This is me testing the message. This is me testing the message. '
+          }
+        />
+        <Text style={{ display: 'none' }}>{JSON.stringify(item)}</Text>
       </View>
       <View
         style={{
