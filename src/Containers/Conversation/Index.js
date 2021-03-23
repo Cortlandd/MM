@@ -8,7 +8,7 @@ import SegmentedControlTab from 'react-native-segmented-control-tab'
 import Images from '@/Theme/Images'
 
 const IndexConversationContainer = ({ route, navigation }) => {
-  const { params } = route.params
+  const { item } = route.params
   const dispatch = useDispatch()
   const images = Images()
 
@@ -53,7 +53,7 @@ const IndexConversationContainer = ({ route, navigation }) => {
             </View>
           }
         />
-        <Text>{JSON.stringify(params)}</Text>
+        <Text>{JSON.stringify(item)}</Text>
       </View>
       <View style={{ margin: 10 }}>
         <SegmentedControlTab
