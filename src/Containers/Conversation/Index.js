@@ -22,7 +22,8 @@ const IndexConversationContainer = ({ route, navigation }) => {
       /* next line works with strings and numbers,
        * and you may want to customize it to your needs
        */
-      var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+      var result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0
       return result * sortOrder
     }
   }
@@ -73,33 +74,38 @@ const IndexConversationContainer = ({ route, navigation }) => {
           height: 50,
         }}
       >
-        <TextInput placeholder={'Message...'} style={{ width: '90%' }} onChangeText={(text) => setMessage(text)} />
+        <TextInput
+          placeholder={'Message...'}
+          style={{ width: '90%' }}
+          onChangeText={(text) => setMessage(text)}
+          value={message}
+        />
         <Icon
           name={'send'}
           style={{ marginLeft: 10 }}
           onPress={() => {
-            var msg = {}
-            msg['id'] = Math.round(Math.random() * 10000000)
-            msg['time'] = Date.now() + 10
-            msg['message'] = message
+            const msg = {}
+            msg.id = Math.round(Math.random() * 10000000).toString()
+            msg.time = Date.now() + 10
+            msg.message = message
 
             if (selectedReceiverIndex === 0) {
               // Receiver
-              msg['type'] = 'received'
-              msg['recipient'] = {
+              msg.type = 'received'
+              msg.recipient = {
                 name: 'Vito Corleone',
                 image: images.FacebookMessenger,
               }
             } else {
               // Sender
-              msg['type'] = 'sent'
-              msg['recipient'] = {
+              msg.type = 'sent'
+              msg.recipient = {
                 name: 'Vito Corleone',
                 image: images.FacebookMessenger,
               }
             }
             setMessageData(initialData.push(msg))
-            console.log(initialData)
+            setMessage('')
           }}
         />
       </View>
