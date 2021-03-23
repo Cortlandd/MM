@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import { Avatar } from 'react-native-elements'
 
@@ -9,9 +9,11 @@ const ReceivedMessage = ({ recipient, showProfile = true, message }) => {
         maxWidth: '80%',
         flexDirection: 'row',
         alignItems: 'baseline',
+        marginBottom: 1,
+        marginTop: 1,
       }}
     >
-      {showProfile && <Avatar source={recipient.image} />}
+      {showProfile && <Avatar source={message.recipient.image} />}
       <Text
         style={{
           marginLeft: 10,
@@ -22,7 +24,7 @@ const ReceivedMessage = ({ recipient, showProfile = true, message }) => {
           overflow: 'hidden',
         }}
       >
-        {message}
+        {message.message}
       </Text>
     </View>
   )
