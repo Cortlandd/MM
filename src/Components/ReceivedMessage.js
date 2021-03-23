@@ -9,8 +9,8 @@ const ReceivedMessage = ({ recipient, showProfile = true, message }) => {
         maxWidth: '80%',
         flexDirection: 'row',
         alignItems: 'baseline',
-        marginBottom: 1,
-        marginTop: 1,
+        marginBottom: 3,
+        marginTop: 3,
       }}
     >
       {showProfile && <Avatar source={message.recipient.image} />}

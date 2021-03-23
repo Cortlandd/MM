@@ -23,8 +23,8 @@ const SentMessage = ({ showProfile = false, message, showTime = false }) => {
           alignItems: 'baseline',
           alignSelf: 'flex-end',
           maxWidth: '80%',
-          marginBottom: 1,
-          marginTop: 1,
+          marginBottom: 3,
+          marginTop: 3,
         }}
       >
         <Text
