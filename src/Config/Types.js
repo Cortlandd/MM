@@ -1,21 +1,21 @@
 const BaseTextMessage = {
   message: '',
   time: '',
-  type: '', // recipient or sender
+  conversation_id: 0,
+  is_from_me: true,
 }
 
-const BasePictureMessage = {
-  message: '',
-  time: '',
-  imagePath: '',
-  type: '', // recipient or sender
+const MessageAttachment = {
+  id: 0,
+  message_id: 0,
+  attachment_binary_code_or_path: '',
 }
 
 const BaseConversation = {
+  id: 0,
   recipient: '',
-  sender: '',
   messages: [''], // PictureMessage OR Message
-  platform: '',
+  platform: '', // imessage, facebook, instagram, etc
   theme: '',
 }
 
@@ -32,7 +32,6 @@ const CustomProfile = {
 
 export const Types = {
   BaseTextMessage: BaseTextMessage,
-  BasePictureMessage: BasePictureMessage,
   BaseConversation: BaseConversation,
   CustomProfile: CustomProfile,
 }
