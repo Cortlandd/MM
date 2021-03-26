@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Button, Text, FlatList } from 'react-native'
+import { View, Button, Text, FlatList, SafeAreaView } from 'react-native'
 import { Config } from '@/Config'
 import { useTheme } from '@/Theme'
 import { ListItem, Avatar } from 'react-native-elements'
@@ -8,15 +8,24 @@ import { TouchableWithoutFeedback } from 'react-native'
 const IndexHomeContainer = ({ navigation }) => {
   const { Layout, Images } = useTheme()
 
+  const determineRoute = (route) => {
+    switch (route) {
+      case Config.messengerPlatforms.Instagram:
+        return Config.containerNames.InstagramConversation
+      default:
+        break
+    }
+  }
+
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         data={Config.seedData.TestConversationList}
         renderItem={({ item }) => (
           <TouchableWithoutFeedback
             onPress={() =>
-              navigation.navigate(Config.containerNames.Conversation, {
+              navigation.navigate(determineRoute(item.platform), {
                 item: item,
               })
             }
@@ -32,7 +41,7 @@ const IndexHomeContainer = ({ navigation }) => {
           </TouchableWithoutFeedback>
         )}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 

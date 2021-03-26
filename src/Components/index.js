@@ -1,3 +1,5 @@
 export { default as Brand } from './Brand'
 export { default as ReceivedMessage } from './ReceivedMessage'
 export { default as SentMessage } from './SentMessage'
+export { default as InstagramSentMessage } from './SentMessage/Instagram'
+export { default as InstagramMessage } from './Message/Instagram'

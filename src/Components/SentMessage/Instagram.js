@@ -2,9 +2,15 @@ import React from 'react'
 import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
 import { Avatar } from 'react-native-elements'
 
-const SentMessage = ({ showProfile = false, message, showTime = false }) => {
+const InstagramSentMessage = ({ showProfile = false, message, showTime = false }) => {
   return (
-    <TouchableOpacity style={{ ...styles.messageItem, justifyContent: 'flex-end', paddingBottom: 15 }}>
+    <TouchableOpacity
+      style={{
+        ...styles.messageItem,
+        justifyContent: 'flex-end',
+        paddingBottom: 15,
+      }}
+    >
       <View style={{ ...styles.message, alignItems: 'flex-end' }}>
         {showTime && (
           <View
@@ -27,7 +33,7 @@ const SentMessage = ({ showProfile = false, message, showTime = false }) => {
   )
 }
 
-export default SentMessage
+export default InstagramSentMessage
 
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)
 const styles = StyleSheet.create({

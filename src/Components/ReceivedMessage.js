@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import { Avatar } from 'react-native-elements'
 
-const ReceivedMessage = ({ recipient, showProfile = true, message }) => {
+const ReceivedMessage = ({ showProfile = true, message }) => {
   return (
     <View
       style={{
@@ -19,7 +19,7 @@ const ReceivedMessage = ({ recipient, showProfile = true, message }) => {
           marginLeft: 10,
           padding: 10,
           backgroundColor: 'lightblue',
-          borderRadius: 12,
+          borderRadius: 20,
           borderColor: 'gray',
           overflow: 'hidden',
         }}

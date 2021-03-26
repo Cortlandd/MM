@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { IndexHomeContainer as HomeScreen } from '@/Containers'
 import { IndexNewContainer as NewConversationScreen } from '@/Containers'
 import { IndexConversationContainer as ConversationScreen } from '@/Containers'
+import { InstagramConversation } from '@/Containers'
 import { Config } from '@/Config'
 import { Icon } from 'react-native-elements'
 import { navigate } from '@/Navigators/Root'
@@ -36,18 +37,12 @@ const MainNavigator = ({ navigation }) => {
       <Stack.Screen
         name={Config.containerNames.Conversation}
         component={ConversationScreen}
-        options={({ route }) => ({
-          title: route.params.item.recipient.name,
-          headerLeft: () => (
-            <Icon
-              name="arrow-back"
-              onPress={() => navigation.goBack()}
-              style={{
-                marginLeft: 5,
-              }}
-            />
-          ),
-        })}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={Config.containerNames.InstagramConversation}
+        component={InstagramConversation}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   )

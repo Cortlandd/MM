@@ -1,4 +1,5 @@
 const BaseTextMessage = {
+  id: 0,
   message: '',
   time: '',
   conversation_id: 0,

@@ -1,34 +1,16 @@
 import React, { useState } from 'react'
-import { View, Button, TextInput, Text, FlatList, SafeAreaView } from 'react-native'
-import { Icon } from 'react-native-elements'
-import { ReceivedMessage, SentMessage } from '@/Components'
-import { Config } from '@/Config'
+import { View, TouchableOpacity, FlatList, SafeAreaView, Text } from 'react-native'
 import { useDispatch } from 'react-redux'
-import SegmentedControlTab from 'react-native-segmented-control-tab'
 import Images from '@/Theme/Images'
 import InstagramNavigationBar from '@/Components/NavigationBar/Instagram'
+import { InstagramMessage, ReceivedMessage, SentMessage } from '@/Components'
+import SegmentedControlTab from 'react-native-segmented-control-tab'
 import InstagramTextInput from '@/Components/TextInput/Instagram'
 
-const IndexConversationContainer = ({ route, navigation }) => {
+const InstagramConversation = ({ route, navigation }) => {
   const { item } = route.params
   const dispatch = useDispatch()
   const images = Images()
-
-  function dynamicSort(property) {
-    var sortOrder = 1
-    if (property[0] === '-') {
-      sortOrder = -1
-      property = property.substr(1)
-    }
-    return function (a, b) {
-      /* next line works with strings and numbers,
-       * and you may want to customize it to your needs
-       */
-      var result =
-        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0
-      return result * sortOrder
-    }
-  }
 
   const [initialData] = useState([])
   const [messageData, setMessageData] = useState([])
@@ -64,22 +46,18 @@ const IndexConversationContainer = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      {item.platform === 'Instagram' && (
-        <InstagramNavigationBar
-          title={item.recipient.name}
-          callback={() => navigation.goBack()}
-          userData={item}
-        />
-      )}
+      <InstagramNavigationBar
+        title={item.recipient.name}
+        callback={() => navigation.goBack()}
+        userData={item}
+      />
       <View style={{ flex: 1, marginRight: 5, marginLeft: 10 }}>
         <FlatList
           data={initialData}
           renderItem={({ item, index }) => {
-            if (item.is_from_me) {
-              return <SentMessage message={item} />
-            } else {
-              return <ReceivedMessage message={item} />
-            }
+            return (
+              <InstagramMessage is_from_me={item.is_from_me} message={item} />
+            )
           }}
           extraData={messageData}
           keyExtractor={(i, index) => i.id}
@@ -98,15 +76,13 @@ const IndexConversationContainer = ({ route, navigation }) => {
           onTabPress={(index) => setSelectedReceiverIndex(index)}
         />
       </View>
-      {item.platform === 'Instagram' && (
-        <InstagramTextInput
-          messageInput={message}
-          setMessageInput={setMessage}
-          onSend={sendMessage}
-        />
-      )}
+      <InstagramTextInput
+        messageInput={message}
+        setMessageInput={setMessage}
+        onSend={sendMessage}
+      />
     </SafeAreaView>
   )
 }
 
-export default IndexConversationContainer
+export default InstagramConversation
