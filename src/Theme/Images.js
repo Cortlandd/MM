@@ -9,5 +9,6 @@ export default function () {
     Instagram: require('@/Assets/Images/Instagram.png'),
     FacebookMessenger: require('@/Assets/Images/FacebookMessenger.png'),
     iMessage: require('@/Assets/Images/iMessage.png'),
+    Twitter: require('@/Assets/Images/Twitter.png'),
   }
 }

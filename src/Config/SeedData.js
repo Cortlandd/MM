@@ -89,6 +89,17 @@ const TestConversationList = [
     },
     platform: 'Instagram',
   },
+  {
+    recipient: {
+      name: 'Luca Brasi',
+      image: images.Twitter,
+    },
+    sender: {
+      name: 'Dude Love',
+      image: images.Twitter,
+    },
+    platform: 'Twitter',
+  },
 ]
 
 export const SeedData = {

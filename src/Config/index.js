@@ -12,6 +12,7 @@ const MessengerPlatforms = {
   Instagram: 'Instagram',
   FacebookMessenger: 'Facebook Messenger',
   iMessage: 'iMessage',
+  Twitter: 'Twitter',
 }
 
 export const Config = {
