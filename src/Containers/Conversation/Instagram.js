@@ -20,7 +20,7 @@ const InstagramConversation = ({ route, navigation }) => {
   const sendMessage = () => {
     const msg = {}
     msg.id = Math.round(Math.random() * 10000000).toString()
-    msg.time = Date.now() + 10
+    msg.time = new Date()
     msg.message = message
 
     if (selectedReceiverIndex === 0) {
@@ -56,7 +56,7 @@ const InstagramConversation = ({ route, navigation }) => {
           data={initialData}
           renderItem={({ item, index }) => {
             return (
-              <InstagramMessage is_from_me={item.is_from_me} message={item} />
+              <InstagramMessage is_from_me={item.is_from_me} message={item} lastMessage={initialData[index - 1]} rowIndex={index} />
             )
           }}
           extraData={messageData}
