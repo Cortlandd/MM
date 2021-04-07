@@ -6,6 +6,7 @@ const ContainerNames = {
   NewConversation: 'New Conversation',
   Conversation: 'Conversation',
   InstagramConversation: 'InstagramConversation',
+  TwitterConversation: 'TwitterConversation',
 }
 
 const MessengerPlatforms = {

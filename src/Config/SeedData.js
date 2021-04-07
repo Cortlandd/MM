@@ -80,17 +80,6 @@ const TestConversationList = [
   },
   {
     recipient: {
-      name: 'Michael Corleone',
-      image: images.Instagram,
-    },
-    sender: {
-      name: 'Sydney Jones',
-      image: images.Instagram,
-    },
-    platform: 'Instagram',
-  },
-  {
-    recipient: {
       name: 'Luca Brasi',
       image: images.Twitter,
     },

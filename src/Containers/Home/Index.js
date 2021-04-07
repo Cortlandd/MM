@@ -12,6 +12,8 @@ const IndexHomeContainer = ({ navigation }) => {
     switch (route) {
       case Config.messengerPlatforms.Instagram:
         return Config.containerNames.InstagramConversation
+      case Config.messengerPlatforms.Twitter:
+        return Config.containerNames.TwitterConversation
       default:
         break
     }

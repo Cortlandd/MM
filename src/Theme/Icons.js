@@ -6,5 +6,8 @@ export default function () {
     instagram_emoji: require('@/Assets/Icons/instagram-emoji.png'),
     instagram_info: require('@/Assets/Icons/instagram-info.png'),
     instagram_microphone: require('@/Assets/Icons/instagram-microphone.webp'),
+    twitter_gif: require('@/Assets/Icons/twitter-gif.png'),
+    twitter_photo_album: require('@/Assets/Icons/twitter-photo.png'),
+    twitter_send: require('@/Assets/Icons/twitter-send.png'),
   }
 }

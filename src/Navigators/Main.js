@@ -1,8 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { IndexHomeContainer as HomeScreen } from '@/Containers'
+import { IndexHomeContainer as HomeScreen, TwitterConversation } from '@/Containers'
 import { IndexNewContainer as NewConversationScreen } from '@/Containers'
-import { IndexConversationContainer as ConversationScreen } from '@/Containers'
 import { InstagramConversation } from '@/Containers'
 import { Config } from '@/Config'
 import { Icon } from 'react-native-elements'
@@ -35,13 +34,13 @@ const MainNavigator = ({ navigation }) => {
         component={NewConversationScreen}
       />
       <Stack.Screen
-        name={Config.containerNames.Conversation}
-        component={ConversationScreen}
+        name={Config.containerNames.InstagramConversation}
+        component={InstagramConversation}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name={Config.containerNames.InstagramConversation}
-        component={InstagramConversation}
+        name={Config.containerNames.TwitterConversation}
+        component={TwitterConversation}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
