@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity, FlatList, SafeAreaView, Text } from 'react-native'
+import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  SafeAreaView,
+  Text,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback, Keyboard, Platform,
+} from 'react-native'
 import { useDispatch } from 'react-redux'
 import Images from '@/Theme/Images'
 import InstagramNavigationBar from '@/Components/NavigationBar/Instagram'
@@ -51,36 +59,43 @@ const InstagramConversation = ({ route, navigation }) => {
         callback={() => navigation.goBack()}
         userData={item}
       />
-      <View style={{ flex: 1, marginRight: 5, marginLeft: 10 }}>
-        <FlatList
-          data={initialData}
-          renderItem={({ item, index }) => {
-            return (
-              <InstagramMessage is_from_me={item.is_from_me} message={item} lastMessage={initialData[index - 1]} rowIndex={index} />
-            )
-          }}
-          extraData={messageData}
-          keyExtractor={(i, index) => i.id}
-          ListEmptyComponent={
-            <View>
-              <Text>The start of the conversation.</Text>
-            </View>
-          }
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <FlatList
+            data={initialData}
+            renderItem={({ item, index }) => {
+              return (
+                <InstagramMessage is_from_me={item.is_from_me} message={item} lastMessage={initialData[index - 1]} rowIndex={index} />
+              )
+            }}
+            style={{ flex: 1, marginRight: 5, marginLeft: 10 }}
+            extraData={messageData}
+            keyExtractor={(i, index) => i.id}
+            ref={(ref) => (this.flatList = ref)}
+            onContentSizeChange={() =>
+              this.flatList.scrollToEnd({ animated: true })
+            }
+            onLayout={() => this.flatList.scrollToEnd({ animated: true })}
+            ListEmptyComponent={
+              <View>
+                <Text>The start of the conversation.</Text>
+              </View>
+            }
+          />
+        </TouchableWithoutFeedback>
+        <View style={{ margin: 10 }}>
+          <SegmentedControlTab
+            values={['Receiving', 'Sending']}
+            selectedIndex={selectedReceiverIndex}
+            onTabPress={(index) => setSelectedReceiverIndex(index)}
+          />
+        </View>
+        <InstagramTextInput
+          messageInput={message}
+          setMessageInput={setMessage}
+          onSend={sendMessage}
         />
-        <Text>{JSON.stringify(item)}</Text>
-      </View>
-      <View style={{ margin: 10 }}>
-        <SegmentedControlTab
-          values={['Receiving', 'Sending']}
-          selectedIndex={selectedReceiverIndex}
-          onTabPress={(index) => setSelectedReceiverIndex(index)}
-        />
-      </View>
-      <InstagramTextInput
-        messageInput={message}
-        setMessageInput={setMessage}
-        onSend={sendMessage}
-      />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity, FlatList, SafeAreaView, Text } from 'react-native'
+import { View, TouchableOpacity, FlatList, SafeAreaView, Text, KeyboardAvoidingView, Platform } from 'react-native'
 import { useDispatch } from 'react-redux'
 import Images from '@/Theme/Images'
 import { TwitterMessage } from '@/Components'
@@ -90,7 +90,7 @@ const TwitterConversation = ({ route, navigation }) => {
         callback={() => navigation.goBack()}
         userData={item}
       />
-      <View style={{ flex: 1, marginRight: 5, marginLeft: 20 }}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
         <FlatList
           data={initialData}
           renderItem={({ item, index }) => {
@@ -102,27 +102,34 @@ const TwitterConversation = ({ route, navigation }) => {
               />
             )
           }}
+          initialScrollIndex={initialData.length - 1}
           extraData={messageData}
+          style={{ flex: 1, marginRight: 5, marginLeft: 20 }}
           keyExtractor={(i, index) => i.id}
+          ref={(ref) => (this.flatList = ref)}
+          onContentSizeChange={() =>
+            this.flatList.scrollToEnd({ animated: true })
+          }
+          onLayout={() => this.flatList.scrollToEnd({ animated: true })}
           ListEmptyComponent={
             <View style={{ flex: 1, alignItems: 'center' }}>
               <Text>The start of the conversation.</Text>
             </View>
           }
         />
-      </View>
-      <View style={{ margin: 10 }}>
-        <SegmentedControlTab
-          values={['Receiving', 'Sending']}
-          selectedIndex={selectedReceiverIndex}
-          onTabPress={(index) => setSelectedReceiverIndex(index)}
+        <View style={{ marginBottom: 10, marginLeft: 10, marginRight: 10, marginTop: 3 }}>
+          <SegmentedControlTab
+            values={['Receiving', 'Sending']}
+            selectedIndex={selectedReceiverIndex}
+            onTabPress={(index) => setSelectedReceiverIndex(index)}
+          />
+        </View>
+        <TwitterTextInput
+          messageInput={message}
+          setMessageInput={setMessage}
+          onSend={sendMessage}
         />
-      </View>
-      <TwitterTextInput
-        messageInput={message}
-        setMessageInput={setMessage}
-        onSend={sendMessage}
-      />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
