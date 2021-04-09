@@ -1,4 +1,5 @@
 import Images from '@/Theme/Images'
+import { Config } from '@/Config/index'
 
 const images = Images()
 
@@ -10,7 +11,7 @@ const TestConversation = [
     type: 'sent',
     recipient: {
       name: 'Vito Corleone',
-      image: images.FacebookMessenger,
+      image: images.Messenger,
     },
   },
   {
@@ -20,7 +21,7 @@ const TestConversation = [
     type: 'sent',
     recipient: {
       name: 'Vito Corleone',
-      image: images.FacebookMessenger,
+      image: images.Messenger,
     },
   },
   {
@@ -30,7 +31,7 @@ const TestConversation = [
     type: 'received',
     recipient: {
       name: 'Vito Corleone',
-      image: images.FacebookMessenger,
+      image: images.Messenger,
     },
   },
   {
@@ -40,7 +41,7 @@ const TestConversation = [
     type: 'sent',
     recipient: {
       name: 'Vito Corleone',
-      image: images.FacebookMessenger,
+      image: images.Messenger,
     },
   },
   {
@@ -50,7 +51,7 @@ const TestConversation = [
     type: 'received',
     recipient: {
       name: 'Vito Corleone',
-      image: images.FacebookMessenger,
+      image: images.Messenger,
     },
   },
 ]
@@ -59,13 +60,13 @@ const TestConversationList = [
   {
     recipient: {
       name: 'Vito Corleone',
-      image: images.FacebookMessenger,
+      image: images.Messenger,
     },
     sender: {
       name: 'Jack White',
-      image: images.FacebookMessenger,
+      image: images.Messenger,
     },
-    platform: 'FacebookMessenger',
+    platform: 'Messenger',
   },
   {
     recipient: {

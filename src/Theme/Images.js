@@ -7,7 +7,7 @@ export default function () {
   return {
     logo: require('@/Assets/Images/TOM.png'),
     Instagram: require('@/Assets/Images/Instagram.png'),
-    FacebookMessenger: require('@/Assets/Images/FacebookMessenger.png'),
+    Messenger: require('@/Assets/Images/FacebookMessenger.png'),
     iMessage: require('@/Assets/Images/iMessage.png'),
     Twitter: require('@/Assets/Images/Twitter.png'),
   }

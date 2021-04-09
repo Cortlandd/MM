@@ -9,5 +9,7 @@ export default function () {
     twitter_gif: require('@/Assets/Icons/twitter-gif.png'),
     twitter_photo_album: require('@/Assets/Icons/twitter-photo.png'),
     twitter_send: require('@/Assets/Icons/twitter-send.png'),
+    facebook_phone: require('@/Assets/Icons/facebook-phone.webp'),
+    facebook_video: require('@/Assets/Icons/facebook-video.png'),
   }
 }
