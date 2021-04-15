@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Image, TextInput, Text, Dimensions, Keyboard } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Image, TextInput, Text, Dimensions, Keyboard, Animated } from 'react-native'
 import { Icon, Avatar } from 'react-native-elements'
 import Icons from '@/Theme/Icons'
 
@@ -9,44 +9,64 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)
 const MessengerTextInput = ({ messageInput, setMessageInput, onSend }) => {
   const icons = Icons()
 
+  const [additionalOptionsVisible, setAdditionalOptionsVisible] = useState(true)
+
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', minHeight: 44, width: SCREEN_WIDTH }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <TouchableOpacity style={styles.btnNavigation}>
-          <Icon name={'add-circle'} type={'ionicon'} size={30} color={'blue'} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnNavigation}>
-          <Icon name={'camera'} type={'ionicon'} size={30} color={'blue'} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnNavigation}>
-          <Icon name={'photo'} size={30} color={'blue'} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnNavigation}>
-          <Icon name={'mic'} size={30} color={'blue'} />
-        </TouchableOpacity>
-      </View>
+      {additionalOptionsVisible ? (
+        <Animated.View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', width: '50%' }}>
+          <TouchableOpacity style={{ ...styles.btnNavigation, marginLeft: 5 }}>
+            <Icon name={'add-circle'} type={'ionicon'} size={30} color={'blue'} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnNavigation}>
+            <Icon name={'camera'} type={'ionicon'} size={30} color={'blue'} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnNavigation}>
+            <Icon name={'photo'} type={'foundation'} size={30} color={'blue'} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnNavigation}>
+            <Icon name={'mic'} size={30} color={'blue'} />
+          </TouchableOpacity>
+        </Animated.View>
+      ) : (
+        <Animated.View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity style={styles.btnNavigation} onPress={() => setAdditionalOptionsVisible(true)}>
+            <Icon name={'chevron-right'} type={'feather'} size={30} color={'blue'} />
+          </TouchableOpacity>
+        </Animated.View>
+      )}
+
       <View style={styles.msgInputWrapper}>
-        <React.Fragment>
-          <TextInput
-            value={messageInput}
-            onChangeText={setMessageInput}
-            multiline={true}
-            style={{
-              ...styles.msgInput,
-              width: SCREEN_WIDTH / 3,
-              marginHorizontal: 15,
-            }}
-            placeholder={'Aa'}
-          />
-          <View style={styles.msgRightOptions}>
-            <TouchableOpacity style={styles.btnNavigation}>
-              <Icon name={'smile'} type={'feather'} size={25} color={'blue'} />
-            </TouchableOpacity>
-          </View>
-        </React.Fragment>
+        <TextInput
+          value={messageInput}
+          onChangeText={(value) => {
+            setMessageInput(value)
+            setAdditionalOptionsVisible(false)
+          }}
+          onFocus={() => setAdditionalOptionsVisible(false)}
+          multiline={true}
+          style={{
+            ...styles.msgInput,
+            marginHorizontal: 10,
+          }}
+          placeholder={' Aa'}
+        />
+        <View style={styles.msgRightOptions}>
+          <TouchableOpacity style={styles.btnNavigation}>
+            <Icon
+              name={messageInput.length > 0 ? 'search' : 'smile'}
+              type={'feather'}
+              size={25}
+              color={'blue'}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-      <TouchableOpacity>
-        <Icon name={'thumb-up'} type={'material'} size={30} color={'blue'} style={{ marginHorizontal: 10 }} />
+
+      <TouchableOpacity style={{ marginRight: 10 }}>
+        {messageInput.length > 0
+          ? (<Icon name={'send'} onPress={onSend} type={'material'} size={30} color={'blue'} />)
+          : (<Icon name={'thumb-up'} type={'material'} size={30} color={'blue'}/>)}
       </TouchableOpacity>
     </View>
   )
@@ -61,12 +81,14 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     flexDirection: 'row',
     alignItems: 'center',
+    width: '50%',
+    paddingHorizontal: 5,
+    marginRight: 15,
+    flex: 1,
   },
   msgInput: {
     marginVertical: 5,
     fontSize: 16,
-    flexDirection: 'row',
-    alignItems: 'center'
   },
   msgRightOptions: {
     flexDirection: 'row',

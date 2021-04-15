@@ -22,13 +22,7 @@ const TwitterConversation = ({ route, navigation }) => {
   const [message, setMessage] = useState('')
   const [selectedReceiverIndex, setSelectedReceiverIndex] = useState(1)
 
-  const FIVE_MINUTE_SECONDS = 300
   const ONE_MINUTE_SECONDS = 60
-
-  function lastMessageWithin1Minute() {
-    const within1MinuteCondition = lastMessage && is_from_me === lastMessage.is_from_me && message.time - lastMessage.time < ONE_MINUTE
-    const within5MinutesCondition = lastMessage && is_from_me === lastMessage.is_from_me && message.time - lastMessage.time < FIVE_MINUTES
-  }
 
   const sendMessage = () => {
     const msg = {}
