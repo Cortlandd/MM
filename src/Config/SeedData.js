@@ -90,6 +90,17 @@ const TestConversationList = [
     },
     platform: 'Twitter',
   },
+  {
+    recipient: {
+      name: 'Tony Salvatore',
+      image: images.iMessage,
+    },
+    sender: {
+      name: 'Jackson Strong',
+      image: images.iMessage,
+    },
+    platform: 'iMessage',
+  },
 ]
 
 export const SeedData = {
