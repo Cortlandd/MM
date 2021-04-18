@@ -74,9 +74,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   msgInput: {
-    paddingHorizontal: 10,
-    marginVertical: 5,
+    marginVertical: 7,
     fontSize: 16,
+    marginHorizontal: 7,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   btnSend: {
     height: 44,

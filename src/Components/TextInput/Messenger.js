@@ -47,7 +47,6 @@ const MessengerTextInput = ({ messageInput, setMessageInput, onSend }) => {
           multiline={true}
           style={{
             ...styles.msgInput,
-            marginHorizontal: 10,
           }}
           placeholder={' Aa'}
         />
@@ -87,8 +86,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   msgInput: {
-    marginVertical: 5,
+    marginVertical: 7,
     fontSize: 16,
+    marginHorizontal: 7,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   msgRightOptions: {
     flexDirection: 'row',
