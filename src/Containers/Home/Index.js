@@ -16,6 +16,8 @@ const IndexHomeContainer = ({ navigation }) => {
         return Config.containerNames.TwitterConversation
       case Config.messengerPlatforms.Messenger:
         return Config.containerNames.MessengerConversation
+      case Config.messengerPlatforms.iMessage:
+        return Config.containerNames.iMessageConversation
       default:
         break
     }

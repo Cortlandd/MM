@@ -5,6 +5,7 @@ import { IndexNewContainer as NewConversationScreen } from '@/Containers'
 import { Config } from '@/Config'
 import { Icon } from 'react-native-elements'
 import { navigate } from '@/Navigators/Root'
+import iMessageConversation from '@/Containers/Conversation/iMessage'
 
 const Stack = createStackNavigator()
 
@@ -45,6 +46,11 @@ const MainNavigator = ({ navigation }) => {
       <Stack.Screen
         name={Config.containerNames.MessengerConversation}
         component={MessengerConversation}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={Config.containerNames.iMessageConversation}
+        component={iMessageConversation}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
