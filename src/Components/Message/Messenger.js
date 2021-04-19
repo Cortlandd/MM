@@ -89,13 +89,13 @@ const MessengerMessage = ({ is_from_me, message }) => {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignItems: 'flex-start',
+        alignItems: 'baseline',
         justifyContent: is_from_me ? 'flex-end' : 'flex-start',
       }}
     >
       {/* Avatar */}
       <View>
-        {!is_from_me && <Avatar rounded source={message.recipient.image} />}
+        {!is_from_me && <Avatar rounded={true} size={25} source={message.recipient.image} />}
       </View>
       {/* Message and timestamp */}
       <View style={{ flex: 1 }}>
