@@ -6,12 +6,14 @@ import {
   SafeAreaView,
   Text,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback, Keyboard, Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
 } from 'react-native'
 import { useDispatch } from 'react-redux'
 import Images from '@/Theme/Images'
 import InstagramNavigationBar from '@/Components/NavigationBar/Instagram'
-import { InstagramMessage, ReceivedMessage, SentMessage } from '@/Components'
+import { InstagramMessage } from '@/Components'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import InstagramTextInput from '@/Components/TextInput/Instagram'
 
