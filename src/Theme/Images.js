@@ -10,5 +10,6 @@ export default function () {
     Messenger: require('@/Assets/Images/FacebookMessenger.png'),
     iMessage: require('@/Assets/Images/iMessage.png'),
     Twitter: require('@/Assets/Images/Twitter.png'),
+    sample_profile_woman: require('@/Assets/Images/sample_profile_woman.jpeg'),
   }
 }

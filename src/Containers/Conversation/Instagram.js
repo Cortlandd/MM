@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
+  Platform, ScrollView,
 } from 'react-native'
 import { useDispatch } from 'react-redux'
 import Images from '@/Theme/Images'
@@ -16,6 +16,7 @@ import InstagramNavigationBar from '@/Components/NavigationBar/Instagram'
 import { InstagramMessage } from '@/Components'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import InstagramTextInput from '@/Components/TextInput/Instagram'
+import InstagramProfile from '@/Components/Profile/Instagram'
 
 const InstagramConversation = ({ route, navigation }) => {
   const { item } = route.params
@@ -65,6 +66,7 @@ const InstagramConversation = ({ route, navigation }) => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
             data={initialData}
+            ListHeaderComponent={<InstagramProfile user={item.recipient} />}
             renderItem={({ item, index }) => {
               return (
                 <InstagramMessage is_from_me={item.is_from_me} message={item} lastMessage={initialData[index - 1]} rowIndex={index} />
@@ -78,11 +80,6 @@ const InstagramConversation = ({ route, navigation }) => {
               this.flatList.scrollToEnd({ animated: true })
             }
             onLayout={() => this.flatList.scrollToEnd({ animated: true })}
-            ListEmptyComponent={
-              <View>
-                <Text>The start of the conversation.</Text>
-              </View>
-            }
           />
         </TouchableWithoutFeedback>
         <View style={{ margin: 10 }}>

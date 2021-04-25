@@ -3,9 +3,11 @@ import { StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native'
 import { Icon, Avatar } from 'react-native-elements'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import Icons from '@/Theme/Icons'
+import Images from '@/Theme/Images'
 
 const InstagramNavigationBar = ({ callback, title, userData }) => {
   const icons = Icons()
+  const images = Images()
 
   const onCallback = () => {
     if (callback) callback()
@@ -19,11 +21,11 @@ const InstagramNavigationBar = ({ callback, title, userData }) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.userInfo}>
           <View>
-            <Avatar source={userData.recipient.image} />
+            <Avatar source={images.sample_profile_woman} size={28} rounded={true} />
           </View>
           <View style={{ marginLeft: 10 }}>
-            <Text style={{ fontWeight: '600' }}>{userData.recipient.name}</Text>
-            <Text style={{ fontSize: 13 }}>{userData.recipient.name}</Text>
+            <Text style={{ fontWeight: '600', fontSize: 15 }}>{userData.recipient.name}</Text>
+            <Text style={{ fontSize: 11, color: 'grey' }}>{userData.recipient.name}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -69,7 +71,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userInfo: {
-    marginLeft: 15,
     flexDirection: 'row',
     alignItems: 'center',
   },

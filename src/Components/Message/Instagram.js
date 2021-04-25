@@ -8,6 +8,7 @@ import {
   Animated,
 } from 'react-native'
 import { Avatar } from 'react-native-elements'
+import Images from '@/Theme/Images'
 
 const InstagramMessage = ({
   is_from_me = false,
@@ -16,6 +17,8 @@ const InstagramMessage = ({
   lastMessage,
   rowIndex,
 }) => {
+  const images = Images()
+
   const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)
   const styles = StyleSheet.create({
     messageItem: {
@@ -64,7 +67,7 @@ const InstagramMessage = ({
     >
       <View style={{ ...styles.yourAvatar, marginLeft: 5 }}>
         {!is_from_me && (
-          <Avatar style={styles.yourAvatar} source={message.recipient.image} />
+          <Avatar style={styles.yourAvatar} rounded={true} source={images.sample_profile_woman} />
         )}
 
         {/* Set constraint so that if the last message and current has 15 min difference show other don't. */}
