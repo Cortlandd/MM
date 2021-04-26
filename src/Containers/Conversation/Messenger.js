@@ -16,6 +16,7 @@ import MessengerNavigationBar from '@/Components/NavigationBar/Messenger'
 import InstagramNavigationBar from '@/Components/NavigationBar/Instagram'
 import MessengerTextInput from '@/Components/TextInput/Messenger'
 import MessengerMessage from '@/Components/Message/Messenger'
+import MessengerProfile from '@/Components/Profile/Messenger'
 
 const MessengerConversation = ({ route, navigation }) => {
   const { item } = route.params
@@ -82,11 +83,15 @@ const MessengerConversation = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <MessengerNavigationBar callback={() => navigation.goBack()} userData={item} />
+      <MessengerNavigationBar
+        callback={() => navigation.goBack()}
+        userData={item}
+      />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
           <FlatList 
             data={initialData}
+            ListHeaderComponent={<MessengerProfile user={item.recipient} />}
             renderItem={({ item, index }) => {
               return (
                 <MessengerMessage
@@ -104,11 +109,6 @@ const MessengerConversation = ({ route, navigation }) => {
               this.flatList.scrollToEnd({ animated: true })
             }
             onLayout={() => this.flatList.scrollToEnd({ animated: true })}
-            ListEmptyComponent={
-              <View style={{ flex: 1, alignItems: 'center' }}>
-                <Text>The start of the conversation.</Text>
-              </View>
-            }
           />
         </TouchableWithoutFeedback>
         <View style={{ width: '100%' }}>

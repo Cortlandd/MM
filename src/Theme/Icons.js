@@ -11,6 +11,8 @@ export default function () {
     twitter_send: require('@/Assets/Icons/twitter-send.png'),
     facebook_phone: require('@/Assets/Icons/facebook-phone.webp'),
     facebook_video: require('@/Assets/Icons/facebook-video.png'),
+    facebook_microphone: require('@/Assets/Icons/facebook-microphone.png'),
+    facebook_gallery: require('@/Assets/Icons/facebook-gallery.png'),
     ios_no_contact_icon: require('@/Assets/Icons/ios-contact-icon.png'),
     ios_record_icon: require('@/Assets/Icons/ios-record-icon.png'),
     ios_send_message_icon: require('@/Assets/Icons/ios-send-message-icon.png'),
