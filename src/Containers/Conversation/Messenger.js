@@ -35,9 +35,13 @@ const MessengerConversation = ({ route, navigation }) => {
     msg.id = Math.round(Math.random() * 10000000).toString()
     msg.time = new Date()
     msg.message = message
-    msg.messageIndex = initialData.length
+    msg.row_index = initialData.length
     msg.lastMessage_is_from_me = false
     msg.lastMessage_is_from_me_within_1_minute = false
+    msg.group_id = 0
+    msg.my_group_count = 0
+    msg.message_first_in_group = false
+    msg.message_last_in_group = true
 
     if (selectedReceiverIndex === 0) {
       // Receiver
@@ -62,22 +66,56 @@ const MessengerConversation = ({ route, navigation }) => {
     setMessage('')
   }
 
+  function getCount(arr, group) {
+    var count = 0
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].group == group) {
+        count++
+      }
+    }
+    return count
+  }
+
   const handleMessageData = () => {
     initialData.forEach(function (msg, index) {
       var lastMessage = initialData[index - 1]
 
-      if (lastMessage && msg.is_from_me === lastMessage.is_from_me) {
-        const secondsDifference = (msg.time.getTime() - lastMessage.time.getTime()) / 1000
-        const within1MinuteCondition = secondsDifference < ONE_MINUTE_SECONDS
+      if (!lastMessage) {
+        msg.message_first_in_group = true
+        msg.message_last_in_group = true
+      }
 
-        if (within1MinuteCondition) {
-          msg.lastMessage_is_from_me_within_1_minute = true
-        } else {
-          msg.lastMessage_is_from_me_within_1_minute = false
+      if (lastMessage) {
+        if (msg.is_from_me !== lastMessage.is_from_me) {
+          msg.message_first_in_group = true
+          msg.group_id = lastMessage.group_id + 1
         }
 
-        msg.lastMessage_is_from_me = lastMessage &&  msg.is_from_me === lastMessage.is_from_me
+        if (msg.is_from_me === lastMessage.is_from_me) {
+          const secondsDifference = (msg.time.getTime() - lastMessage.time.getTime()) / 1000
+          const within1MinuteCondition = secondsDifference < ONE_MINUTE_SECONDS
+
+          msg.group_id = lastMessage.group_id
+
+          if (lastMessage.message_first_in_group) {
+            lastMessage.message_last_in_group = false
+          }
+
+          if (!lastMessage.message_first_in_group) {
+            lastMessage.message_last_in_group = false
+          }
+
+          if (within1MinuteCondition) {
+            msg.lastMessage_is_from_me_within_1_minute = true
+          } else {
+            msg.lastMessage_is_from_me_within_1_minute = false
+          }
+
+          msg.lastMessage_is_from_me = lastMessage && msg.is_from_me === lastMessage.is_from_me
+        }
       }
+
+      msg.my_group_count = getCount(initialData, msg.group_id)
     })
   }
 
@@ -89,7 +127,7 @@ const MessengerConversation = ({ route, navigation }) => {
       />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
-          <FlatList 
+          <FlatList
             data={initialData}
             ListHeaderComponent={<MessengerProfile user={item.recipient} />}
             renderItem={({ item, index }) => {
@@ -102,7 +140,7 @@ const MessengerConversation = ({ route, navigation }) => {
               )
             }}
             extraData={messagesData}
-            style={{ flex: 1, marginRight: 5, marginLeft: 20 }}
+            style={{ flex: 1, marginRight: 5, marginLeft: 15 }}
             keyExtractor={(i, index) => i.id}
             ref={(ref) => (this.flatList = ref)}
             onContentSizeChange={() =>

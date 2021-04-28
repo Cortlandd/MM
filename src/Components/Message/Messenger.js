@@ -9,40 +9,60 @@ import {
   Image,
 } from 'react-native'
 import { Avatar } from 'react-native-elements'
+import Images from '@/Theme/Images'
 
-const MessengerMessage = ({ is_from_me, message }) => {
-  var borderTopRightRadiusValue = 0
-  var borderTopLeftRadiusValue = 0
-  var borderBottomRightRadiusValue = 20
+const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
+  const images = Images()
+
+  var borderTopRightRadiusValue = 2
+  var borderTopLeftRadiusValue = 2
+  var borderBottomRightRadiusValue = 2
+  var borderBottomLeftRadiusValue = 2
   const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)
 
-  switch (is_from_me) {
-    case message.lastMessage_is_from_me:
-      break
-    case !message.lastMessage_is_from_me:
-      borderTopRightRadiusValue = 20
-    case !message.lastMessage_is_from_me_within_1_minute:
-      borderTopRightRadiusValue = 20
-    default:
-      break
+  function sameDay(d1, d2) {
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+    )
   }
 
-  switch (is_from_me) {
-    case !message.lastMessage_is_from_me:
-      borderBottomRightRadiusValue = 0
-    case !message.lastMessage_is_from_me_within_1_minute:
-      borderBottomRightRadiusValue = 0
-    default:
-      break
+  if (message.is_from_me) {
+    if (message.message_first_in_group) {
+      borderTopRightRadiusValue = 15
+      borderTopLeftRadiusValue = 15
+      borderBottomLeftRadiusValue = 15
+    } else if (message.message_last_in_group) {
+      borderBottomRightRadiusValue = 15
+      borderBottomLeftRadiusValue = 15
+      borderTopLeftRadiusValue = 15
+    } else {
+      borderBottomRightRadiusValue = 2
+      borderTopRightRadiusValue = 2
+
+      borderTopLeftRadiusValue = 15
+      borderBottomLeftRadiusValue = 15
+    }
   }
 
-  switch (!is_from_me) {
-    case !message.lastMessage_is_from_me:
-      borderTopLeftRadiusValue = 20
-    case !message.lastMessage_is_from_me_within_1_minute:
-      borderTopLeftRadiusValue = 20
-    default:
-      break
+  if (!message.is_from_me) {
+    if (message.message_first_in_group) {
+      borderTopLeftRadiusValue = 15
+      borderTopRightRadiusValue = 15
+      borderBottomLeftRadiusValue = 2
+      borderBottomRightRadiusValue = 15
+    } else if (message.message_last_in_group) {
+      borderBottomRightRadiusValue = 15
+      borderBottomLeftRadiusValue = 15
+      borderTopRightRadiusValue = 15
+    } else {
+      borderBottomRightRadiusValue = 15
+      borderTopRightRadiusValue = 15
+
+      borderTopLeftRadiusValue = 0
+      borderBottomLeftRadiusValue = 0
+    }
   }
 
   const styles = StyleSheet.create({
@@ -52,13 +72,13 @@ const MessengerMessage = ({ is_from_me, message }) => {
       alignItems: 'flex-end',
     },
     message: {
-      borderTopRightRadius: is_from_me ? borderTopRightRadiusValue : 20,
-      borderTopLeftRadius: is_from_me ? 20 : borderTopLeftRadiusValue,
-      borderBottomLeftRadius: is_from_me ? 20 : 0,
-      borderBottomRightRadius: is_from_me ? borderBottomRightRadiusValue : 20,
+      borderTopRightRadius: borderTopRightRadiusValue,
+      borderTopLeftRadius: borderTopLeftRadiusValue,
+      borderBottomLeftRadius: borderBottomLeftRadiusValue,
+      borderBottomRightRadius: borderBottomRightRadiusValue,
       maxWidth: SCREEN_WIDTH * 0.6,
       backgroundColor: '#ddd',
-      marginHorizontal: 5,
+      marginHorizontal: 10,
     },
     textMessage: {
       paddingHorizontal: 15,
@@ -71,7 +91,7 @@ const MessengerMessage = ({ is_from_me, message }) => {
       fontSize: 15,
     },
     myMessage: {
-      backgroundColor: 'blue',
+      backgroundColor: '#0099FF',
       marginHorizontal: 15,
     },
     yourAvatar: {
@@ -83,42 +103,63 @@ const MessengerMessage = ({ is_from_me, message }) => {
     },
   })
 
+  function getProfileImage() {
+    if (!message.is_from_me && message.message_last_in_group) {
+      return images.sample_profile_woman
+    } else {
+      return null
+    }
+  }
+
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'baseline',
-        justifyContent: is_from_me ? 'flex-end' : 'flex-start',
-      }}
-    >
-      {/* Avatar */}
-      <View>
-        {!is_from_me && <Avatar rounded={true} size={25} source={message.recipient.image} />}
-      </View>
-      {/* Message and timestamp */}
-      <View style={{ flex: 1 }}>
-        <View
-          style={{
-            ...styles.messageItem,
-            justifyContent: is_from_me ? 'flex-end' : 'flex-start',
-            marginBottom: 1,
-            marginTop: 1,
-          }}
-          activeOpacity={1}
-        >
+    <View style={{ flex: 1 }}>
+      {message.message_first_in_group && (
+        <Text style={{ color: 'gray', alignSelf: 'center', marginTop: 10, marginBottom: 10 }}>
+          {message.time.toLocaleTimeString([], {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+          })}
+        </Text>
+      )}
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          alignItems: 'baseline',
+          justifyContent: is_from_me ? 'flex-end' : 'flex-start',
+        }}
+      >
+        {/* Avatar */}
+        <View>
+          <Avatar rounded={true} size={25} source={getProfileImage()} />
+        </View>
+        {/* Message and timestamp */}
+        <View style={{ flex: 1 }}>
           <View
-            style={[
-              styles.message,
-              is_from_me ? styles.myMessage : styles.yourMessage,
-              styles.textMessage,
-              {
-                alignItems: is_from_me ? 'flex-end' : 'flex-start',
-              },
-            ]}
+            style={{
+              ...styles.messageItem,
+              justifyContent: is_from_me ? 'flex-end' : 'flex-start',
+              marginBottom: 1,
+              marginTop: 1,
+            }}
+            activeOpacity={1}
           >
-            <Text style={styles.msgText}>{message.message}</Text>
+            <View
+              style={[
+                styles.message,
+                is_from_me ? styles.myMessage : styles.yourMessage,
+                styles.textMessage,
+                {
+                  alignItems: is_from_me ? 'flex-end' : 'flex-start',
+                },
+              ]}
+            >
+              <Text style={styles.msgText}>{message.message}</Text>
+            </View>
           </View>
         </View>
       </View>
