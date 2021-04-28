@@ -9,28 +9,59 @@ import {
   Image,
 } from 'react-native'
 import { Avatar } from 'react-native-elements'
+import Images from '@/Theme/Images'
 
-const TwitterMessage = ({ is_from_me, message }) => {
+const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
+  const images = Images()
+
   var borderTopRightRadiusValue = 0
   var borderTopLeftRadiusValue = 0
+  var borderBottomRightRadiusValue = 0
+  var borderBottomLeftRadiusValue = 0
 
-  switch (is_from_me) {
-    case !message.lastMessage_is_from_me:
+  if (message.is_from_me) {
+    if (message.message_first_in_group) {
       borderTopRightRadiusValue = 20
-    case !message.lastMessage_is_from_me_within_1_minute:
-      borderTopRightRadiusValue = 20
-    default:
-      break
+      borderTopLeftRadiusValue = 20
+      borderBottomLeftRadiusValue = 20
+    } else {
+      borderTopRightRadiusValue = 0
+      borderTopLeftRadiusValue = 20
+      borderBottomLeftRadiusValue = 20
+      borderBottomRightRadiusValue = 0
+    }
   }
 
-  switch (!is_from_me) {
-    case !message.lastMessage_is_from_me:
+  // switch (is_from_me) {
+  //   case !message.lastMessage_is_from_me:
+  //     borderTopRightRadiusValue = 20
+  //   case !message.lastMessage_is_from_me_within_1_minute:
+  //     borderTopRightRadiusValue = 20
+  //   default:
+  //     break
+  // }
+
+  if (!message.is_from_me) {
+    if (message.message_first_in_group) {
+      borderTopRightRadiusValue = 20
       borderTopLeftRadiusValue = 20
-    case !message.lastMessage_is_from_me_within_1_minute:
-      borderTopLeftRadiusValue = 20
-    default:
-      break
+      borderBottomRightRadiusValue = 20
+    } else {
+      borderTopRightRadiusValue = 20
+      borderTopLeftRadiusValue = 0
+      borderBottomLeftRadiusValue = 0
+      borderBottomRightRadiusValue = 20
+    }
   }
+
+  // switch (!is_from_me) {
+  //   case !message.lastMessage_is_from_me:
+  //     borderTopLeftRadiusValue = 20
+  //   case !message.lastMessage_is_from_me_within_1_minute:
+  //     borderTopLeftRadiusValue = 20
+  //   default:
+  //     break
+  // }
 
   const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)
 
@@ -45,10 +76,10 @@ const TwitterMessage = ({ is_from_me, message }) => {
       alignItems: 'flex-end',
     },
     message: {
-      borderTopRightRadius: is_from_me ? borderTopRightRadiusValue : 20,
-      borderTopLeftRadius: is_from_me ? 20 : borderTopLeftRadiusValue,
-      borderBottomLeftRadius: is_from_me ? 20 : 0,
-      borderBottomRightRadius: is_from_me ? 0 : 20,
+      borderTopRightRadius: borderTopRightRadiusValue,
+      borderTopLeftRadius: borderTopLeftRadiusValue,
+      borderBottomLeftRadius: borderBottomLeftRadiusValue,
+      borderBottomRightRadius: borderBottomRightRadiusValue,
       maxWidth: SCREEN_WIDTH * 0.6,
       backgroundColor: '#ddd',
       marginHorizontal: 5,
@@ -75,6 +106,14 @@ const TwitterMessage = ({ is_from_me, message }) => {
       backgroundColor: '#E1E8ED',
     },
   })
+
+  function getProfileImage() {
+    if (!message.is_from_me && message.message_first_in_group && message.message_last_in_group || !message.is_from_me && message.message_last_in_group) {
+      return images.sample_profile_woman
+    } else {
+      return null
+    }
+  }
 
   const MessageTimestamp = () => {
     return (
@@ -104,13 +143,13 @@ const TwitterMessage = ({ is_from_me, message }) => {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignItems: 'flex-start',
+        alignItems: 'baseline',
         justifyContent: is_from_me ? 'flex-end' : 'flex-start',
       }}
     >
       {/* Avatar */}
       <View>
-        {!is_from_me && <Avatar rounded source={message.recipient.image} />}
+        <Avatar rounded source={getProfileImage()} />
       </View>
       {/* Message and timestamp */}
       <TouchableOpacity style={{ flex: 1 }}>

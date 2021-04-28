@@ -3,9 +3,11 @@ import { StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native'
 import { Icon, Avatar } from 'react-native-elements'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import Icons from '@/Theme/Icons'
+import Images from '@/Theme/Images'
 
 const TwitterNavigationBar = ({ callback, title, userData }) => {
   const icons = Icons()
+  const images = Images()
 
   const onCallback = () => {
     if (callback) {
@@ -35,7 +37,7 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
           </TouchableOpacity>
         </View>
         <View style={{ alignItems: 'center' }}>
-          <Avatar source={userData.recipient.image} rounded={true} />
+          <Avatar source={images.sample_profile_woman} rounded={true} />
         </View>
         <View style={styles.rightOptions}>
           <TouchableOpacity style={styles.btnNavigation}>

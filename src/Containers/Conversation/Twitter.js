@@ -31,26 +31,16 @@ const TwitterConversation = ({ route, navigation }) => {
     msg.message = message
     msg.showTimestamp = true
     msg.messageIndex = initialData.length
-    msg.lastMessage_is_from_me = false
     msg.lastMessage_is_from_me_within_1_minute = false
-
-    if (selectedReceiverIndex === 0) {
-      // Receiver
-      msg.type = 'received'
-      msg.is_from_me = false
-      msg.recipient = {
-        name: item.sender.name,
-        image: item.sender.image,
-      }
-    } else {
-      // Sender
-      msg.type = 'sent'
-      msg.is_from_me = true
-      msg.recipient = {
-        name: item.recipient.name,
-        image: item.recipient.image,
-      }
+    msg.group_id = 0
+    msg.message_first_in_group = false
+    msg.message_last_in_group = true
+    msg.is_from_me = selectedReceiverIndex === 1
+    msg.recipient = {
+      name: item.recipient.name,
+      image: item.recipient.image,
     }
+
     initialData.push(msg)
     handleMessageData()
     setMessageData(initialData)
@@ -61,18 +51,44 @@ const TwitterConversation = ({ route, navigation }) => {
     initialData.forEach(function (msg, index) {
       var lastMessage = initialData[index - 1]
 
-      if (lastMessage && msg.is_from_me === lastMessage.is_from_me) {
-        const secondsDifference = (msg.time.getTime() - lastMessage.time.getTime()) / 1000
-        const within1MinuteCondition = secondsDifference < ONE_MINUTE_SECONDS
+      if (!lastMessage) {
+        msg.message_first_in_group = true
+        msg.message_last_in_group = true
+      }
 
-        if (within1MinuteCondition) {
-          msg.lastMessage_is_from_me_within_1_minute = true
-          lastMessage.showTimestamp = false
-        } else {
-          msg.lastMessage_is_from_me_within_1_minute = false
+      if (lastMessage) {
+        if (msg.is_from_me !== lastMessage.is_from_me) {
+          msg.message_first_in_group = true
+          msg.group_id = lastMessage.group_id + 1
         }
 
-        msg.lastMessage_is_from_me = lastMessage &&  msg.is_from_me === lastMessage.is_from_me
+        if (msg.is_from_me === lastMessage.is_from_me) {
+          const secondsDifference = (msg.time.getTime() - lastMessage.time.getTime()) / 1000
+          const within1MinuteCondition = secondsDifference < ONE_MINUTE_SECONDS
+
+          if (within1MinuteCondition) {
+            msg.lastMessage_is_from_me_within_1_minute = true
+            lastMessage.showTimestamp = false
+            msg.group_id = lastMessage.group_id
+          } else {
+            msg.lastMessage_is_from_me_within_1_minute = false
+            msg.message_first_in_group = true
+            msg.group_id = lastMessage.group_id + 1
+          }
+
+          if (lastMessage.message_first_in_group) {
+            lastMessage.message_last_in_group = false
+          }
+
+          if (msg.message_first_in_group && lastMessage.message_first_in_group) {
+            lastMessage.message_last_in_group = true
+          }
+
+          if (msg.group_id !== lastMessage.group_id) {
+            msg.message_first_in_group = true
+            msg.message_last_in_group = true
+          }
+        }
       }
     })
   }
@@ -96,15 +112,10 @@ const TwitterConversation = ({ route, navigation }) => {
               />
             )
           }}
-          initialScrollIndex={initialData.length - 1}
           extraData={messageData}
           style={{ flex: 1, marginRight: 5, marginLeft: 20 }}
           keyExtractor={(i, index) => i.id}
           ref={(ref) => (this.flatList = ref)}
-          onContentSizeChange={() =>
-            this.flatList.scrollToEnd({ animated: true })
-          }
-          onLayout={() => this.flatList.scrollToEnd({ animated: true })}
           ListEmptyComponent={
             <View style={{ flex: 1, alignItems: 'center' }}>
               <Text>The start of the conversation.</Text>
