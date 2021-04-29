@@ -70,7 +70,7 @@ const IMessageMessage = ({
 
   return (
     <View>
-      <View style={[styles.message, !is_from_me ? styles.mine : styles.not_mine]}>
+      <View style={[styles.message, !message.is_from_me ? styles.mine : styles.not_mine]}>
         <View
           style={[
             styles.cloud,
@@ -79,7 +79,7 @@ const IMessageMessage = ({
             },
           ]}
         >
-          {message.message ? (
+          {message.message && (
             <Text
               style={[
                 styles.text,
@@ -90,18 +90,18 @@ const IMessageMessage = ({
             >
               {message.message}
             </Text>
-          ) : null}
+          )}
           {message.show_arrow && (
             <View
               style={[
                 styles.arrow_container,
-                !is_from_me
+                !message.is_from_me
                   ? styles.arrow_left_container
                   : styles.arrow_right_container,
               ]}
             >
               <Svg
-                style={is_from_me ? styles.arrow_right : styles.arrow_left}
+                style={message.is_from_me ? styles.arrow_right : styles.arrow_left}
                 width={moderateScale(15.5, 0.6)}
                 height={moderateScale(17.5, 0.6)}
                 viewBox="32.484 17.5 15.515 17.5"
@@ -109,11 +109,11 @@ const IMessageMessage = ({
               >
                 <Path
                   d={
-                    !is_from_me
+                    !message.is_from_me
                       ? 'M38.484,17.5c0,8.75,1,13.5-6,17.5C51.484,35,52.484,17.5,38.484,17.5z'
                       : 'M48,35c-7-4-6-8.75-6-17.5C28,17.5,29,35,48,35z'
                   }
-                  fill={is_from_me ? '#007AFF' : '#dddddd'}
+                  fill={message.is_from_me ? '#007AFF' : '#dddddd'}
                   x="0"
                   y="0"
                 />

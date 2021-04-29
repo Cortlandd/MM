@@ -36,76 +36,36 @@ const IMessageConversation = ({ route, navigation }) => {
     msg.id = Math.round(Math.random() * 10000000).toString()
     msg.time = new Date()
     msg.message = message
-
-    if (selectedReceiverIndex === 0) {
-      // Receiver
-      msg.type = 'received'
-      msg.is_from_me = false
-      msg.recipient = {
-        name: item.sender.name,
-        image: item.sender.image,
-      }
-    } else {
-      // Sender
-      msg.type = 'sent'
-      msg.is_from_me = true
-      msg.show_arrow = true
-      msg.recipient = {
-        name: item.recipient.name,
-        image: item.recipient.image,
-      }
+    msg.group_id = 0
+    msg.message_first_in_group = false
+    msg.is_from_me = selectedReceiverIndex === 1
+    msg.show_arrow = true
+    msg.recipient = {
+      name: item.recipient.name,
+      image: item.recipient.image,
     }
-    //handleMessageData()
-    setMessagesData(initialData.push(msg))
+
+    initialData.push(msg)
+    handleMessageData()
+    setMessagesData(initialData)
     setMessage('')
   }
 
   const handleMessageData = () => {
-    var indexBeforeIsFromMeChanged = null
-
     initialData.forEach(function (msg, index) {
       var lastMessage = initialData[index - 1]
 
-      if (lastMessage && lastMessage.is_from_me !== msg.is_from_me) {
-        indexBeforeIsFromMeChanged = index
-      }
-
       if (lastMessage) {
-        if (lastMessage.is_from_me && msg.is_from_me) {
+        if (msg.is_from_me !== lastMessage.is_from_me) {
+          msg.message_first_in_group = true
+          msg.group_id = lastMessage.group_id + 1
+        } else {
+          msg.group_id = lastMessage.group_id
           lastMessage.show_arrow = false
-        }
-
-        if (
-          lastMessage.is_from_me &&
-          msg.is_from_me &&
-          index !== initialData.length - 1
-        ) {
-          lastMessage.show_arrow = false
+          msg.show_arrow = true
         }
       }
-
-      if (lastMessage.is_from_me && msg.is_from_me && index === initialData.length - 1) {
-        lastMessage
-      }
-
     })
-
-    // initialData.forEach(function (msg, index) {
-    //   var lastMessage = initialData[index - 1]
-    //
-    //   if (lastMessage && msg.is_from_me === lastMessage.is_from_me) {
-    //     const secondsDifference = (msg.time.getTime() - lastMessage.time.getTime()) / 1000
-    //     const within1MinuteCondition = secondsDifference < ONE_MINUTE_SECONDS
-    //
-    //     if (within1MinuteCondition) {
-    //       msg.lastMessage_is_from_me_within_1_minute = true
-    //     } else {
-    //       msg.lastMessage_is_from_me_within_1_minute = false
-    //     }
-    //
-    //     msg.lastMessage_is_from_me = lastMessage &&  msg.is_from_me === lastMessage.is_from_me
-    //   }
-    // })
   }
 
   return (
@@ -159,10 +119,6 @@ const IMessageConversation = ({ route, navigation }) => {
             style={{ flex: 1, marginRight: 5, marginLeft: 5 }}
             keyExtractor={(i, index) => i.id}
             ref={(ref) => (this.flatList = ref)}
-            onContentSizeChange={() =>
-              this.flatList.scrollToEnd({ animated: true })
-            }
-            onLayout={() => this.flatList.scrollToEnd({ animated: true })}
             ListEmptyComponent={
               <View style={{ flex: 1, alignItems: 'center' }}>
                 <Text>iMessage</Text>
