@@ -11,12 +11,27 @@ const ContainerNames = {
   iMessageConversation: 'iMessageConversation',
 }
 
-const MessengerPlatforms = {
+const MessagingPlatforms = {
   Instagram: 'Instagram',
   Messenger: 'Messenger',
   iMessage: 'iMessage',
   Twitter: 'Twitter',
 }
+
+const MessagingPlatformList = [
+  {
+    name: 'Instagram',
+  },
+  {
+    name: 'Messenger',
+  },
+  {
+    name: 'Twitter',
+  },
+  {
+    name: 'iMessage',
+  },
+]
 
 const MessengerData = {
   id: 'message_id',
@@ -50,7 +65,8 @@ const MessengerImageData = {
 export const Config = {
   API_URL: 'https://jsonplaceholder.typicode.com/',
   containerNames: ContainerNames,
-  messengerPlatforms: MessengerPlatforms,
+  messagingPlatforms: MessagingPlatforms,
   seedData: SeedData,
   types: Types,
+  messagingPlatformList: MessagingPlatformList,
 }

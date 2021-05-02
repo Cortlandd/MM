@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { IndexHomeContainer as HomeScreen, TwitterConversation, InstagramConversation, MessengerConversation } from '@/Containers'
-import { IndexNewContainer as NewConversationScreen } from '@/Containers'
+import { IndexNewConversation as NewConversationScreen } from '@/Containers'
 import { Config } from '@/Config'
 import { Icon } from 'react-native-elements'
 import { navigate } from '@/Navigators/Root'

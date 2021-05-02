@@ -10,13 +10,13 @@ const IndexHomeContainer = ({ navigation }) => {
 
   const determineRoute = (route) => {
     switch (route) {
-      case Config.messengerPlatforms.Instagram:
+      case Config.messagingPlatforms.Instagram:
         return Config.containerNames.InstagramConversation
-      case Config.messengerPlatforms.Twitter:
+      case Config.messagingPlatforms.Twitter:
         return Config.containerNames.TwitterConversation
-      case Config.messengerPlatforms.Messenger:
+      case Config.messagingPlatforms.Messenger:
         return Config.containerNames.MessengerConversation
-      case Config.messengerPlatforms.iMessage:
+      case Config.messagingPlatforms.iMessage:
         return Config.containerNames.iMessageConversation
       default:
         break
