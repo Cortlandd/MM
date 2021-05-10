@@ -7,21 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* ConvoCreatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ConvoCreatorTests.m */; };
-		0856240ADF3E03DC38DD31AD /* libPods-ConvoCreator-ConvoCreatorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E79971A8B6DB1E18DD433F /* libPods-ConvoCreator-ConvoCreatorTests.a */; };
+		00E356F31AD99517003FC87E /* MsgMakerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MsgMakerTests.m */; };
+		0856240ADF3E03DC38DD31AD /* libPods-MsgMaker-MsgMakerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E79971A8B6DB1E18DD433F /* libPods-MsgMaker-MsgMakerTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		28AB4DE88AD3FE3EF4A317B1 /* libPods-ConvoCreator-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D136F446493255F884AB7C1 /* libPods-ConvoCreator-tvOSTests.a */; };
+		28AB4DE88AD3FE3EF4A317B1 /* libPods-MsgMaker-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D136F446493255F884AB7C1 /* libPods-MsgMaker-tvOSTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* ConvoCreatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ConvoCreatorTests.m */; };
+		2DCD954D1E0B4F2C00145EB5 /* MsgMakerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MsgMakerTests.m */; };
 		7F273FD8262C919C001A046C /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F273FD7262C919C001A046C /* libRNSVG.a */; };
 		7FB4701425FC77310093DC21 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FB4701325FC77310093DC21 /* libRNVectorIcons.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		833F2006FE004CFBA319C9F2 /* libPods-ConvoCreator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE8F60935CC7F1EA8FB7E0E /* libPods-ConvoCreator.a */; };
-		F98E0BA87E9A7377883D6CF3 /* libPods-ConvoCreator-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF2B387AECB3EB857C4592D /* libPods-ConvoCreator-tvOS.a */; };
+		833F2006FE004CFBA319C9F2 /* libPods-MsgMaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE8F60935CC7F1EA8FB7E0E /* libPods-MsgMaker.a */; };
+		F98E0BA87E9A7377883D6CF3 /* libPods-MsgMaker-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF2B387AECB3EB857C4592D /* libPods-MsgMaker-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,41 +30,41 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = ConvoCreator;
+			remoteInfo = MsgMaker;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "ConvoCreator-tvOS";
+			remoteInfo = "MsgMaker-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* ConvoCreatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConvoCreatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* MsgMakerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MsgMakerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* ConvoCreatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConvoCreatorTests.m; sourceTree = "<group>"; };
-		02AC6A5983BD2131C8EFFB2C /* Pods-ConvoCreator-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConvoCreator-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ConvoCreator-tvOS/Pods-ConvoCreator-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		03E79971A8B6DB1E18DD433F /* libPods-ConvoCreator-ConvoCreatorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ConvoCreator-ConvoCreatorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0D136F446493255F884AB7C1 /* libPods-ConvoCreator-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ConvoCreator-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		10ACE8560183868AA4F826E4 /* Pods-ConvoCreator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConvoCreator.debug.xcconfig"; path = "Target Support Files/Pods-ConvoCreator/Pods-ConvoCreator.debug.xcconfig"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* MsgMakerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MsgMakerTests.m; sourceTree = "<group>"; };
+		02AC6A5983BD2131C8EFFB2C /* Pods-MsgMaker-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MsgMaker-tvOS.release.xcconfig"; path = "Target Support Files/Pods-MsgMaker-tvOS/Pods-MsgMaker-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		03E79971A8B6DB1E18DD433F /* libPods-MsgMaker-MsgMakerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MsgMaker-MsgMakerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D136F446493255F884AB7C1 /* libPods-MsgMaker-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MsgMaker-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		10ACE8560183868AA4F826E4 /* Pods-MsgMaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MsgMaker.debug.xcconfig"; path = "Target Support Files/Pods-MsgMaker/Pods-MsgMaker.debug.xcconfig"; sourceTree = "<group>"; };
 		1378C6AA77E84616A94C824A /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* ConvoCreator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConvoCreator.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ConvoCreator/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ConvoCreator/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ConvoCreator/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ConvoCreator/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ConvoCreator/main.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* MsgMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MsgMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MsgMaker/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MsgMaker/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MsgMaker/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MsgMaker/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MsgMaker/main.m; sourceTree = "<group>"; };
 		28D8DBEBD1ED40E590418166 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		2A03D975B0904722B3A15E7B /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* ConvoCreator-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ConvoCreator-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* ConvoCreator-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ConvoCreator-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* MsgMaker-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MsgMaker-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* MsgMaker-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MsgMaker-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E49BD00C7824DEB8F20F7F8 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		2F9E780CE724C60CB827C553 /* Pods-ConvoCreator-ConvoCreatorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConvoCreator-ConvoCreatorTests.debug.xcconfig"; path = "Target Support Files/Pods-ConvoCreator-ConvoCreatorTests/Pods-ConvoCreator-ConvoCreatorTests.debug.xcconfig"; sourceTree = "<group>"; };
-		363F4681F4D72D355459D728 /* Pods-ConvoCreator-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConvoCreator-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ConvoCreator-tvOSTests/Pods-ConvoCreator-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		3DF2B387AECB3EB857C4592D /* libPods-ConvoCreator-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ConvoCreator-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F9E780CE724C60CB827C553 /* Pods-MsgMaker-MsgMakerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MsgMaker-MsgMakerTests.debug.xcconfig"; path = "Target Support Files/Pods-MsgMaker-MsgMakerTests/Pods-MsgMaker-MsgMakerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		363F4681F4D72D355459D728 /* Pods-MsgMaker-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MsgMaker-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-MsgMaker-tvOSTests/Pods-MsgMaker-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3DF2B387AECB3EB857C4592D /* libPods-MsgMaker-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MsgMaker-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		503746946A6D449C95578A06 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		512A9D6D74654F9FAF7C9A81 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		57E8765E1B48493198A3D47E /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -73,18 +73,18 @@
 		79D241B226F64356A922646F /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		7F273FD7262C919C001A046C /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNSVG.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FB4701325FC77310093DC21 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ConvoCreator/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8CE8F60935CC7F1EA8FB7E0E /* libPods-ConvoCreator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ConvoCreator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MsgMaker/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8CE8F60935CC7F1EA8FB7E0E /* libPods-MsgMaker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MsgMaker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		95CC86D1A318433E99DD7CF5 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
-		968A20F8BD0245E30FBD22A5 /* Pods-ConvoCreator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConvoCreator.release.xcconfig"; path = "Target Support Files/Pods-ConvoCreator/Pods-ConvoCreator.release.xcconfig"; sourceTree = "<group>"; };
-		A8A496B83138A0046DC1D49A /* Pods-ConvoCreator-ConvoCreatorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConvoCreator-ConvoCreatorTests.release.xcconfig"; path = "Target Support Files/Pods-ConvoCreator-ConvoCreatorTests/Pods-ConvoCreator-ConvoCreatorTests.release.xcconfig"; sourceTree = "<group>"; };
+		968A20F8BD0245E30FBD22A5 /* Pods-MsgMaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MsgMaker.release.xcconfig"; path = "Target Support Files/Pods-MsgMaker/Pods-MsgMaker.release.xcconfig"; sourceTree = "<group>"; };
+		A8A496B83138A0046DC1D49A /* Pods-MsgMaker-MsgMakerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MsgMaker-MsgMakerTests.release.xcconfig"; path = "Target Support Files/Pods-MsgMaker-MsgMakerTests/Pods-MsgMaker-MsgMakerTests.release.xcconfig"; sourceTree = "<group>"; };
 		AB88CC1E5A2F4BC281B259F8 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		B16712B2A006440B8E7B8270 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		C6A4630E31D847C7B93794E3 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		D5DD7CB8E598461CBA85DA01 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
-		E2122F62B523C9F4DEC5AC6C /* Pods-ConvoCreator-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConvoCreator-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ConvoCreator-tvOS/Pods-ConvoCreator-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		E2122F62B523C9F4DEC5AC6C /* Pods-MsgMaker-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MsgMaker-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-MsgMaker-tvOS/Pods-MsgMaker-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		E73136D29C4F4A179D29DBB6 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
-		EB7CAF265D0869C1A140D967 /* Pods-ConvoCreator-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConvoCreator-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ConvoCreator-tvOSTests/Pods-ConvoCreator-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		EB7CAF265D0869C1A140D967 /* Pods-MsgMaker-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MsgMaker-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-MsgMaker-tvOSTests/Pods-MsgMaker-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0856240ADF3E03DC38DD31AD /* libPods-ConvoCreator-ConvoCreatorTests.a in Frameworks */,
+				0856240ADF3E03DC38DD31AD /* libPods-MsgMaker-MsgMakerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +103,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F273FD8262C919C001A046C /* libRNSVG.a in Frameworks */,
-				833F2006FE004CFBA319C9F2 /* libPods-ConvoCreator.a in Frameworks */,
+				833F2006FE004CFBA319C9F2 /* libPods-MsgMaker.a in Frameworks */,
 				7FB4701425FC77310093DC21 /* libRNVectorIcons.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,7 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F98E0BA87E9A7377883D6CF3 /* libPods-ConvoCreator-tvOS.a in Frameworks */,
+				F98E0BA87E9A7377883D6CF3 /* libPods-MsgMaker-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,20 +120,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28AB4DE88AD3FE3EF4A317B1 /* libPods-ConvoCreator-tvOSTests.a in Frameworks */,
+				28AB4DE88AD3FE3EF4A317B1 /* libPods-MsgMaker-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* ConvoCreatorTests */ = {
+		00E356EF1AD99517003FC87E /* MsgMakerTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* ConvoCreatorTests.m */,
+				00E356F21AD99517003FC87E /* MsgMakerTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = ConvoCreatorTests;
+			path = MsgMakerTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -144,7 +144,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* ConvoCreator */ = {
+		13B07FAE1A68108700A75B9A /* MsgMaker */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -155,20 +155,20 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = ConvoCreator;
+			name = MsgMaker;
 			sourceTree = "<group>";
 		};
 		18A06528071B6FFBBA9372E2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				10ACE8560183868AA4F826E4 /* Pods-ConvoCreator.debug.xcconfig */,
-				968A20F8BD0245E30FBD22A5 /* Pods-ConvoCreator.release.xcconfig */,
-				2F9E780CE724C60CB827C553 /* Pods-ConvoCreator-ConvoCreatorTests.debug.xcconfig */,
-				A8A496B83138A0046DC1D49A /* Pods-ConvoCreator-ConvoCreatorTests.release.xcconfig */,
-				E2122F62B523C9F4DEC5AC6C /* Pods-ConvoCreator-tvOS.debug.xcconfig */,
-				02AC6A5983BD2131C8EFFB2C /* Pods-ConvoCreator-tvOS.release.xcconfig */,
-				363F4681F4D72D355459D728 /* Pods-ConvoCreator-tvOSTests.debug.xcconfig */,
-				EB7CAF265D0869C1A140D967 /* Pods-ConvoCreator-tvOSTests.release.xcconfig */,
+				10ACE8560183868AA4F826E4 /* Pods-MsgMaker.debug.xcconfig */,
+				968A20F8BD0245E30FBD22A5 /* Pods-MsgMaker.release.xcconfig */,
+				2F9E780CE724C60CB827C553 /* Pods-MsgMaker-MsgMakerTests.debug.xcconfig */,
+				A8A496B83138A0046DC1D49A /* Pods-MsgMaker-MsgMakerTests.release.xcconfig */,
+				E2122F62B523C9F4DEC5AC6C /* Pods-MsgMaker-tvOS.debug.xcconfig */,
+				02AC6A5983BD2131C8EFFB2C /* Pods-MsgMaker-tvOS.release.xcconfig */,
+				363F4681F4D72D355459D728 /* Pods-MsgMaker-tvOSTests.debug.xcconfig */,
+				EB7CAF265D0869C1A140D967 /* Pods-MsgMaker-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -180,10 +180,10 @@
 				7FB4701325FC77310093DC21 /* libRNVectorIcons.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				8CE8F60935CC7F1EA8FB7E0E /* libPods-ConvoCreator.a */,
-				03E79971A8B6DB1E18DD433F /* libPods-ConvoCreator-ConvoCreatorTests.a */,
-				3DF2B387AECB3EB857C4592D /* libPods-ConvoCreator-tvOS.a */,
-				0D136F446493255F884AB7C1 /* libPods-ConvoCreator-tvOSTests.a */,
+				8CE8F60935CC7F1EA8FB7E0E /* libPods-MsgMaker.a */,
+				03E79971A8B6DB1E18DD433F /* libPods-MsgMaker-MsgMakerTests.a */,
+				3DF2B387AECB3EB857C4592D /* libPods-MsgMaker-tvOS.a */,
+				0D136F446493255F884AB7C1 /* libPods-MsgMaker-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,9 +198,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* ConvoCreator */,
+				13B07FAE1A68108700A75B9A /* MsgMaker */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* ConvoCreatorTests */,
+				00E356EF1AD99517003FC87E /* MsgMakerTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				18A06528071B6FFBBA9372E2 /* Pods */,
@@ -214,10 +214,10 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* ConvoCreator.app */,
-				00E356EE1AD99517003FC87E /* ConvoCreatorTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* ConvoCreator-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* ConvoCreator-tvOSTests.xctest */,
+				13B07F961A680F5B00A75B9A /* MsgMaker.app */,
+				00E356EE1AD99517003FC87E /* MsgMakerTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* MsgMaker-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* MsgMaker-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -248,9 +248,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* ConvoCreatorTests */ = {
+		00E356ED1AD99517003FC87E /* MsgMakerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ConvoCreatorTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MsgMakerTests" */;
 			buildPhases = (
 				AD5C4E7E5F3A47C5E4DBBCF0 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -263,14 +263,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = ConvoCreatorTests;
-			productName = ConvoCreatorTests;
-			productReference = 00E356EE1AD99517003FC87E /* ConvoCreatorTests.xctest */;
+			name = MsgMakerTests;
+			productName = MsgMakerTests;
+			productReference = 00E356EE1AD99517003FC87E /* MsgMakerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* ConvoCreator */ = {
+		13B07F861A680F5B00A75B9A /* MsgMaker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ConvoCreator" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MsgMaker" */;
 			buildPhases = (
 				4EC448C7DE7012241E76E38D /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -284,14 +284,14 @@
 			);
 			dependencies = (
 			);
-			name = ConvoCreator;
-			productName = ConvoCreator;
-			productReference = 13B07F961A680F5B00A75B9A /* ConvoCreator.app */;
+			name = MsgMaker;
+			productName = MsgMaker;
+			productReference = 13B07F961A680F5B00A75B9A /* MsgMaker.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* ConvoCreator-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* MsgMaker-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ConvoCreator-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "MsgMaker-tvOS" */;
 			buildPhases = (
 				00938DE0198AF842CBF8B8C1 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
@@ -304,14 +304,14 @@
 			);
 			dependencies = (
 			);
-			name = "ConvoCreator-tvOS";
-			productName = "ConvoCreator-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* ConvoCreator-tvOS.app */;
+			name = "MsgMaker-tvOS";
+			productName = "MsgMaker-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* MsgMaker-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* ConvoCreator-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* MsgMaker-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ConvoCreator-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "MsgMaker-tvOSTests" */;
 			buildPhases = (
 				19209003BE3070FC4C031819 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
@@ -323,9 +323,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "ConvoCreator-tvOSTests";
-			productName = "ConvoCreator-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* ConvoCreator-tvOSTests.xctest */;
+			name = "MsgMaker-tvOSTests";
+			productName = "MsgMaker-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* MsgMaker-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -354,7 +354,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ConvoCreator" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "MsgMaker" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -367,10 +367,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* ConvoCreator */,
-				00E356ED1AD99517003FC87E /* ConvoCreatorTests */,
-				2D02E47A1E0B4A5D006451C7 /* ConvoCreator-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* ConvoCreator-tvOSTests */,
+				13B07F861A680F5B00A75B9A /* MsgMaker */,
+				00E356ED1AD99517003FC87E /* MsgMakerTests */,
+				2D02E47A1E0B4A5D006451C7 /* MsgMaker-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* MsgMaker-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -425,7 +425,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ConvoCreator-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MsgMaker-tvOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -461,7 +461,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ConvoCreator-tvOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MsgMaker-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -488,7 +488,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ConvoCreator/Pods-ConvoCreator-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-MsgMaker/Pods-MsgMaker-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -529,7 +529,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ConvoCreator/Pods-ConvoCreator-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MsgMaker/Pods-MsgMaker-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4EC448C7DE7012241E76E38D /* [CP] Check Pods Manifest.lock */ = {
@@ -547,7 +547,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ConvoCreator-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MsgMaker-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -569,7 +569,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ConvoCreator-ConvoCreatorTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MsgMaker-MsgMakerTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -582,7 +582,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ConvoCreator-ConvoCreatorTests/Pods-ConvoCreator-ConvoCreatorTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-MsgMaker-MsgMakerTests/Pods-MsgMaker-MsgMakerTests-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -623,7 +623,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ConvoCreator-ConvoCreatorTests/Pods-ConvoCreator-ConvoCreatorTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MsgMaker-MsgMakerTests/Pods-MsgMaker-MsgMakerTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -671,7 +671,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* ConvoCreatorTests.m in Sources */,
+				00E356F31AD99517003FC87E /* MsgMakerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,7 +697,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* ConvoCreatorTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* MsgMakerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,12 +706,12 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* ConvoCreator */;
+			target = 13B07F861A680F5B00A75B9A /* MsgMaker */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* ConvoCreator-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* MsgMaker-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -719,14 +719,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2F9E780CE724C60CB827C553 /* Pods-ConvoCreator-ConvoCreatorTests.debug.xcconfig */;
+			baseConfigurationReference = 2F9E780CE724C60CB827C553 /* Pods-MsgMaker-MsgMakerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = ConvoCreatorTests/Info.plist;
+				INFOPLIST_FILE = MsgMakerTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -736,17 +736,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConvoCreator.app/ConvoCreator";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MsgMaker.app/MsgMaker";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8A496B83138A0046DC1D49A /* Pods-ConvoCreator-ConvoCreatorTests.release.xcconfig */;
+			baseConfigurationReference = A8A496B83138A0046DC1D49A /* Pods-MsgMaker-MsgMakerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = ConvoCreatorTests/Info.plist;
+				INFOPLIST_FILE = MsgMakerTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -756,19 +756,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConvoCreator.app/ConvoCreator";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MsgMaker.app/MsgMaker";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 10ACE8560183868AA4F826E4 /* Pods-ConvoCreator.debug.xcconfig */;
+			baseConfigurationReference = 10ACE8560183868AA4F826E4 /* Pods-MsgMaker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = ConvoCreator/Info.plist;
+				INFOPLIST_FILE = MsgMaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -776,7 +776,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ConvoCreator;
+				PRODUCT_NAME = MsgMaker;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -785,12 +785,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 968A20F8BD0245E30FBD22A5 /* Pods-ConvoCreator.release.xcconfig */;
+			baseConfigurationReference = 968A20F8BD0245E30FBD22A5 /* Pods-MsgMaker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = ConvoCreator/Info.plist;
+				INFOPLIST_FILE = MsgMaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -798,7 +798,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ConvoCreator;
+				PRODUCT_NAME = MsgMaker;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -806,7 +806,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2122F62B523C9F4DEC5AC6C /* Pods-ConvoCreator-tvOS.debug.xcconfig */;
+			baseConfigurationReference = E2122F62B523C9F4DEC5AC6C /* Pods-MsgMaker-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -817,14 +817,14 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ConvoCreator-tvOS/Info.plist";
+				INFOPLIST_FILE = "MsgMaker-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ConvoCreator-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.MsgMaker-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -834,7 +834,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 02AC6A5983BD2131C8EFFB2C /* Pods-ConvoCreator-tvOS.release.xcconfig */;
+			baseConfigurationReference = 02AC6A5983BD2131C8EFFB2C /* Pods-MsgMaker-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -845,14 +845,14 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ConvoCreator-tvOS/Info.plist";
+				INFOPLIST_FILE = "MsgMaker-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ConvoCreator-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.MsgMaker-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -862,7 +862,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 363F4681F4D72D355459D728 /* Pods-ConvoCreator-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 363F4681F4D72D355459D728 /* Pods-MsgMaker-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -872,24 +872,24 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ConvoCreator-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "MsgMaker-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ConvoCreator-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.MsgMaker-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConvoCreator-tvOS.app/ConvoCreator-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MsgMaker-tvOS.app/MsgMaker-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB7CAF265D0869C1A140D967 /* Pods-ConvoCreator-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = EB7CAF265D0869C1A140D967 /* Pods-MsgMaker-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -899,17 +899,17 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ConvoCreator-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "MsgMaker-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ConvoCreator-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.MsgMaker-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConvoCreator-tvOS.app/ConvoCreator-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MsgMaker-tvOS.app/MsgMaker-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1030,7 +1030,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ConvoCreatorTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MsgMakerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1039,7 +1039,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ConvoCreator" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MsgMaker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1048,7 +1048,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ConvoCreator-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "MsgMaker-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1057,7 +1057,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ConvoCreator-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "MsgMaker-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1066,7 +1066,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ConvoCreator" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "MsgMaker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

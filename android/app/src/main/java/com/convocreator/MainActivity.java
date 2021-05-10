@@ -12,7 +12,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "ConvoCreator";
+    return "MsgMaker";
   }
 
   // for react-native-appearance
