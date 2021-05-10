@@ -37,7 +37,11 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
           </TouchableOpacity>
         </View>
         <View style={{ alignItems: 'center' }}>
-          <Avatar source={images.sample_profile_woman} rounded={true} />
+          {userData.recipient.image instanceof String && userData.recipient.image.indexOf('http') === 0 ? (
+            <Avatar source={{ uri: userData.recipient.image }} rounded={true} />
+          ) : (
+            <Avatar source={images.sample_profile_woman} rounded={true} />
+          )}
         </View>
         <View style={styles.rightOptions}>
           <TouchableOpacity style={styles.btnNavigation}>
@@ -46,7 +50,9 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
         </View>
       </View>
       <View style={{ alignItems: 'center' }}>
-        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{userData.recipient.name}</Text>
+        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>
+          {userData.recipient.name}
+        </Text>
       </View>
     </View>
   )

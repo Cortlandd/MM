@@ -1,14 +1,19 @@
 import { SeedData } from '@/Config/SeedData'
-import { Types } from '@/Config/Types'
+import { models, Types } from '@/Config/Types'
+import { Models } from '@/Config/Models'
 
 const ContainerNames = {
   Home: 'Home',
   NewConversation: 'New Conversation',
   Conversation: 'Conversation',
   InstagramConversation: 'InstagramConversation',
+  InstagramNewConversation: 'InstagramNewConversation',
   TwitterConversation: 'TwitterConversation',
+  TwitterNewConversation: 'TwitterNewConversation',
   MessengerConversation: 'MessengerConversation',
+  MessengerNewConversation: 'MessengerNewConversation',
   iMessageConversation: 'iMessageConversation',
+  iMessageNewConversation: 'iMessageNewConversation',
 }
 
 const MessagingPlatforms = {
@@ -62,11 +67,32 @@ const MessengerImageData = {
   image_blob: 'image_blob',
 }
 
+const TwitterConfig = {
+  ENDPOINT: 'https://api.twitter.com/2/users/by',
+}
+
+const TwitterCredentials = {
+  API_KEY: '',
+  ACCESS_TOKEN: '1391190472069197827-ksYqfaP9mGzzLiNgl07bPePmB9EhUd',
+  ACCESS_TOKEN_SECRET: 'CYdN0HXnWvREeqURbf4fcA3PtoL2ZkU3VlEcoGGCR7BDx',
+  BEARER_TOKEN: 'AAAAAAAAAAAAAAAAAAAAAJd9PQEAAAAAol%2FcKBDpXfW8igsjFV31PhzC7NI%3DnKkoHYblgsm2gh3VME1DgSjkXBzCXwx0xHDidPDIc0GWXvFvfi',
+}
+
+const TwitterUserResponse = {
+  id: '',
+  name: '',
+  profile_image_url: '',
+  username: '',
+}
+
 export const Config = {
   API_URL: 'https://jsonplaceholder.typicode.com/',
   containerNames: ContainerNames,
   messagingPlatforms: MessagingPlatforms,
   seedData: SeedData,
   types: Types,
+  models: Models,
   messagingPlatformList: MessagingPlatformList,
+  twitterConfig: TwitterConfig,
+  twitterCredentials: TwitterCredentials,
 }

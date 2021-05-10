@@ -109,7 +109,7 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
 
   function getProfileImage() {
     if (!message.is_from_me && message.message_first_in_group && message.message_last_in_group || !message.is_from_me && message.message_last_in_group) {
-      return images.sample_profile_woman
+      return message.recipient.image
     } else {
       return null
     }
@@ -149,7 +149,7 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
     >
       {/* Avatar */}
       <View>
-        <Avatar rounded source={getProfileImage()} />
+        <Avatar rounded source={{ uri: getProfileImage() }} />
       </View>
       {/* Message and timestamp */}
       <TouchableOpacity style={{ flex: 1 }}>
