@@ -9,6 +9,7 @@ import {
   Platform,
   ActivityIndicator,
   TouchableWithoutFeedback,
+  PlatformColor,
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Icon, SearchBar, Card, ListItem, Avatar } from 'react-native-elements'
@@ -40,16 +41,52 @@ const NewTwitterConversation = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <SearchBar
-        platform={'default'}
-        placeholder={'Search by username'}
-        onChangeText={(text) => setTerm(text)}
-        onClear={() => setTerm('')}
-        value={term}
-        round={true}
-        onSubmitEditing={search} // <== Your Navigation handler
-        returnKeyType={'search'}
-      />
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '100%',
+          alignItems: 'center',
+          paddingRight: 5,
+          paddingLeft: 10,
+          borderBottomColor: 'lightgray',
+          borderBottomWidth: 1,
+        }}
+      >
+        <Icon
+          name={'close'}
+          style={{
+            marginRight: 5,
+          }}
+          color={'#1DA1F2'}
+          iconStyle={{ color: '#1DA1F2' }}
+          onPress={() => navigation.goBack()}
+          size={30}
+        />
+        <SearchBar
+          containerStyle={{
+            width: '90%',
+            backgroundColor: 'transparent',
+            borderBottomColor: 'transparent',
+            borderTopColor: 'transparent',
+          }}
+          inputContainerStyle={{ backgroundColor: 'transparent' }}
+          platform={'default'}
+          placeholder={'Search by username'}
+          inputStyle={{
+            ...Platform.select({
+              ios: { color: PlatformColor('label') },
+              android: { color: 'white' },
+            }),
+          }}
+          onChangeText={(text) => setTerm(text)}
+          onClear={() => setTerm('')}
+          value={term}
+          round={true}
+          selectionColor={'#1DA1F2'}
+          onSubmitEditing={search} // <== Your Navigation handler
+          returnKeyType={'search'}
+        />
+      </View>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

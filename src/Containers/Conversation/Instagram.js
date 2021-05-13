@@ -8,7 +8,9 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform, ScrollView,
+  Platform,
+  ScrollView,
+  PlatformColor,
 } from 'react-native'
 import { useDispatch } from 'react-redux'
 import Images from '@/Theme/Images'
@@ -17,11 +19,14 @@ import { InstagramMessage } from '@/Components'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import InstagramTextInput from '@/Components/TextInput/Instagram'
 import InstagramProfile from '@/Components/Profile/Instagram'
+import { useTheme } from '@/Theme'
+import { ThemeProvider } from 'react-native-elements'
 
 const InstagramConversation = ({ route, navigation }) => {
   const { item } = route.params
   const dispatch = useDispatch()
   const images = Images()
+  const { darkMode } = useTheme()
 
   const [initialData] = useState([])
   const [messageData, setMessageData] = useState([])
@@ -56,46 +61,66 @@ const InstagramConversation = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <InstagramNavigationBar
-        title={item.recipient.name}
-        callback={() => navigation.goBack()}
-        userData={item}
-      />
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <FlatList
-            data={initialData}
-            ListHeaderComponent={<InstagramProfile user={item.recipient} />}
-            renderItem={({ item, index }) => {
-              return (
-                <InstagramMessage is_from_me={item.is_from_me} message={item} lastMessage={initialData[index - 1]} rowIndex={index} />
-              )
-            }}
-            style={{ flex: 1, marginRight: 5, marginLeft: 10 }}
-            extraData={messageData}
-            keyExtractor={(i, index) => i.id}
-            ref={(ref) => (this.flatList = ref)}
-            onContentSizeChange={() =>
-              this.flatList.scrollToEnd({ animated: true })
-            }
-            onLayout={() => this.flatList.scrollToEnd({ animated: true })}
-          />
-        </TouchableWithoutFeedback>
-        <View style={{ margin: 10 }}>
-          <SegmentedControlTab
-            values={['Receiving', 'Sending']}
-            selectedIndex={selectedReceiverIndex}
-            onTabPress={(index) => setSelectedReceiverIndex(index)}
-          />
-        </View>
-        <InstagramTextInput
-          messageInput={message}
-          setMessageInput={setMessage}
-          onSend={sendMessage}
+    <ThemeProvider useDark={darkMode}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          ...Platform.select({
+            ios: { backgroundColor: PlatformColor('systemBackground') },
+            android: { backgroundColor: 'white' },
+          }),
+        }}
+      >
+        <InstagramNavigationBar
+          title={item.recipient.name}
+          callback={() => navigation.goBack()}
+          userData={item}
         />
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={54}
+          enabled={true}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <FlatList
+              data={initialData}
+              ListHeaderComponent={<InstagramProfile user={item.recipient} />}
+              renderItem={({ item, index }) => {
+                return (
+                  <InstagramMessage
+                    is_from_me={item.is_from_me}
+                    message={item}
+                    lastMessage={initialData[index - 1]}
+                    rowIndex={index}
+                  />
+                )
+              }}
+              style={{ flex: 1, marginRight: 5, marginLeft: 10 }}
+              extraData={messageData}
+              keyExtractor={(i, index) => i.id}
+              ref={(ref) => (this.flatList = ref)}
+              onContentSizeChange={() =>
+                this.flatList.scrollToEnd({ animated: true })
+              }
+              onLayout={() => this.flatList.scrollToEnd({ animated: true })}
+            />
+          </TouchableWithoutFeedback>
+          <View style={{ margin: 10 }}>
+            <SegmentedControlTab
+              values={['Receiving', 'Sending']}
+              selectedIndex={selectedReceiverIndex}
+              onTabPress={(index) => setSelectedReceiverIndex(index)}
+            />
+          </View>
+          <InstagramTextInput
+            messageInput={message}
+            setMessageInput={setMessage}
+            onSend={sendMessage}
+          />
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ThemeProvider>
   )
 }
 

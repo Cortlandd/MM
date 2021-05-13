@@ -4,24 +4,29 @@ import { IndexHomeContainer as HomeScreen, TwitterConversation, InstagramConvers
 import { IndexNewConversation as NewConversationScreen } from '@/Containers'
 import { Config } from '@/Config'
 import { Icon } from 'react-native-elements'
-import { navigate } from '@/Navigators/Root'
+import { navigate, navigationRef } from '@/Navigators/Root'
 import IMessageConversation from '@/Containers/Conversation/iMessage'
-import IMessageContact from '@/Components/iMessageContact'
+import { NavigationContainer } from '@react-navigation/native'
+import { useTheme } from '@/Theme'
 
 const Stack = createStackNavigator()
+const MainStack = createStackNavigator()
+const RootStack = createStackNavigator()
 
-// @refresh reset
-const MainNavigator = ({ navigation }) => {
+function MainStackScreen({ navigation }) {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
+    <MainStack.Navigator>
+      <MainStack.Screen
         name={Config.containerNames.Home}
         component={HomeScreen}
         options={{
-          title: 'Conversation Creator',
+          title: 'Msg Maker',
           headerRight: () => (
             <Icon
-              onPress={() => navigate(Config.containerNames.NewConversation)}
+              color={'gray'}
+              onPress={() =>
+                navigation.navigate(Config.containerNames.NewConversation)
+              }
               name="add"
               style={{
                 marginRight: 5,
@@ -30,35 +35,49 @@ const MainNavigator = ({ navigation }) => {
           ),
         }}
       />
-      <Stack.Screen
+      <MainStack.Screen
         name={Config.containerNames.NewConversation}
         component={NewConversationScreen}
       />
-      <Stack.Screen
+      <MainStack.Screen
         name={Config.containerNames.InstagramConversation}
         component={InstagramConversation}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainStack.Screen
         name={Config.containerNames.TwitterConversation}
         component={TwitterConversation}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainStack.Screen
         name={Config.containerNames.MessengerConversation}
         component={MessengerConversation}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainStack.Screen
         name={Config.containerNames.iMessageConversation}
         component={IMessageConversation}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name={Config.containerNames.TwitterNewConversation}
-        component={NewTwitterConversation}
-      />
-    </Stack.Navigator>
+    </MainStack.Navigator>
+  )
+}
+
+// @refresh reset
+const MainNavigator = ({ navigation }) => {
+  const { Layout, darkMode, NavigationTheme } = useTheme()
+
+  return (
+    <NavigationContainer independent={true} theme={NavigationTheme} ref={navigationRef}>
+      <RootStack.Navigator mode="modal" headerMode="none">
+        <RootStack.Screen name="Main" component={MainStackScreen} />
+        <RootStack.Screen
+          name={Config.containerNames.TwitterNewConversation}
+          component={NewTwitterConversation}
+          options={{ headerShown: true }}
+        />
+      </RootStack.Navigator>
+    </NavigationContainer>
   )
 }
 

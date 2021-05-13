@@ -2,17 +2,21 @@ import React from 'react'
 import { View, StyleSheet, TouchableOpacity, Image, TextInput, Text, Dimensions } from 'react-native'
 import { Icon, Avatar } from 'react-native-elements'
 import Icons from '@/Theme/Icons'
+import { useTheme } from '@/Theme'
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height)
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)
 
 const InstagramTextInput = ({ messageInput, setMessageInput, onSend }) => {
   const icons = Icons()
+  const { Fonts, darkMode } = useTheme()
+
   return (
     <View style={styles.msgInputWrapper}>
       <React.Fragment>
         <TouchableOpacity activeOpacity={0.8} style={styles.btnCamera}>
-          <Image style={{ width: 20, height: 20 }} source={icons.instagram_camera_white} />
+          <Icon size={24} name={'camera'} type={'ionicon'} color={'#fff'} />
+          {/*<Image style={{ width: 20, height: 20 }} source={icons.instagram_camera_white} />*/}
         </TouchableOpacity>
         <TextInput
           value={messageInput}
@@ -26,17 +30,18 @@ const InstagramTextInput = ({ messageInput, setMessageInput, onSend }) => {
                 : SCREEN_WIDTH - 30 - 44,
           }}
           placeholder="Message..."
+          placeholderTextColor={'lightgray'}
         />
         {messageInput.length === 0 ? (
           <View style={styles.msgRightOptions}>
             <TouchableOpacity style={styles.btnNavigation}>
-              <Image style={{ width: 25, height: 25 }} source={icons.instagram_microphone} />
+              <Avatar style={{ width: 25, height: 25 }} avatarStyle={{ tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_microphone} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnNavigation}>
-              <Image style={{ width: 25, height: 25 }} source={icons.instagram_photo} />
+              <Avatar style={{ width: 25, height: 25 }} avatarStyle={{ tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_photo} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnNavigation}>
-              <Image style={{ width: 25, height: 25 }} source={icons.instagram_emoji} />
+              <Avatar style={{ width: 25, height: 25 }} avatarStyle={{ tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_emoji} />
             </TouchableOpacity>
           </View>
         ) : (
@@ -59,7 +64,7 @@ const styles = StyleSheet.create({
     minHeight: 44,
     borderRadius: 44,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: 'lightgray',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
