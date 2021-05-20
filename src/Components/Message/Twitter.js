@@ -18,6 +18,7 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
   var borderTopLeftRadiusValue = 0
   var borderBottomRightRadiusValue = 0
   var borderBottomLeftRadiusValue = 0
+  var showAvatar = false
 
   if (message.is_from_me) {
     if (message.message_first_in_group) {
@@ -30,6 +31,10 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
       borderBottomLeftRadiusValue = 20
       borderBottomRightRadiusValue = 0
     }
+  }
+
+  if (!message.is_from_me && message.message_first_in_group && message.message_last_in_group || !message.is_from_me && message.message_last_in_group) {
+    showAvatar = true
   }
 
   // switch (is_from_me) {
@@ -149,7 +154,11 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
     >
       {/* Avatar */}
       <View>
-        <Avatar rounded source={{ uri: getProfileImage() }} />
+        {__DEV__ ? (
+          <Avatar source={images.sample_profile_woman} rounded />
+        ) : (
+          <Avatar rounded source={{ uri: getProfileImage() }} />
+        )}
       </View>
       {/* Message and timestamp */}
       <TouchableOpacity style={{ flex: 1 }}>
