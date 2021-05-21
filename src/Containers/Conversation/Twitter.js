@@ -1,13 +1,22 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity, FlatList, SafeAreaView, Text, KeyboardAvoidingView, Platform } from 'react-native'
+import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  SafeAreaView,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  PlatformColor,
+} from 'react-native'
 import { useDispatch } from 'react-redux'
 import Images from '@/Theme/Images'
 import { TwitterMessage } from '@/Components'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
-import InstagramTextInput from '@/Components/TextInput/Instagram'
 import TwitterNavigationBar from '@/Components/NavigationBar/Twitter'
-import InstagramNavigationBar from '@/Components/NavigationBar/Instagram'
 import TwitterTextInput from '@/Components/TextInput/Twitter'
+import { ThemeProvider } from 'react-native-elements'
+import { useTheme } from '@/Theme'
 
 const TwitterConversation = ({ route, navigation }) => {
   // 1. Fetch locally stored data
@@ -16,6 +25,7 @@ const TwitterConversation = ({ route, navigation }) => {
 
   const { item } = route.params
   const dispatch = useDispatch()
+  const { darkMode } = useTheme()
 
   const [initialData] = useState([])
   const [messageData, setMessageData] = useState([])
@@ -64,7 +74,8 @@ const TwitterConversation = ({ route, navigation }) => {
         }
 
         if (msg.is_from_me === lastMessage.is_from_me) {
-          const secondsDifference = (msg.time.getTime() - lastMessage.time.getTime()) / 1000
+          const secondsDifference =
+            (msg.time.getTime() - lastMessage.time.getTime()) / 1000
           const within1MinuteCondition = secondsDifference < ONE_MINUTE_SECONDS
 
           if (within1MinuteCondition) {
@@ -81,7 +92,10 @@ const TwitterConversation = ({ route, navigation }) => {
             lastMessage.message_last_in_group = false
           }
 
-          if (msg.message_first_in_group && lastMessage.message_first_in_group) {
+          if (
+            msg.message_first_in_group &&
+            lastMessage.message_first_in_group
+          ) {
             lastMessage.message_last_in_group = true
           }
 
@@ -95,48 +109,70 @@ const TwitterConversation = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <TwitterNavigationBar
-        title={item.recipient.name}
-        callback={() => navigation.goBack()}
-        userData={item}
-      />
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
-        <FlatList
-          data={initialData}
-          renderItem={({ item, index }) => {
-            return (
-              <TwitterMessage
-                is_from_me={item.is_from_me}
-                message={item}
-                lastMessage={initialData[index - 1]}
-              />
-            )
-          }}
-          extraData={messageData}
-          style={{ flex: 1, marginRight: 5, marginLeft: 20 }}
-          keyExtractor={(i, index) => i.id}
-          ref={(ref) => (this.flatList = ref)}
-          ListEmptyComponent={
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <Text>The start of the conversation.</Text>
-            </View>
-          }
+    <ThemeProvider useDark={darkMode}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          ...Platform.select({
+            ios: { backgroundColor: PlatformColor('systemBackground') },
+            android: { backgroundColor: 'white' },
+          }),
+        }}
+      >
+        <TwitterNavigationBar
+          title={item.recipient.name}
+          callback={() => navigation.goBack()}
+          userData={item}
         />
-        <View style={{ marginBottom: 10, marginLeft: 10, marginRight: 10, marginTop: 3 }}>
-          <SegmentedControlTab
-            values={['Receiving', 'Sending']}
-            selectedIndex={selectedReceiverIndex}
-            onTabPress={(index) => setSelectedReceiverIndex(index)}
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={54}
+          enabled={true}
+        >
+          <FlatList
+            data={initialData}
+            renderItem={({ item, index }) => {
+              return (
+                <TwitterMessage
+                  is_from_me={item.is_from_me}
+                  message={item}
+                  lastMessage={initialData[index - 1]}
+                />
+              )
+            }}
+            extraData={messageData}
+            style={{ flex: 1, marginRight: 5, marginLeft: 20 }}
+            keyExtractor={(i, index) => i.id}
+            ref={(ref) => (this.flatList = ref)}
+            ListEmptyComponent={
+              <View style={{ flex: 1, alignItems: 'center' }}>
+                <Text>The start of the conversation.</Text>
+              </View>
+            }
           />
-        </View>
-        <TwitterTextInput
-          messageInput={message}
-          setMessageInput={setMessage}
-          onSend={sendMessage}
-        />
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+          <View
+            style={{
+              marginBottom: 10,
+              marginLeft: 10,
+              marginRight: 10,
+              marginTop: 3,
+            }}
+          >
+            <SegmentedControlTab
+              values={['Receiving', 'Sending']}
+              selectedIndex={selectedReceiverIndex}
+              onTabPress={(index) => setSelectedReceiverIndex(index)}
+            />
+          </View>
+          <TwitterTextInput
+            messageInput={message}
+            setMessageInput={setMessage}
+            onSend={sendMessage}
+          />
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ThemeProvider>
   )
 }
 
