@@ -37,10 +37,10 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
           </TouchableOpacity>
         </View>
         <View style={{ alignItems: 'center' }}>
-          {userData.recipient.image instanceof String && userData.recipient.image.indexOf('http') === 0 ? (
-            <Avatar source={{ uri: userData.recipient.image }} rounded={true} />
-          ) : (
+          {__DEV__ ? (
             <Avatar source={images.sample_profile_woman} rounded={true} />
+          ) : (
+            <Avatar source={{ uri: userData.recipient.image }} rounded={true} />
           )}
         </View>
         <View style={styles.rightOptions}>

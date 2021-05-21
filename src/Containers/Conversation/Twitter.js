@@ -31,6 +31,7 @@ const TwitterConversation = ({ route, navigation }) => {
     msg.message = message
     msg.showTimestamp = true
     msg.messageIndex = initialData.length
+    msg.isMsgRead = true
     msg.lastMessage_is_from_me_within_1_minute = false
     msg.group_id = 0
     msg.message_first_in_group = false

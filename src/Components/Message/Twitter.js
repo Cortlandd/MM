@@ -10,6 +10,8 @@ import {
 } from 'react-native'
 import { Avatar } from 'react-native-elements'
 import Images from '@/Theme/Images'
+import Svg, { Path } from 'react-native-svg'
+import { moderateScale } from 'react-native-size-matters'
 
 const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
   const images = Images()
@@ -33,7 +35,12 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
     }
   }
 
-  if (!message.is_from_me && message.message_first_in_group && message.message_last_in_group || !message.is_from_me && message.message_last_in_group) {
+  if (
+    (!message.is_from_me &&
+      message.message_first_in_group &&
+      message.message_last_in_group) ||
+    (!message.is_from_me && message.message_last_in_group)
+  ) {
     showAvatar = true
   }
 
@@ -113,7 +120,12 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
   })
 
   function getProfileImage() {
-    if (!message.is_from_me && message.message_first_in_group && message.message_last_in_group || !message.is_from_me && message.message_last_in_group) {
+    if (
+      (!message.is_from_me &&
+        message.message_first_in_group &&
+        message.message_last_in_group) ||
+      (!message.is_from_me && message.message_last_in_group)
+    ) {
       return message.recipient.image
     } else {
       return null
@@ -124,9 +136,11 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
     return (
       <View
         style={{
-          alignItems: is_from_me ? 'flex-end' : 'flex-start',
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
           marginHorizontal: is_from_me && 15,
-          marginBottom: 15,
+          alignSelf: is_from_me ? 'flex-end' : 'flex-start',
         }}
       >
         <Text style={{ color: 'gray' }}>
@@ -138,6 +152,20 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
             minute: '2-digit',
           })}
         </Text>
+        {message.is_from_me && message.isMsgRead && (
+          <Svg
+            viewBox="0 0 24 24"
+            width={moderateScale(15.5, 0.6)}
+            height={moderateScale(17.5, 0.6)}
+            aria-hidden="true"
+            style={{ marginLeft: 3 }}
+          >
+            <Path
+              d="M9 20a.995.995 0 01-.707-.293l-4.785-4.785a1 1 0 011.414-1.414l3.946 3.945L18.075 4.41a1 1 0 111.635 1.154L9.817 19.577A1.003 1.003 0 019 20z"
+              fill={'#007AFF'}
+            />
+          </Svg>
+        )}
       </View>
     )
   }
@@ -153,7 +181,7 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
       }}
     >
       {/* Avatar */}
-      <View>
+      <View style={{ display: message.is_from_me && 'none' }}>
         {__DEV__ ? (
           <Avatar source={images.sample_profile_woman} rounded />
         ) : (
@@ -166,8 +194,7 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
           style={{
             ...styles.messageItem,
             justifyContent: is_from_me ? 'flex-end' : 'flex-start',
-            marginBottom: 1,
-            marginTop: 1,
+            marginTop: 15,
           }}
           activeOpacity={1}
         >
