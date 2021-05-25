@@ -16,6 +16,15 @@ import { moderateScale } from 'react-native-size-matters'
 const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
   const images = Images()
 
+  const dateIsToday = (someDate) => {
+    const today = new Date()
+    return (
+      someDate.getDate() == today.getDate() &&
+      someDate.getMonth() == today.getMonth() &&
+      someDate.getFullYear() == today.getFullYear()
+    )
+  }
+
   var borderTopRightRadiusValue = 0
   var borderTopLeftRadiusValue = 0
   var borderBottomRightRadiusValue = 0
@@ -94,9 +103,6 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
       borderBottomRightRadius: borderBottomRightRadiusValue,
       maxWidth: SCREEN_WIDTH * 0.6,
       backgroundColor: '#ddd',
-      marginHorizontal: 5,
-    },
-    textMessage: {
       paddingHorizontal: 15,
     },
     msgText: {
@@ -105,17 +111,6 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
       paddingVertical: 10,
       color: is_from_me ? '#fff' : '#000',
       fontSize: 15,
-    },
-    myMessage: {
-      backgroundColor: '#1DA1F2',
-      marginHorizontal: 15,
-    },
-    yourAvatar: {
-      height: 35,
-      width: 35,
-    },
-    yourMessage: {
-      backgroundColor: '#E1E8ED',
     },
   })
 
@@ -139,24 +134,29 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
-          marginHorizontal: is_from_me && 15,
           alignSelf: is_from_me ? 'flex-end' : 'flex-start',
+          marginTop: 2,
         }}
       >
-        <Text style={{ color: 'gray' }}>
-          {message.time.toLocaleTimeString([], {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
+        <Text style={{ color: 'gray', fontSize: 13 }}>
+          {dateIsToday(message.time)
+            ? message.time.toLocaleTimeString([], {
+                hour: 'numeric',
+                minute: '2-digit',
+              })
+            : message.time.toLocaleTimeString([], {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+              })}
         </Text>
         {message.is_from_me && message.isMsgRead && (
           <Svg
             viewBox="0 0 24 24"
-            width={moderateScale(15.5, 0.6)}
-            height={moderateScale(17.5, 0.6)}
+            width={moderateScale(15)}
+            height={moderateScale(15)}
             aria-hidden="true"
             style={{ marginLeft: 3 }}
           >
@@ -188,43 +188,61 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
           <Avatar rounded source={{ uri: getProfileImage() }} />
         )}
       </View>
-      {/* Message and timestamp */}
-      <TouchableOpacity style={{ flex: 1 }}>
-        <View
-          style={{
-            ...styles.messageItem,
-            justifyContent: is_from_me ? 'flex-end' : 'flex-start',
-            marginTop: 15,
-          }}
-          activeOpacity={1}
-        >
+      <View
+        style={{
+          flexDirection: 'column',
+          marginHorizontal: is_from_me ? 15 : 10,
+        }}
+      >
+        {/* Message and timestamp */}
+        <TouchableOpacity>
           <View
-            style={[
-              styles.message,
-              is_from_me ? styles.myMessage : styles.yourMessage,
-              styles.textMessage,
-              {
-                alignItems: is_from_me ? 'flex-end' : 'flex-start',
-              },
-            ]}
+            style={{
+              ...styles.messageItem,
+              justifyContent: is_from_me ? 'flex-end' : 'flex-start',
+              marginTop: message.message_first_in_group ? 15 : 2,
+            }}
+            activeOpacity={1}
           >
-            <Text style={styles.msgText}>{message.message}</Text>
-          </View>
-          {!message.is_from_me && (
-            <Svg
-              style={{ marginLeft: 3 }}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              width={moderateScale(22.5)}
-              height={moderateScale(22.5)}
+            <View
+              style={[
+                styles.message,
+                {
+                  alignItems: is_from_me ? 'flex-end' : 'flex-start',
+                  backgroundColor: is_from_me ? '#1DA1F2' : '#E1E8ED',
+                  marginRight: !is_from_me && 8,
+                },
+              ]}
             >
-              <Path fill={'#5b7083'} d="M22.436 16.92H19.76v-2.673a.749.749 0 10-1.5 0v2.674h-2.676c-.413 0-.75.337-.75.75s.337.75.75.75h2.677v2.677c0 .413.337.75.75.75s.75-.337.75-.75V18.42h2.676a.75.75 0 000-1.5z" />
-              <Path fill={'#5b7083'} d="M11.088 21.214c-2.61-.046-10.064-6.778-10.064-13.157 0-3.066 2.525-5.755 5.404-5.755 2.29 0 3.83 1.582 4.646 2.73.816-1.148 2.357-2.73 4.646-2.73 2.878 0 5.403 2.69 5.403 5.755 0 1.13-.232 2.323-.69 3.545a.75.75 0 11-1.404-.526c.394-1.053.594-2.07.594-3.02 0-2.266-1.824-4.254-3.903-4.254-2.525 0-3.94 2.937-3.952 2.966-.23.562-1.155.562-1.387 0-.01-.03-1.425-2.966-3.952-2.966-2.08 0-3.904 1.988-3.904 4.255 0 5.76 7.076 11.63 8.563 11.657.168-.003.764-.195 1.758-.892a.75.75 0 01.861 1.229c-1.085.76-1.966 1.153-2.618 1.164z" />
-            </Svg>
-          )}
-        </View>
+              <Text style={styles.msgText}>{message.message}</Text>
+            </View>
+            {!message.is_from_me && (
+              <Svg
+                style={{
+                  display:
+                    !message.is_from_me && message.message_last_in_group
+                      ? ''
+                      : 'none',
+                }}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                width={moderateScale(22.5)}
+                height={moderateScale(22.5)}
+              >
+                <Path
+                  fill={'#5b7083'}
+                  d="M22.436 16.92H19.76v-2.673a.749.749 0 10-1.5 0v2.674h-2.676c-.413 0-.75.337-.75.75s.337.75.75.75h2.677v2.677c0 .413.337.75.75.75s.75-.337.75-.75V18.42h2.676a.75.75 0 000-1.5z"
+                />
+                <Path
+                  fill={'#5b7083'}
+                  d="M11.088 21.214c-2.61-.046-10.064-6.778-10.064-13.157 0-3.066 2.525-5.755 5.404-5.755 2.29 0 3.83 1.582 4.646 2.73.816-1.148 2.357-2.73 4.646-2.73 2.878 0 5.403 2.69 5.403 5.755 0 1.13-.232 2.323-.69 3.545a.75.75 0 11-1.404-.526c.394-1.053.594-2.07.594-3.02 0-2.266-1.824-4.254-3.903-4.254-2.525 0-3.94 2.937-3.952 2.966-.23.562-1.155.562-1.387 0-.01-.03-1.425-2.966-3.952-2.966-2.08 0-3.904 1.988-3.904 4.255 0 5.76 7.076 11.63 8.563 11.657.168-.003.764-.195 1.758-.892a.75.75 0 01.861 1.229c-1.085.76-1.966 1.153-2.618 1.164z"
+                />
+              </Svg>
+            )}
+          </View>
+        </TouchableOpacity>
         {message.showTimestamp && <MessageTimestamp />}
-      </TouchableOpacity>
+      </View>
     </View>
   )
 }
