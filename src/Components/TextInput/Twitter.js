@@ -57,11 +57,7 @@ const TwitterTextInput = ({ messageInput, setMessageInput, onSend }) => {
             color: darkMode ? '#fff' : '#000',
             borderRadius: 16,
             borderWidth: 1,
-            borderColor: isFocused
-              ? '#1DA1F2'
-              : darkMode
-              ? '#202327'
-              : '#ebeef0',
+            borderColor: isFocused && darkMode ? '#202327' : '#ebeef0',
             marginHorizontal: 15,
             flex: 1,
             width: SCREEN_WIDTH / 2,
