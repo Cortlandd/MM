@@ -40,6 +40,7 @@ const TwitterConversation = ({ route, navigation }) => {
     msg.time = new Date()
     msg.message = message
     msg.showTimestamp = true
+    msg.showAvatar = true
     msg.messageIndex = initialData.length
     msg.isMsgRead = true
     msg.lastMessage_is_from_me_within_1_minute = false
@@ -81,6 +82,7 @@ const TwitterConversation = ({ route, navigation }) => {
           if (within1MinuteCondition) {
             msg.lastMessage_is_from_me_within_1_minute = true
             lastMessage.showTimestamp = false
+            lastMessage.showAvatar = false
             msg.group_id = lastMessage.group_id
           } else {
             msg.lastMessage_is_from_me_within_1_minute = false
@@ -135,7 +137,6 @@ const TwitterConversation = ({ route, navigation }) => {
             renderItem={({ item, index }) => {
               return (
                 <TwitterMessage
-                  is_from_me={item.is_from_me}
                   message={item}
                   lastMessage={initialData[index - 1]}
                 />

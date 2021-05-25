@@ -13,7 +13,7 @@ import Images from '@/Theme/Images'
 import Svg, { Path } from 'react-native-svg'
 import { moderateScale } from 'react-native-size-matters'
 
-const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
+const TwitterMessage = ({ message, lastMessage }) => {
   const images = Images()
 
   const dateIsToday = (someDate) => {
@@ -29,7 +29,6 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
   var borderTopLeftRadiusValue = 0
   var borderBottomRightRadiusValue = 0
   var borderBottomLeftRadiusValue = 0
-  var showAvatar = false
 
   if (message.is_from_me) {
     if (message.message_first_in_group) {
@@ -44,24 +43,6 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
     }
   }
 
-  if (
-    (!message.is_from_me &&
-      message.message_first_in_group &&
-      message.message_last_in_group) ||
-    (!message.is_from_me && message.message_last_in_group)
-  ) {
-    showAvatar = true
-  }
-
-  // switch (is_from_me) {
-  //   case !message.lastMessage_is_from_me:
-  //     borderTopRightRadiusValue = 20
-  //   case !message.lastMessage_is_from_me_within_1_minute:
-  //     borderTopRightRadiusValue = 20
-  //   default:
-  //     break
-  // }
-
   if (!message.is_from_me) {
     if (message.message_first_in_group) {
       borderTopRightRadiusValue = 20
@@ -75,20 +56,7 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
     }
   }
 
-  // switch (!is_from_me) {
-  //   case !message.lastMessage_is_from_me:
-  //     borderTopLeftRadiusValue = 20
-  //   case !message.lastMessage_is_from_me_within_1_minute:
-  //     borderTopLeftRadiusValue = 20
-  //   default:
-  //     break
-  // }
-
   const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)
-
-  // if (is_from_me && !lastMessage) {
-  //   return 20
-  // } else if () {}
 
   const styles = StyleSheet.create({
     messageItem: {
@@ -109,7 +77,7 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
       justifyContent: 'center',
       alignItems: 'center',
       paddingVertical: 10,
-      color: is_from_me ? '#fff' : '#000',
+      color: message.is_from_me ? '#fff' : '#000',
       fontSize: 15,
     },
   })
@@ -134,7 +102,7 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
-          alignSelf: is_from_me ? 'flex-end' : 'flex-start',
+          alignSelf: message.is_from_me ? 'flex-end' : 'flex-start',
           marginTop: 2,
         }}
       >
@@ -177,21 +145,23 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'baseline',
-        justifyContent: is_from_me ? 'flex-end' : 'flex-start',
+        justifyContent: message.is_from_me ? 'flex-end' : 'flex-start',
       }}
     >
       {/* Avatar */}
       <View style={{ display: message.is_from_me && 'none' }}>
-        {__DEV__ ? (
-          <Avatar source={images.sample_profile_woman} rounded />
-        ) : (
-          <Avatar rounded source={{ uri: getProfileImage() }} />
-        )}
+        <Avatar
+          rounded
+          avatarStyle={{ display: !message.showAvatar ? 'none' : '' }}
+          source={
+            __DEV__ ? images.sample_profile_woman : { uri: getProfileImage() }
+          }
+        />
       </View>
       <View
         style={{
           flexDirection: 'column',
-          marginHorizontal: is_from_me ? 15 : 10,
+          marginHorizontal: message.is_from_me ? 15 : 10,
         }}
       >
         {/* Message and timestamp */}
@@ -199,7 +169,7 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
           <View
             style={{
               ...styles.messageItem,
-              justifyContent: is_from_me ? 'flex-end' : 'flex-start',
+              justifyContent: message.is_from_me ? 'flex-end' : 'flex-start',
               marginTop: message.message_first_in_group ? 15 : 2,
             }}
             activeOpacity={1}
@@ -208,9 +178,9 @@ const TwitterMessage = ({ is_from_me, message, lastMessage }) => {
               style={[
                 styles.message,
                 {
-                  alignItems: is_from_me ? 'flex-end' : 'flex-start',
-                  backgroundColor: is_from_me ? '#1DA1F2' : '#E1E8ED',
-                  marginRight: !is_from_me && 8,
+                  alignItems: message.is_from_me ? 'flex-end' : 'flex-start',
+                  backgroundColor: message.is_from_me ? '#1DA1F2' : '#E1E8ED',
+                  marginRight: !message.is_from_me && 8,
                 },
               ]}
             >
