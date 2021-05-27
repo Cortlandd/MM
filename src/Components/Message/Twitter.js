@@ -12,18 +12,10 @@ import { Avatar } from 'react-native-elements'
 import Images from '@/Theme/Images'
 import Svg, { Path } from 'react-native-svg'
 import { moderateScale } from 'react-native-size-matters'
+import { Config } from '@/Config'
 
 const TwitterMessage = ({ message, lastMessage }) => {
   const images = Images()
-
-  const dateIsToday = (someDate) => {
-    const today = new Date()
-    return (
-      someDate.getDate() == today.getDate() &&
-      someDate.getMonth() == today.getMonth() &&
-      someDate.getFullYear() == today.getFullYear()
-    )
-  }
 
   var borderTopRightRadiusValue = 0
   var borderTopLeftRadiusValue = 0
@@ -96,6 +88,39 @@ const TwitterMessage = ({ message, lastMessage }) => {
   }
 
   const MessageTimestamp = () => {
+    const dateValidation = (d) => {
+      var dt = new Date(d)
+      var date = dt.getDate()
+      var diff_days = new Date().getDate() - date
+      var diff_months = new Date().getMonth() - dt.getMonth()
+      var diff_years = new Date().getFullYear() - dt.getFullYear()
+
+      var is_today = diff_years === 0 && diff_months === 0 && diff_days === 0
+      var is_yesterday = diff_years === 0 && diff_months === 0 && diff_days === 1
+
+      if (is_today) {
+        return message.time.toLocaleTimeString([], {
+          hour: 'numeric',
+          minute: '2-digit',
+        })
+      } else if (is_yesterday) {
+        const msg = message.time.toLocaleTimeString([], {
+          hour: 'numeric',
+          minute: '2-digit',
+        })
+
+        return 'Yesterday ' + msg
+      } else {
+        return message.time.toLocaleTimeString([], {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+        })
+      }
+    }
+
     return (
       <View
         style={{
@@ -107,18 +132,7 @@ const TwitterMessage = ({ message, lastMessage }) => {
         }}
       >
         <Text style={{ color: 'gray', fontSize: 13 }}>
-          {dateIsToday(message.time)
-            ? message.time.toLocaleTimeString([], {
-                hour: 'numeric',
-                minute: '2-digit',
-              })
-            : message.time.toLocaleTimeString([], {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit',
-              })}
+          {dateValidation(message.time)}
         </Text>
         {message.is_from_me && message.isMsgRead && (
           <Svg
@@ -152,7 +166,7 @@ const TwitterMessage = ({ message, lastMessage }) => {
       <View style={{ display: message.is_from_me && 'none' }}>
         <Avatar
           rounded
-          avatarStyle={{ display: !message.showAvatar ? 'none' : '' }}
+          avatarStyle={{ display: !message.showAvatar && 'none' }}
           source={
             __DEV__ ? images.sample_profile_woman : { uri: getProfileImage() }
           }
@@ -189,10 +203,7 @@ const TwitterMessage = ({ message, lastMessage }) => {
             {!message.is_from_me && (
               <Svg
                 style={{
-                  display:
-                    !message.is_from_me && message.message_last_in_group
-                      ? ''
-                      : 'none',
+                  display: message.is_from_me && !message.message_last_in_group && 'none'
                 }}
                 viewBox="0 0 24 24"
                 aria-hidden="true"
