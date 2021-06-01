@@ -14,13 +14,13 @@ const IndexNewConversation = () => {
   const determineRoute = (name) => {
     switch (name) {
       case Config.messagingPlatforms.Instagram:
-        return Config.containerNames.InstagramNewConversation
+        return Config.containerNames.NewGenericConversation
       case Config.messagingPlatforms.Twitter:
         return Config.containerNames.TwitterNewConversation
       case Config.messagingPlatforms.Messenger:
-        return Config.containerNames.MessengerNewConversation
+        return Config.containerNames.NewGenericConversation
       case Config.messagingPlatforms.iMessage:
-        return Config.containerNames.iMessageNewConversation
+        return Config.containerNames.NewGenericConversation
       default:
         break
     }
@@ -33,7 +33,7 @@ const IndexNewConversation = () => {
         data={Config.messagingPlatformList}
         renderItem={({ item }) => {
           return (
-            <ListItem bottomDivider onPress={() => navigation.navigate(determineRoute(item.name)) }>
+            <ListItem bottomDivider onPress={() => navigation.navigate(determineRoute(item.name), { item: item }) }>
               <Avatar source={images[item.name]} />
               <ListItem.Content>
                 <ListItem.Title>{item.name}</ListItem.Title>
