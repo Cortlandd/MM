@@ -64,7 +64,7 @@ const NewGenericConversation = ({ route, navigation }) => {
           <Grid>
             {item.name === Config.messagingPlatforms.Instagram ? (
               <View>
-                <Row style={{ height: 75 }}>
+                <Row style={{ height: 50 }}>
                   <Col>
                     <Input placeholder={'Display Name'} />
                   </Col>
@@ -75,7 +75,7 @@ const NewGenericConversation = ({ route, navigation }) => {
               </View>
             ) : (
               <View>
-                <Row style={{ height: 75 }}>
+                <Row style={{ height: 50 }}>
                   <Col>
                     <Input placeholder={'First Name'} />
                   </Col>
@@ -85,7 +85,7 @@ const NewGenericConversation = ({ route, navigation }) => {
                 </Row>
               </View>
             )}
-            <Row style={{ height: 75 }}>
+            <Row style={{ height: 50 }}>
               {item.name === Config.messagingPlatforms.Messenger && (
                 <Col style={{ width: '50%' }}>
                   <Input
@@ -114,16 +114,18 @@ const NewGenericConversation = ({ route, navigation }) => {
                 </Col>
               )}
             </Row>
-            <Row style={{ width: '50%' }}>
-              <Input
-                keyboardType={'numeric'}
-                maxLength={10}
-                placeholder={'Post Count'}
-              />
-            </Row>
+            {item.name === Config.messagingPlatforms.Instagram && (
+              <Row style={{ width: '50%' }}>
+                <Input
+                  keyboardType={'numeric'}
+                  maxLength={10}
+                  placeholder={'Post Count'}
+                />
+              </Row>
+            )}
             {item.name === Config.messagingPlatforms.Messenger && (
               <View>
-                <Row style={{ height: 75 }}>
+                <Row style={{ height: 50 }}>
                   <Col>
                     <Input placeholder={'City'} />
                   </Col>
@@ -131,13 +133,13 @@ const NewGenericConversation = ({ route, navigation }) => {
                     <Input placeholder={'State'} />
                   </Col>
                 </Row>
-                <Row style={{ height: 75 }}>
+                <Row style={{ height: 50, marginLeft: 10 }}>
                   <Col>
                     <Text style={{ color: darkMode ? '#FFF' : '#000' }}>
                       Facebook Friends?
                     </Text>
                     <Switch
-                      trackColor={{ false: '#767577', true: '#81b0ff' }}
+                      trackColor={{ false: '#765077', true: '#81b0ff' }}
                       onValueChange={(value) => setIsFacebookFriends(value)}
                       value={isFaceBookFriends}
                     />
