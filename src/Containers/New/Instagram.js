@@ -3,43 +3,57 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   View,
   Text,
-  FlatList,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
-  TouchableWithoutFeedback,
+  Switch,
   PlatformColor,
+  Image,
+  TouchableWithoutFeedback, ActivityIndicator, FlatList,
 } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { Icon, SearchBar, Card, ListItem, Avatar, ThemeProvider } from 'react-native-elements'
-import FetchTwitterUser from '@/Store/User/FetchTwitterUser'
-import { Config } from '@/Config'
+import {
+  Icon,
+  Input,
+  Button,
+  ThemeProvider,
+  SearchBar, Card, ListItem, Avatar,
+} from 'react-native-elements'
 import { useTheme } from '@/Theme'
+import { Grid, Col, Row } from '@/Components'
+import { Config } from '@/Config'
+import Images from '@/Theme/Images'
+import axios from 'axios'
+import FetchInstagramUser from '@/Store/User/FetchInstagramUser'
 
-const NewTwitterConversation = ({ route, navigation }) => {
+const NewInstagramConversation = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const { darkMode } = useTheme()
 
-  const fetchTwitterUserListener = useSelector(
-    (state) => state.user.fetchTwitterUser.results,
+  const fetchInstagramUserListener = useSelector(
+    (state) => state.user.fetchInstagramUser.results,
   )
 
-  const fetchTwitterUserLoading = useSelector(
-    (state) => state.user.fetchTwitterUser.loading,
+  const fetchInstagramUserLoading = useSelector(
+    (state) => state.user.fetchInstagramUser.loading,
   )
 
-  const fetchTwitterUserError = useSelector(
-    (state) => state.user.fetchTwitterUser.error,
+  const fetchInstagramUserError = useSelector(
+    (state) => state.user.fetchInstagramUser.error,
   )
 
   const [term, setTerm] = useState('')
 
   const search = () => {
-    dispatch(FetchTwitterUser.action(term))
+    axios.get(Config.instagramConfig.ENDPOINT + `/${term}/?__a=1`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      timeout: 3000,
+    })
+    dispatch(FetchInstagramUser.action(term))
+    console.log(fetchInstagramUserListener)
   }
-
-  //let searchDebounced = debounce(search, 1500)
 
   return (
     <ThemeProvider useDark={darkMode}>
@@ -60,8 +74,8 @@ const NewTwitterConversation = ({ route, navigation }) => {
             style={{
               marginRight: 5,
             }}
-            color={'#1DA1F2'}
-            iconStyle={{ color: '#1DA1F2' }}
+            color={'gray'}
+            iconStyle={{ color: 'gray' }}
             onPress={() => navigation.goBack()}
             size={30}
           />
@@ -85,7 +99,6 @@ const NewTwitterConversation = ({ route, navigation }) => {
             onClear={() => setTerm('')}
             value={term}
             round={true}
-            selectionColor={'#1DA1F2'}
             onSubmitEditing={search} // <== Your Navigation handler
             returnKeyType={'search'}
           />
@@ -96,7 +109,7 @@ const NewTwitterConversation = ({ route, navigation }) => {
           keyboardVerticalOffset={54}
           enabled={true}
         >
-          {fetchTwitterUserLoading && (
+          {fetchInstagramUserLoading && (
             <ActivityIndicator
               style={{
                 flexDirection: 'column',
@@ -105,43 +118,44 @@ const NewTwitterConversation = ({ route, navigation }) => {
               }}
             />
           )}
-          {fetchTwitterUserError ? (
+          {fetchInstagramUserError ? (
             <Text style={{ textAlign: 'center' }}>
-              {fetchTwitterUserError.message}
+              {fetchInstagramUserError.message}
             </Text>
           ) : (
             <FlatList
-              data={fetchTwitterUserListener}
+              data={fetchInstagramUserListener}
               renderItem={({ item, index }) => {
                 return (
-                  <TouchableWithoutFeedback
-                    onPress={() => {
-                      const conversation = {
-                        time: Date.now(),
-                        recipient: {
-                          name: item.name,
-                          image: item.profile_image_url,
-                        },
-                        platform: 'Twitter',
-                      }
-                      navigation.navigate(
-                        Config.containerNames.TwitterConversation,
-                        {
-                          item: conversation,
-                        },
-                      )
-                    }}
-                  >
-                    <Card>
-                      <ListItem key={item.id.toString()}>
-                        <Avatar source={{ uri: item.profile_image_url }} />
-                        <ListItem.Content>
-                          <ListItem.Title>{item.name}</ListItem.Title>
-                          <ListItem.Subtitle>@{item.username}</ListItem.Subtitle>
-                        </ListItem.Content>
-                      </ListItem>
-                    </Card>
-                  </TouchableWithoutFeedback>
+                  // <TouchableWithoutFeedback
+                  //   onPress={() => {
+                  //     const conversation = {
+                  //       time: Date.now(),
+                  //       recipient: {
+                  //         name: item.graphql.user.full_name,
+                  //         image: item.graphql.user.profile_pic_url_hd,
+                  //       },
+                  //       platform: 'Twitter',
+                  //     }
+                  //     navigation.navigate(
+                  //       Config.containerNames.TwitterConversation,
+                  //       {
+                  //         item: conversation,
+                  //       },
+                  //     )
+                  //   }}
+                  // >
+                  //   <Card>
+                  //     <ListItem key={item.logging_page_id}>
+                  //       <Avatar source={{ uri: item.graphql.user.profile_pic_url_hd }} />
+                  //       <ListItem.Content>
+                  //         <ListItem.Title>{item.graphql.user.full_name}</ListItem.Title>
+                  //         <ListItem.Subtitle>@{item.graphql.user.username}</ListItem.Subtitle>
+                  //       </ListItem.Content>
+                  //     </ListItem>
+                  //   </Card>
+                  // </TouchableWithoutFeedback>
+                  <Text>{JSON.stringify(item)}</Text>
                 )
               }}
               ref={(ref) => (this.flatList = ref)}
@@ -158,4 +172,4 @@ const NewTwitterConversation = ({ route, navigation }) => {
   )
 }
 
-export default NewTwitterConversation
+export default NewInstagramConversation

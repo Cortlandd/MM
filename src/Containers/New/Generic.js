@@ -13,7 +13,6 @@ import { Icon, Input, Button, ThemeProvider } from 'react-native-elements'
 import { useTheme } from '@/Theme'
 import { Grid, Col, Row } from '@/Components'
 import { Config } from '@/Config'
-import Images from '@/Theme/Images'
 
 const NewGenericConversation = ({ route, navigation }) => {
   const dispatch = useDispatch()
