@@ -119,6 +119,7 @@ const TwitterConversation = ({ route, navigation }) => {
             ios: { backgroundColor: PlatformColor('systemBackground') },
             android: { backgroundColor: 'white' },
           }),
+          paddingBottom: 8,
         }}
       >
         <TwitterNavigationBar
@@ -145,7 +146,6 @@ const TwitterConversation = ({ route, navigation }) => {
             extraData={messageData}
             style={{ flex: 1, marginRight: 5, marginLeft: 20 }}
             keyExtractor={(i, index) => i.id}
-            ref={(ref) => (this.flatList = ref)}
             ListEmptyComponent={
               <View style={{ flex: 1, alignItems: 'center' }}>
                 <Text>The start of the conversation.</Text>

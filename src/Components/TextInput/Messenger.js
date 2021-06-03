@@ -14,7 +14,7 @@ import {
 import { Icon, Avatar } from 'react-native-elements'
 import Icons from '@/Theme/Icons'
 import Svg, { Path } from 'react-native-svg'
-import { Grid, Row, Col } from '@/Components'
+import { Grid, Col, Row } from 'react-native-easy-grid'
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height)
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)

@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { Icon, Input, Button, ThemeProvider } from 'react-native-elements'
 import { useTheme } from '@/Theme'
-import { Grid, Col, Row } from '@/Components'
+import { Grid, Col, Row } from 'react-native-easy-grid'
 import { Config } from '@/Config'
 
 const NewGenericConversation = ({ route, navigation }) => {
