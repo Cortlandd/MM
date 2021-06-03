@@ -1,36 +1,86 @@
 import React from 'react'
 import { View, Text, Platform, PlatformColor } from 'react-native'
-import { Avatar } from 'react-native-elements'
+import { Avatar, ThemeProvider } from 'react-native-elements'
 import Images from '@/Theme/Images'
 import { useTheme } from '@/Theme'
+import Icons from '@/Theme/Icons'
 
 const InstagramProfile = ({ user }) => {
   const images = Images()
+  const icons = Icons()
   const { Fonts, darkMode } = useTheme()
 
   return (
-    <View style={{ justifyContent: 'center', alignSelf: 'center' }}>
-      <Avatar containerStyle={{ alignSelf: 'center', margin: 10, borderColor: 'gray', borderWidth: 1 }} size={'large'} rounded={true} source={images.sample_profile_woman} />
-      <Text style={{ ...Fonts.textRegular, fontWeight: '600', alignSelf: 'center', marginBottom: 3, fontSize: 18 }}>{user.name}</Text>
-      <View style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}>
+    <ThemeProvider
+      useDark={darkMode}
+      style={{ justifyContent: 'center', alignSelf: 'center' }}
+    >
+      <Avatar
+        containerStyle={{
+          alignSelf: 'center',
+          marginTop: 20,
+          marginBottom: 10,
+        }}
+        size={100}
+        rounded={true}
+        source={icons.sample_bag}
+      />
+      <Text
+        style={{
+          ...Fonts.textRegular,
+          fontWeight: 'bold',
+          alignSelf: 'center',
+          fontSize: 18,
+        }}
+      >
+        {user.name}
+      </Text>
+      <View
+        style={{ flexDirection: 'row', alignSelf: 'center' }}
+      >
         <Text style={Fonts.textRegular}>{user.name}</Text>
         <Text style={Fonts.textRegular}> · </Text>
         <Text style={Fonts.textRegular}>Instagram</Text>
       </View>
       <View
-        style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
+        style={{ flexDirection: 'row', alignSelf: 'center' }}
       >
-        <Text style={{ color: 'gray', fontWeight: darkMode ? '600' : '' }}>486 followers</Text>
-        <Text style={{ color: 'gray', fontWeight: darkMode ? '600' : '' }}> · </Text>
-        <Text style={{ color: 'gray', fontWeight: darkMode ? '600' : '' }}>8 posts</Text>
+        <Text
+          style={{
+            color: 'gray',
+            fontWeight: darkMode ? '600' : '300',
+            fontSize: 16,
+          }}
+        >
+          486 followers
+        </Text>
+        <Text
+          style={{
+            color: 'gray',
+            fontWeight: darkMode ? '600' : '300',
+            fontSize: 16,
+          }}
+        >
+          {' '}
+          ·{' '}
+        </Text>
+        <Text
+          style={{
+            color: 'gray',
+            fontWeight: darkMode ? '600' : '300',
+            fontSize: 16,
+          }}
+        >
+          8 posts
+        </Text>
       </View>
       <Text
         style={{
           color: 'gray',
           flexDirection: 'row',
           alignSelf: 'center',
-          marginBottom: 3,
-          fontWeight: darkMode ? '600' : '',
+          fontWeight: darkMode ? '600' : '300',
+          fontSize: 16,
         }}
       >
         You follow each other on Instagram
@@ -41,29 +91,36 @@ const InstagramProfile = ({ user }) => {
           flexDirection: 'row',
           alignSelf: 'center',
           marginBottom: 10,
-          fontWeight: darkMode ? '600' : '',
+          fontWeight: darkMode ? '600' : '300',
+          fontSize: 16,
         }}
       >
-        You both follow yesterdaynite and 5 others
+        You both follow username and 5 others
       </Text>
-      <Text
+      <View
         style={{
-          ...Fonts.textRegular,
           flexDirection: 'row',
           alignSelf: 'center',
           borderWidth: 1,
-          borderColor: 'lightgray',
-          padding: 4,
+          borderColor: darkMode ? 'white' : 'lightgray',
+          paddingTop: 3,
+          paddingBottom: 3,
+          paddingLeft: 10,
+          paddingRight: 10,
           borderRadius: 5,
-          fontWeight: 'bold',
-          paddingLeft: 8,
-          paddingRight: 8,
-          fontFamily: 'Helvetica',
         }}
       >
-        View Profile
-      </Text>
-    </View>
+        <Text
+          style={{
+            ...Fonts.textRegular,
+            fontWeight: 'bold',
+            fontFamily: 'Helvetica',
+          }}
+        >
+          View Profile
+        </Text>
+      </View>
+    </ThemeProvider>
   )
 }
 

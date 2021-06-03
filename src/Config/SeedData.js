@@ -70,7 +70,7 @@ const TestConversationList = [
   },
   {
     recipient: {
-      name: 'Sonny Corleone',
+      name: 'Munah_h',
       image: images.Instagram,
     },
     sender: {

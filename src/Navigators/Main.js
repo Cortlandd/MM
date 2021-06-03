@@ -14,6 +14,8 @@ const MainStack = createStackNavigator()
 const RootStack = createStackNavigator()
 
 function MainStackScreen({ navigation }) {
+  const { darkMode } = useTheme()
+
   return (
     <MainStack.Navigator>
       <MainStack.Screen
@@ -21,9 +23,13 @@ function MainStackScreen({ navigation }) {
         component={HomeScreen}
         options={{
           title: 'Msg Maker',
+          headerStyle: {
+            backgroundColor: darkMode ? 'black' : 'white',
+            elevation: 0,
+          },
           headerRight: () => (
             <Icon
-              color={'gray'}
+              color={darkMode ? 'white' : 'black'}
               onPress={() =>
                 navigation.navigate(Config.containerNames.NewConversation)
               }
@@ -38,6 +44,12 @@ function MainStackScreen({ navigation }) {
       <MainStack.Screen
         name={Config.containerNames.NewConversation}
         component={NewConversationScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: darkMode ? 'black' : 'white',
+            elevation: 0,
+          },
+        }}
       />
       <MainStack.Screen
         name={Config.containerNames.InstagramConversation}
@@ -79,11 +91,6 @@ const MainNavigator = ({ navigation }) => {
         <RootStack.Screen
           name={Config.containerNames.NewGenericConversation}
           component={NewGenericConversation}
-          options={{ headerShown: true }}
-        />
-        <RootStack.Screen
-          name={Config.containerNames.InstagramNewConversation}
-          component={NewInstagramConversation}
           options={{ headerShown: true }}
         />
       </RootStack.Navigator>

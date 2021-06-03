@@ -24,6 +24,7 @@ const InstagramTextInput = ({ messageInput, setMessageInput, onSend }) => {
           multiline={true}
           style={{
             ...styles.msgInput,
+            color: darkMode ? '#FFF' : '#000',
             width:
               messageInput.length > 0
                 ? SCREEN_WIDTH - 30 - 44 - 60
@@ -35,18 +36,18 @@ const InstagramTextInput = ({ messageInput, setMessageInput, onSend }) => {
         {messageInput.length === 0 ? (
           <View style={styles.msgRightOptions}>
             <TouchableOpacity style={styles.btnNavigation}>
-              <Avatar style={{ width: 25, height: 25 }} avatarStyle={{ tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_microphone} />
+              <Image style={{ width: 30, height: 30, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_microphone} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnNavigation}>
-              <Avatar style={{ width: 25, height: 25 }} avatarStyle={{ tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_photo} />
+              <Image style={{ width: 23, height: 23, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_photo} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnNavigation}>
-              <Avatar style={{ width: 25, height: 25 }} avatarStyle={{ tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_emoji} />
+              <Image style={{ width: 23, height: 23, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_emoji} />
             </TouchableOpacity>
           </View>
         ) : (
-          <TouchableOpacity style={styles.btnSend} onPress={onSend}>
-            <Text style={{ fontWeight: '600', color: '#318bfb' }}>Send</Text>
+          <TouchableOpacity style={{ ...styles.btnSend, right: 0, bottom: 0, marginRight: 8, }} onPress={onSend}>
+            <Text style={{ fontWeight: 'bold', color: '#318bfb', fontSize: 18 }}>Send</Text>
           </TouchableOpacity>
         )}
       </React.Fragment>
@@ -64,14 +65,15 @@ const styles = StyleSheet.create({
     minHeight: 44,
     borderRadius: 44,
     borderWidth: 1,
+    paddingRight: 10,
     borderColor: 'lightgray',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   btnCamera: {
-    height: 34,
-    width: 34,
+    height: 40,
+    width: 40,
     margin: 4,
     borderRadius: 34,
     backgroundColor: '#318bfb',
@@ -81,7 +83,6 @@ const styles = StyleSheet.create({
   msgInput: {
     marginVertical: 7,
     fontSize: 16,
-    marginHorizontal: 7,
     paddingTop: 0,
     paddingBottom: 0,
   },

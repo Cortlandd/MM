@@ -97,11 +97,16 @@ const mergeVariables = (variables, themeConfig, darkThemeConfig) =>
  * @return {{[p: string]: *, NavigationTheme: {colors}, darkMode: *}}
  */
 const buildTheme = (darkMode, baseTheme, themeConfig, darkThemeConfig) => {
+  const defTheme = DefaultTheme
+  defTheme.colors.background = '#fff'
+
+  const darkTheme = DarkTheme
+
   return {
     ...mergeTheme(baseTheme, themeConfig, darkThemeConfig),
     darkMode,
     NavigationTheme: mergeNavigationTheme(
-      darkMode ? DarkTheme : DefaultTheme,
+      darkMode ? DarkTheme : defTheme,
       baseTheme.NavigationColors,
     ),
   }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, Image, View, TouchableOpacity, Platform } from 'react-native'
 import { Icon, Avatar } from 'react-native-elements'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import Icons from '@/Theme/Icons'
@@ -9,7 +9,7 @@ import { useTheme } from '@/Theme'
 const InstagramNavigationBar = ({ callback, title, userData }) => {
   const icons = Icons()
   const images = Images()
-  const { Fonts, darkMode } = useTheme()
+  const { Fonts, darkMode, Colors } = useTheme()
 
   const onCallback = () => {
     if (callback) callback()
@@ -19,34 +19,44 @@ const InstagramNavigationBar = ({ callback, title, userData }) => {
     <View style={styles.navigationBar}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TouchableOpacity style={styles.btnNavigation} onPress={onCallback}>
-          <Icon name="arrow-back-ios" size={22} />
+          {Platform.OS === 'ios' ? (
+            <Icon name="arrow-back-ios" size={22} />
+          ) : (
+            <Avatar
+              source={icons.instagram_back_arrow}
+              size={22}
+              avatarStyle={{ tintColor: 'white' }}
+            />
+          )}
         </TouchableOpacity>
         <TouchableOpacity style={styles.userInfo}>
           <View>
             <Avatar
-              source={images.sample_profile_woman}
+              source={icons.sample_bag}
               size={28}
               rounded={true}
             />
           </View>
           <View style={{ marginLeft: 10 }}>
             <Text
-              style={{ ...Fonts.textRegular, fontWeight: '600', fontSize: 15 }}
+              style={{ ...Fonts.textSmall, fontWeight: 'bold', fontSize: 13 }}
             >
               {userData.recipient.name}
             </Text>
-            <Text style={{ fontSize: 12, color: 'grey', marginTop: 2 }}>
-              {userData.recipient.name}
-            </Text>
+            {Platform.OS === 'ios' && (
+              <Text style={{ fontSize: 12, color: 'grey', marginTop: 2 }}>
+                {userData.recipient.name}
+              </Text>
+            )}
           </View>
         </TouchableOpacity>
       </View>
       <View style={styles.rightOptions}>
         <TouchableOpacity style={styles.btnNavigation}>
-          <Avatar style={{ height: 23, width: 23 }} avatarStyle={{ tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_info} />
+          <Image style={{ height: 23, width: 23, tintColor: Colors.text }} source={icons.instagram_info} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnNavigation}>
-          <Avatar style={{ height: 26, width: 26 }} avatarStyle={{ tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_video_call} />
+          <Image source={icons.instagram_video_call} style={{ height: 26, width: 26, tintColor: Colors.text }}  />
         </TouchableOpacity>
       </View>
     </View>
@@ -67,9 +77,6 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 1,
-    elevation: 5,
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 0.5,
     zIndex: 1,
   },
   rightOptions: {

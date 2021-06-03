@@ -26,7 +26,6 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
         shadowColor: '#000',
         shadowOpacity: 0.05,
         shadowRadius: 1,
-        elevation: 5,
         borderBottomColor: darkMode ? '#17191b' : '#ebeef0',
         borderBottomWidth: 1,
         paddingBottom: 5,

@@ -53,7 +53,7 @@ const InstagramMessage = ({
       borderRadius: 40,
     },
     yourMessage: {
-      backgroundColor: '#fff',
+      backgroundColor: 'transparent',
     },
   })
   return (

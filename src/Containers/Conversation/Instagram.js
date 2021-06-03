@@ -65,10 +65,6 @@ const InstagramConversation = ({ route, navigation }) => {
       <SafeAreaView
         style={{
           flex: 1,
-          ...Platform.select({
-            ios: { backgroundColor: PlatformColor('systemBackground') },
-            android: { backgroundColor: 'white' },
-          }),
         }}
       >
         <InstagramNavigationBar
@@ -77,7 +73,7 @@ const InstagramConversation = ({ route, navigation }) => {
           userData={item}
         />
         <KeyboardAvoidingView
-          style={{ flex: 1 }}
+          style={{ flex: 1, paddingBottom: 15 }}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={54}
           enabled={true}
@@ -99,11 +95,6 @@ const InstagramConversation = ({ route, navigation }) => {
               style={{ flex: 1, marginRight: 5, marginLeft: 10 }}
               extraData={messageData}
               keyExtractor={(i, index) => i.id}
-              ref={(ref) => (this.flatList = ref)}
-              onContentSizeChange={() =>
-                this.flatList.scrollToEnd({ animated: true })
-              }
-              onLayout={() => this.flatList.scrollToEnd({ animated: true })}
             />
           </TouchableWithoutFeedback>
           <View style={{ margin: 10 }}>

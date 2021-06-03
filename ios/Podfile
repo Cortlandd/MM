@@ -11,6 +11,8 @@ target 'MsgMaker' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'MsgMakerTests' do
     inherit! :complete
     # Pods for testing
