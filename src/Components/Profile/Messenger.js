@@ -9,14 +9,15 @@ const MessengerProfile = ({ user }) => {
   return (
     <View style={{ justifyContent: 'center', alignSelf: 'center' }}>
       <Avatar containerStyle={{ alignSelf: 'center', margin: 10 }} size={'large'} rounded={true} source={images.sample_profile_woman} />
-      <Text style={{ fontWeight: 'bold', alignSelf: 'center', fontSize: 20 }}>{user.name}</Text>
-      <Text style={{ alignSelf: 'center', fontSize: 14, fontWeight: '700' }}>Facebook</Text>
+      <Text style={{ fontWeight: 'bold', alignSelf: 'center', fontSize: 20, marginBottom: 5 }}>{user.name}</Text>
+      <Text style={{ alignSelf: 'center', fontSize: 14, fontWeight: '700', marginBottom: 2 }}>Facebook</Text>
       <Text
         style={{
           color: 'gray',
           flexDirection: 'row',
           alignSelf: 'center',
           fontWeight: 'bold',
+          marginBottom: 2,
         }}
       >
         You're friends on Facebook
@@ -27,6 +28,7 @@ const MessengerProfile = ({ user }) => {
           flexDirection: 'row',
           alignSelf: 'center',
           fontWeight: 'bold',
+          marginBottom: 2,
         }}
       >
         Lives in Memphis, Tennessee

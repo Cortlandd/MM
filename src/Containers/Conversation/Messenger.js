@@ -120,7 +120,7 @@ const MessengerConversation = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 8 }}>
       <MessengerNavigationBar
         callback={() => navigation.goBack()}
         userData={item}
@@ -142,11 +142,6 @@ const MessengerConversation = ({ route, navigation }) => {
             extraData={messagesData}
             style={{ flex: 1, marginRight: 5, marginLeft: 15 }}
             keyExtractor={(i, index) => i.id}
-            ref={(ref) => (this.flatList = ref)}
-            onContentSizeChange={() =>
-              this.flatList.scrollToEnd({ animated: true })
-            }
-            onLayout={() => this.flatList.scrollToEnd({ animated: true })}
           />
         </TouchableWithoutFeedback>
         <View style={{ width: '100%' }}>

@@ -19,7 +19,7 @@ const MessengerNavigationBar = ({ callback, userData }) => {
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TouchableOpacity style={styles.btnNavigation} onPress={onCallback}>
           {Platform.OS === 'ios' ? (
-            <Icon name="arrow-back-ios" size={22} />
+            <Icon name="arrow-back-ios" color={'#0099FF'} size={22} />
           ) : (
             <Icon name="arrow-back" color={'#0099FF'} size={22} />
           )}

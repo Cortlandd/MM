@@ -20,5 +20,6 @@ export default function () {
     ios_send_message_icon: require('@/Assets/Icons/ios-send-message-icon.png'),
     ios_imessage_drawer_icon: require('@/Assets/Icons/ios-imessage-drawer-icon.png'),
     sample_bag: require('@/Assets/Icons/sample-bag.jpeg'),
+    messenger_dot_icon: require('@/Assets/Icons/messenger-dot-icon.png'),
   }
 }
