@@ -83,6 +83,7 @@ const TestConversationList = [
     recipient: {
       name: 'Luca Brasi',
       image: images.Twitter,
+      username: 'lucabrasi',
     },
     sender: {
       name: 'Dude Love',

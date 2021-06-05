@@ -78,7 +78,7 @@ const NewTwitterConversation = ({ route, navigation }) => {
             inputStyle={{
               ...Platform.select({
                 ios: { color: PlatformColor('label') },
-                android: { color: 'white' },
+                android: { color: 'black' },
               }),
             }}
             onChangeText={(text) => setTerm(text)}
@@ -121,6 +121,7 @@ const NewTwitterConversation = ({ route, navigation }) => {
                         recipient: {
                           name: item.name,
                           image: item.profile_image_url,
+                          username: item.username,
                         },
                         platform: 'Twitter',
                       }
@@ -144,7 +145,6 @@ const NewTwitterConversation = ({ route, navigation }) => {
                   </TouchableWithoutFeedback>
                 )
               }}
-              ref={(ref) => (this.flatList = ref)}
               ListEmptyComponent={
                 <View style={{ flex: 1, alignItems: 'center' }}>
                   <Text>No Results</Text>

@@ -7,7 +7,7 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
-  PlatformColor,
+  PlatformColor, StatusBar,
 } from 'react-native'
 import { useDispatch } from 'react-redux'
 import Images from '@/Theme/Images'
@@ -122,6 +122,7 @@ const TwitterConversation = ({ route, navigation }) => {
           paddingBottom: 8,
         }}
       >
+        <StatusBar backgroundColor={'lightgrey'} />
         <TwitterNavigationBar
           title={item.recipient.name}
           callback={() => navigation.goBack()}

@@ -26,9 +26,34 @@ const TwitterTextInput = ({ messageInput, setMessageInput, onSend }) => {
   const [isFocused, setIsFocused] = useState(false)
 
   return (
-    <View style={{ borderTopWidth: 0.5, width: SCREEN_WIDTH, borderColor: '#AAB8C2', flex: 1, maxHeight: 42 }}>
+    <View
+      style={{
+        borderTopWidth: 0.5,
+        width: SCREEN_WIDTH,
+        borderColor: '#AAB8C2',
+        ...Platform.select({
+          ios: {
+            minHeight: 42,
+            paddingTop: 8,
+          },
+          android: {
+            flex: 1,
+            maxHeight: 42,
+          },
+        }),
+      }}
+    >
       <Grid style={{ marginHorizontal: 5 }}>
-        <Col style={{ width: '20%' }}>
+        <Col
+          style={{
+            width: '20%',
+            ...Platform.select({
+              ios: {
+                marginRight: 10,
+              },
+            }),
+          }}
+        >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', flex: 1 }}>
             <Avatar source={icons.twitter_photo_album} size={23} avatarStyle={{ tintColor: '#1DA1F2' }} />
             <Avatar source={icons.twitter_gif} size={23} avatarStyle={{ tintColor: '#1DA1F2' }} />
@@ -40,6 +65,7 @@ const TwitterTextInput = ({ messageInput, setMessageInput, onSend }) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
+                flex: 1,
               }}
             >
               <View
@@ -50,6 +76,7 @@ const TwitterTextInput = ({ messageInput, setMessageInput, onSend }) => {
                   borderWidth: 1,
                   borderColor: isFocused && darkMode ? '#202327' : '#ebeef0',
                   fontSize: 15,
+                  width: '100%',
                 }}
               >
                 <TextInput
@@ -66,19 +93,10 @@ const TwitterTextInput = ({ messageInput, setMessageInput, onSend }) => {
                     paddingRight: 12,
                     paddingTop: 8,
                     paddingBottom: 8,
+                    width: '100%',
                   }}
                 />
               </View>
-              <Avatar
-                source={icons.twitter_send}
-                size={30}
-                onPress={messageInput.length === 0 ? false : onSend}
-                avatarStyle={{
-                  tintColor: '#1DA1F2',
-                  opacity: messageInput.length === 0 ? 0.5 : 1,
-                }}
-                containerStyle={{ marginRight: 15 }}
-              />
             </View>
           ) : (
             <View style={{ flexDirection: 'row', alignItems: 'baseline', alignContent: 'center' }}>
@@ -117,6 +135,21 @@ const TwitterTextInput = ({ messageInput, setMessageInput, onSend }) => {
             </View>
           )}
         </Col>
+        {Platform.OS === 'ios' && (
+          <Col style={{ width: '15%' }}>
+            <View style={{ justifyContent: 'center', alignSelf: 'center', flex: 1 }}>
+              <Avatar
+                source={icons.twitter_send}
+                size={28}
+                onPress={messageInput.length === 0 ? false : onSend}
+                avatarStyle={{
+                  tintColor: '#1DA1F2',
+                  opacity: messageInput.length === 0 ? 0.5 : 1,
+                }}
+              />
+            </View>
+          </Col>
+        )}
       </Grid>
     </View>
   )
