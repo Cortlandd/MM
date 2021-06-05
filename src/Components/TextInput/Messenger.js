@@ -120,7 +120,7 @@ const MessengerTextInput = ({ messageInput, setMessageInput, onSend }) => {
           </View>
         </Col>
         <Col style={{ width: 50 }}>
-          <TouchableOpacity style={{ alignSelf: 'center', justifyContent: 'center' }}>
+          <TouchableOpacity style={{ alignSelf: 'center', justifyContent: 'center', flex: 1 }}>
             {messageInput.length > 0 ? (
               <TouchableWithoutFeedback onPress={onSend}>
                 <View>
