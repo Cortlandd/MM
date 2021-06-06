@@ -163,10 +163,10 @@ const TwitterMessage = ({ message, lastMessage }) => {
       }}
     >
       {/* Avatar */}
-      <View style={{ display: message.is_from_me && 'none' }}>
+      <View style={message.is_from_me && { display: 'none' }}>
         <Avatar
           rounded
-          avatarStyle={{ display: !message.showAvatar && 'none' }}
+          avatarStyle={!message.showAvatar && { display: 'none' }}
           source={
             __DEV__ ? images.sample_profile_woman : { uri: getProfileImage() }
           }

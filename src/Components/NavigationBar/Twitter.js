@@ -26,7 +26,7 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
         width: '100%',
         borderBottomColor: darkMode ? '#c4cfd6' : '#c4cfd6',
         borderBottomWidth: 0.5,
-        minHeight: Platform.OS === 'android' ? 55 : 60,
+        minHeight: Platform.OS === 'android' ? 55 : 44,
         paddingRight: Platform.OS === 'android' ? 16 : 10,
         paddingLeft: Platform.OS === 'android' ? 16 : 15,
         ...Platform.select({
@@ -37,15 +37,7 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
       }}
     >
       <Grid>
-        <Row
-          style={{
-            ...Platform.select({
-              ios: {
-                paddingBottom: 10,
-              },
-            }),
-          }}
-        >
+        <Row>
           <Col
             style={{
               width: '15%',
@@ -84,13 +76,9 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
           <Col
             style={{
               width: '70%',
-              ...Platform.select({
-                android: {
-                },
-              }),
             }}
           >
-            {Platform.OS === 'ios' ? (
+            {Platform.OS === 'asdf' ? (
               <View style={{ alignItems: 'center' }}>
                 {__DEV__ ? (
                   <Avatar source={images.sample_profile_woman} rounded={true} />
@@ -102,7 +90,7 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
                 )}
               </View>
             ) : (
-              <View style={{ alignItems: 'flex-start' }}>
+              <View style={{ alignItems: Platform.OS === 'android' ? 'flex-start' : 'center' }}>
                 <Text
                   style={{
                     fontSize: 19,
@@ -112,7 +100,7 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
                         color: 'black',
                       },
                     }),
-                    marginBottom: -3,
+                    marginBottom: Platform.OS === 'android' ? -3 : 0,
                   }}
                 >
                   {userData.recipient.name}
@@ -153,7 +141,7 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
             </View>
           </Col>
         </Row>
-        {Platform.OS === 'ios' && (
+        {Platform.OS === 'asdf' && (
           <Row style={{ alignSelf: 'center' }}>
             <Text style={{ fontSize: 20, fontWeight: 'bold', color: darkMode ? '#fff' : '#000' }}>
               {userData.recipient.name}
