@@ -93,7 +93,6 @@ const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
     },
     myMessage: {
       backgroundColor: '#0099FF',
-      marginHorizontal: 15,
     },
     yourAvatar: {
       height: 35,
@@ -136,7 +135,7 @@ const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
       >
         {/* Avatar */}
         <View>
-          <Avatar rounded={true} size={25} source={getProfileImage()} />
+          <Avatar rounded={true} size={25} source={!message.is_from_me && message.message_last_in_group ? images.sample_profile_woman : null} />
         </View>
         {/* Message and timestamp */}
         <View style={{ flex: 1 }}>
@@ -161,6 +160,15 @@ const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
             >
               <Text style={styles.msgText}>{message.message}</Text>
             </View>
+            <Avatar
+              rounded={true}
+              size={20}
+              source={
+                is_from_me && message.message_last_in_group
+                  ? images.sample_profile_woman
+                  : null
+              }
+            />
           </View>
         </View>
       </View>
