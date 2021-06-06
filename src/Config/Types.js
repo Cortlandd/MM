@@ -1,14 +1,12 @@
-const BaseMessage = {
+const Message = {
   id: 0,
   text: '',
   time: '',
   conversation_id: 0,
   is_from_me: true,
   group_id: 0,
-}
-
-const TwitterMessage = {
-  message_read: true,
+  message_seen: false,
+  show_timestamp: false,
 }
 
 const MessageAttachment = {
@@ -21,6 +19,7 @@ const RecipientProfileImage = {
   id: 0,
   recipient_id: 0,
   profile_blob: '',
+  profile_path: '',
   profile_url: '',
 }
 
@@ -77,7 +76,7 @@ const CustomProfile = {
 // Switch between sending as recipient and sender as message is being created
 
 export const Types = {
-  BaseMessage: BaseMessage,
+  Message: Message,
   BaseConversation: BaseConversation,
   CustomProfile: CustomProfile,
 }
