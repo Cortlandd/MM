@@ -48,7 +48,7 @@ const InstagramProfile = ({ user }) => {
         <Text
           style={{
             color: 'gray',
-            fontWeight: darkMode ? '600' : '300',
+            fontWeight: darkMode ? '600' : '400',
             fontSize: 16,
           }}
         >
@@ -57,7 +57,7 @@ const InstagramProfile = ({ user }) => {
         <Text
           style={{
             color: 'gray',
-            fontWeight: darkMode ? '600' : '300',
+            fontWeight: darkMode ? '600' : '400',
             fontSize: 16,
           }}
         >
@@ -67,7 +67,7 @@ const InstagramProfile = ({ user }) => {
         <Text
           style={{
             color: 'gray',
-            fontWeight: darkMode ? '600' : '300',
+            fontWeight: darkMode ? '600' : '400',
             fontSize: 16,
           }}
         >
@@ -79,7 +79,7 @@ const InstagramProfile = ({ user }) => {
           color: 'gray',
           flexDirection: 'row',
           alignSelf: 'center',
-          fontWeight: darkMode ? '600' : '300',
+          fontWeight: darkMode ? '600' : '400',
           fontSize: 16,
         }}
       >
@@ -91,7 +91,7 @@ const InstagramProfile = ({ user }) => {
           flexDirection: 'row',
           alignSelf: 'center',
           marginBottom: 10,
-          fontWeight: darkMode ? '600' : '300',
+          fontWeight: darkMode ? '600' : '400',
           fontSize: 16,
         }}
       >
