@@ -3,6 +3,23 @@ import { View, Text } from 'react-native'
 
 const TwitterProfile = ({ recipient }) => {
 
+  function convert(n) {
+    var n_format
+    if (n < 1000) {
+      n_format = n.toFixed()
+    } else if (n < 1000000) {
+      // Anything less than a million
+      n_format = (n / 1000).toFixed(1) + 'k'
+    } else if (n < 1000000000) {
+      // Anything less than a billion
+      n_format = (n / 1000000).toFixed(1) + 'M'
+    } else {
+      // At least a billion
+      n_format = (n / 1000000000).toFixed(1) + 'B'
+    }
+    return n_format
+  }
+
   return (
     <View style={{ justifyContent: 'center', alignSelf: 'center', marginTop: 25 }}>
       <View style={{ marginBottom: 10 }}>
@@ -13,11 +30,11 @@ const TwitterProfile = ({ recipient }) => {
         <Text style={{ fontSize: 15, marginBottom: 10, alignSelf: 'center', justifyContent: 'center' }}>{recipient.biography ? recipient.biography : 'This is the users biography'}</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignSelf: 'center', marginBottom: 10 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 2 }}>
-            <Text style={{ fontWeight: 'bold' }}>{recipient.following ? recipient.following : '123'} </Text>
+            <Text style={{ fontWeight: 'bold' }}>{recipient.following ? convert(recipient.following) : convert(123)} </Text>
             <Text style={{ color: '#657786' }}>Following</Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignSelf: 'baseline' }}>
-            <Text style={{ fontWeight: 'bold' }}>{recipient.followers ? recipient.followers : '123'} </Text>
+            <Text style={{ fontWeight: 'bold' }}>{recipient.followers ? convert(recipient.followers) : convert(12345)} </Text>
             <Text style={{ color: '#657786' }}>Followers</Text>
           </View>
         </View>
