@@ -34,7 +34,11 @@ const TwitterProfile = ({ recipient }) => {
             <Text style={{ color: '#657786' }}>Following</Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignSelf: 'baseline' }}>
-            <Text style={{ fontWeight: 'bold' }}>{recipient.followers ? convert(recipient.followers) : convert(12345)} </Text>
+            <Text style={{ fontWeight: 'bold' }}>
+              {recipient.followers
+                ? convert(recipient.followers)
+                : convert(12345)}
+            </Text>
             <Text style={{ color: '#657786' }}>Followers</Text>
           </View>
         </View>
