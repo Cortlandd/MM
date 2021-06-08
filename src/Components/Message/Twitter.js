@@ -202,9 +202,10 @@ const TwitterMessage = ({ message, lastMessage }) => {
             </View>
             {!message.is_from_me && (
               <Svg
-                style={{
-                  display: message.is_from_me && !message.message_last_in_group && 'none'
-                }}
+                style={
+                  message.is_from_me &&
+                  !message.message_last_in_group && { display: 'none' }
+                }
                 viewBox="0 0 24 24"
                 aria-hidden="true"
                 width={moderateScale(22.5)}

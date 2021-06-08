@@ -8,7 +8,7 @@ export default async (username) => {
 
   const params = {
     usernames: username,
-    'user.fields': 'name,username,profile_image_url',
+    'user.fields': 'created_at,description,location,name,profile_image_url,username,verified,public_metrics',
   }
   api.defaults.params = params
 

@@ -122,9 +122,15 @@ const NewTwitterConversation = ({ route, navigation }) => {
                           name: item.name,
                           image: item.profile_image_url,
                           username: item.username,
+                          biography: item.description,
+                          followers: item.public_metrics.followers_count,
+                          following: item.public_metrics.following_count,
+                          created_at: item.created_at,
+                          verified: item.verified,
                         },
                         platform: 'Twitter',
                       }
+                      console.log(JSON.stringify(item))
                       navigation.navigate(
                         Config.containerNames.TwitterConversation,
                         {

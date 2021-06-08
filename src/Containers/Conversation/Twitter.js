@@ -17,6 +17,8 @@ import TwitterNavigationBar from '@/Components/NavigationBar/Twitter'
 import TwitterTextInput from '@/Components/TextInput/Twitter'
 import { ThemeProvider } from 'react-native-elements'
 import { useTheme } from '@/Theme'
+import MessengerProfile from '@/Components/Profile/Messenger'
+import TwitterProfile from '@/Components/Profile/TwitterProfile'
 
 const TwitterConversation = ({ route, navigation }) => {
   // 1. Fetch locally stored data
@@ -136,6 +138,7 @@ const TwitterConversation = ({ route, navigation }) => {
         >
           <FlatList
             data={initialData}
+            ListHeaderComponent={Platform.OS === 'android' && <TwitterProfile recipient={item.recipient} />}
             renderItem={({ item, index }) => {
               return (
                 <TwitterMessage
@@ -147,11 +150,6 @@ const TwitterConversation = ({ route, navigation }) => {
             extraData={messageData}
             style={{ flex: 1, marginRight: 5, marginLeft: 20 }}
             keyExtractor={(i, index) => i.id}
-            ListEmptyComponent={
-              <View style={{ flex: 1, alignItems: 'center' }}>
-                <Text>The start of the conversation.</Text>
-              </View>
-            }
           />
           <View
             style={{
