@@ -1,5 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, Image, View, TouchableOpacity, Platform } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  Image,
+  View,
+  TouchableOpacity,
+  Platform,
+} from 'react-native'
 import { Icon, Avatar } from 'react-native-elements'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import Icons from '@/Theme/Icons'
@@ -67,7 +74,10 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
                     viewBox="0 0 24 24"
                     aria-hidden="true"
                   >
-                    <Path fill={'#1DA1F2'} d="M20 11H7.414l4.293-4.293a1 1 0 00-1.414-1.414l-6 6a1 1 0 000 1.414l6 6a.996.996 0 001.414 0 1 1 0 000-1.414L7.414 13H20a1 1 0 100-2z" />
+                    <Path
+                      fill={'#1DA1F2'}
+                      d="M20 11H7.414l4.293-4.293a1 1 0 00-1.414-1.414l-6 6a1 1 0 000 1.414l6 6a.996.996 0 001.414 0 1 1 0 000-1.414L7.414 13H20a1 1 0 100-2z"
+                    />
                   </Svg>
                 ),
               })}
@@ -83,14 +93,16 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
                 {__DEV__ ? (
                   <Avatar source={images.sample_profile_woman} rounded={true} />
                 ) : (
-                  <Avatar
-                    source={{ uri: userData.recipient.image }}
-                    rounded={true}
-                  />
+                  <Avatar source={{ uri: userData.image }} rounded={true} />
                 )}
               </View>
             ) : (
-              <View style={{ alignItems: Platform.OS === 'android' ? 'flex-start' : 'center' }}>
+              <View
+                style={{
+                  alignItems:
+                    Platform.OS === 'android' ? 'flex-start' : 'center',
+                }}
+              >
                 <Text
                   style={{
                     fontSize: 19,
@@ -103,9 +115,11 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
                     marginBottom: Platform.OS === 'android' ? -3 : 0,
                   }}
                 >
-                  {userData.recipient.name}
+                  {userData.name}
                 </Text>
-                <Text style={{ color: '#657786', fontSize: 14 }}>@{userData.recipient.username}</Text>
+                <Text style={{ color: '#657786', fontSize: 14 }}>
+                  @{userData.username}
+                </Text>
               </View>
             )}
           </Col>
@@ -143,8 +157,14 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
         </Row>
         {Platform.OS === 'asdf' && (
           <Row style={{ alignSelf: 'center' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', color: darkMode ? '#fff' : '#000' }}>
-              {userData.recipient.name}
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: darkMode ? '#fff' : '#000',
+              }}
+            >
+              {userData.name}
             </Text>
           </Row>
         )}
@@ -155,7 +175,7 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
 
 export default TwitterNavigationBar
 
-const STATUS_BAR_HEIGHT: number = getStatusBarHeight()
+const STATUS_BAR_HEIGHT = getStatusBarHeight()
 const styles = StyleSheet.create({
   navigationBar: {
     flexDirection: 'row',

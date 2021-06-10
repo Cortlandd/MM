@@ -23,8 +23,8 @@ const IndexHomeContainer = ({ navigation }) => {
       <TouchableWithoutFeedback
         onPress={() =>
           navigation.navigate(Utils.determineRoute(conversation.platform), {
-            item: conversation,
-            recipient: conversationRecipient,
+            conversation: conversation,
+            recipient: conversationRecipient && conversationRecipient,
           })
         }
       >

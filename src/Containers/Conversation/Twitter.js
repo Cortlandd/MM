@@ -7,7 +7,8 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
-  PlatformColor, StatusBar,
+  PlatformColor,
+  StatusBar,
 } from 'react-native'
 import { useDispatch } from 'react-redux'
 import Images from '@/Theme/Images'
@@ -17,7 +18,6 @@ import TwitterNavigationBar from '@/Components/NavigationBar/Twitter'
 import TwitterTextInput from '@/Components/TextInput/Twitter'
 import { ThemeProvider } from 'react-native-elements'
 import { useTheme } from '@/Theme'
-import MessengerProfile from '@/Components/Profile/Messenger'
 import TwitterProfile from '@/Components/Profile/TwitterProfile'
 
 const TwitterConversation = ({ route, navigation }) => {
@@ -25,7 +25,7 @@ const TwitterConversation = ({ route, navigation }) => {
   // 2. Handle by handling if a timestamp should be shown based on twitters conditions
   // 3. THEN render data
 
-  const { item } = route.params
+  const { conversation, recipient } = route.params
   const dispatch = useDispatch()
   const { darkMode } = useTheme()
 
@@ -51,8 +51,8 @@ const TwitterConversation = ({ route, navigation }) => {
     msg.message_last_in_group = true
     msg.is_from_me = selectedReceiverIndex === 1
     msg.recipient = {
-      name: item.recipient.name,
-      image: item.recipient.image,
+      name: recipient.name,
+      image: recipient.image,
     }
 
     initialData.push(msg)
@@ -126,9 +126,9 @@ const TwitterConversation = ({ route, navigation }) => {
       >
         <StatusBar backgroundColor={'lightgrey'} />
         <TwitterNavigationBar
-          title={item.recipient.name}
+          title={recipient.name}
           callback={() => navigation.goBack()}
-          userData={item}
+          userData={recipient}
         />
         <KeyboardAvoidingView
           style={{ flex: 1 }}
@@ -138,7 +138,7 @@ const TwitterConversation = ({ route, navigation }) => {
         >
           <FlatList
             data={initialData}
-            ListHeaderComponent={Platform.OS === 'android' && <TwitterProfile recipient={item.recipient} />}
+            ListHeaderComponent={Platform.OS === 'android' && <TwitterProfile recipient={recipient} />}
             renderItem={({ item, index }) => {
               return (
                 <TwitterMessage
