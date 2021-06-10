@@ -1,19 +1,34 @@
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import {createStackNavigator, StackNavigationProp} from '@react-navigation/stack'
 import { IndexHomeContainer as HomeScreen, TwitterConversation, InstagramConversation, MessengerConversation, NewTwitterConversation, NewGenericConversation, NewInstagramConversation } from '@/Containers'
 import { IndexNewConversation as NewConversationScreen } from '@/Containers'
 import { Config } from '@/Config'
 import { Icon } from 'react-native-elements'
 import { navigate, navigationRef } from '@/Navigators/Root'
 import IMessageConversation from '@/Containers/Conversation/iMessage'
-import { NavigationContainer } from '@react-navigation/native'
+import {NavigationContainer, useNavigation} from '@react-navigation/native'
 import { useTheme } from '@/Theme'
+import { ConversationContextProvider } from '@/Config/Database/DatabaseContext'
 
-const Stack = createStackNavigator()
-const MainStack = createStackNavigator()
-const RootStack = createStackNavigator()
+export type RootStackParamList = {
+    Main: undefined
+    Home: undefined
+    NewConversation: undefined
+    InstagramConversation: undefined
+    TwitterConversation: undefined
+    MessengerConversation: undefined
+    iMessageConversation: undefined
+    TwitterNewConversation: undefined
+    NewGenericConversation: undefined
+}
 
-function MainStackScreen({ navigation }) {
+const MainStack = createStackNavigator<RootStackParamList>()
+const RootStack = createStackNavigator<RootStackParamList>()
+
+type homeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>
+
+function MainStackScreen() {
+  const navigation = useNavigation<homeScreenProp>()
   const { darkMode } = useTheme()
 
   return (
@@ -77,24 +92,26 @@ function MainStackScreen({ navigation }) {
 
 // @refresh reset
 const MainNavigator = ({ navigation }) => {
-  const { Layout, darkMode, NavigationTheme } = useTheme()
+  const { NavigationTheme } = useTheme()
 
   return (
-    <NavigationContainer independent={true} theme={NavigationTheme} ref={navigationRef}>
-      <RootStack.Navigator mode="modal" headerMode="none">
-        <RootStack.Screen name="Main" component={MainStackScreen} />
-        <RootStack.Screen
-          name={Config.containerNames.TwitterNewConversation}
-          component={NewTwitterConversation}
-          options={{ headerShown: true }}
-        />
-        <RootStack.Screen
-          name={Config.containerNames.NewGenericConversation}
-          component={NewGenericConversation}
-          options={{ headerShown: true }}
-        />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <ConversationContextProvider>
+      <NavigationContainer independent={true} theme={NavigationTheme} ref={navigationRef}>
+        <RootStack.Navigator mode="modal" headerMode="none">
+          <RootStack.Screen name="Main" component={MainStackScreen} />
+          <RootStack.Screen
+            name={Config.containerNames.TwitterNewConversation}
+            component={NewTwitterConversation}
+            options={{ headerShown: true }}
+          />
+          <RootStack.Screen
+            name={Config.containerNames.NewGenericConversation}
+            component={NewGenericConversation}
+            options={{ headerShown: true }}
+          />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </ConversationContextProvider>
   )
 }
 

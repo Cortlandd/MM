@@ -1,26 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Button, Text, FlatList, SafeAreaView } from 'react-native'
 import { Config } from '@/Config'
 import { useTheme } from '@/Theme'
 import { ListItem, Avatar, ThemeProvider } from 'react-native-elements'
 import { TouchableWithoutFeedback } from 'react-native'
+import DatabaseManager from '@/Config/Database/DatabaseManager'
+import * as Utils from '@/Config/Utils'
+import Images from '@/Theme/Images'
+import { useConversations } from '@/Hooks/useConversations'
+import { useRecipients } from '@/Hooks/useRecipients'
 
 const IndexHomeContainer = ({ navigation }) => {
   const { darkMode } = useTheme()
+  const images = Images()
+  // Use the useLists hook to simplify list management.
+  const { conversations } = useConversations()
 
-  const determineRoute = (route) => {
-    switch (route) {
-      case Config.messagingPlatforms.Instagram:
-        return Config.containerNames.InstagramConversation
-      case Config.messagingPlatforms.Twitter:
-        return Config.containerNames.TwitterConversation
-      case Config.messagingPlatforms.Messenger:
-        return Config.containerNames.MessengerConversation
-      case Config.messagingPlatforms.iMessage:
-        return Config.containerNames.iMessageConversation
-      default:
-        break
-    }
+  const ConversationRow = ({ conversation }) => {
+    const { conversationRecipient } = useRecipients(conversation.recipient_id)
+
+    return (
+      <TouchableWithoutFeedback
+        onPress={() =>
+          navigation.navigate(Utils.determineRoute(conversation.platform), {
+            item: conversation,
+            recipient: conversationRecipient,
+          })
+        }
+      >
+        <ListItem bottomDivider>
+          <Avatar source={Utils.getPlatformLogo(conversation.platform)} />
+          <ListItem.Content>
+            <ListItem.Title>
+              <Text style={{ fontWeight: 'bold' }}>
+                {conversationRecipient && conversationRecipient.name}
+              </Text>
+            </ListItem.Title>
+            <ListItem.Subtitle>
+              <Text style={{ color: 'gray', fontSize: 12 }}>{conversation.updated_at}</Text>
+            </ListItem.Subtitle>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
+      </TouchableWithoutFeedback>
+    )
   }
 
   return (
@@ -28,25 +51,8 @@ const IndexHomeContainer = ({ navigation }) => {
       <SafeAreaView style={{ flex: 1 }}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
-          data={Config.seedData.TestConversationList}
-          renderItem={({ item }) => (
-            <TouchableWithoutFeedback
-              onPress={() =>
-                navigation.navigate(determineRoute(item.platform), {
-                  item: item,
-                })
-              }
-            >
-              <ListItem bottomDivider>
-                <Avatar source={item.recipient.image} />
-                <ListItem.Content>
-                  <ListItem.Title>To: {item.recipient.name}</ListItem.Title>
-                  <ListItem.Subtitle>From: {item.sender.name}</ListItem.Subtitle>
-                </ListItem.Content>
-                <ListItem.Chevron />
-              </ListItem>
-            </TouchableWithoutFeedback>
-          )}
+          data={conversations ? conversations : []}
+          renderItem={({ item }) => item ? (<ConversationRow conversation={item} />) : (<View><Text>No Conversations</Text></View>)}
         />
       </SafeAreaView>
     </ThemeProvider>

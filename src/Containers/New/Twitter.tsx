@@ -11,26 +11,33 @@ import {
   TouchableWithoutFeedback,
   PlatformColor,
 } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
 import { Icon, SearchBar, Card, ListItem, Avatar, ThemeProvider } from 'react-native-elements'
 import FetchTwitterUser from '@/Store/User/FetchTwitterUser'
 import { Config } from '@/Config'
 import { useTheme } from '@/Theme'
+import * as Utils from '@/Config/Utils'
+import { useConversations } from '@/Hooks/useConversations'
+import { useRecipients } from '@/Hooks/useRecipients'
+import { Conversation } from '@/Config/Types'
+import { Recipient } from '@/Config/Types'
+import { UserState } from '@/Store/User'
 
-const NewTwitterConversation = ({ route, navigation }) => {
+const NewTwitterConversation = ({ navigation }) => {
   const dispatch = useDispatch()
   const { darkMode } = useTheme()
+  const { createConversation, getLastConversation } = useConversations()
+  const { createRecipient, getLastRecipient } = useRecipients()
 
   const fetchTwitterUserListener = useSelector(
-    (state) => state.user.fetchTwitterUser.results,
+    (state: { user: UserState }) => state.user.fetchTwitterUser.results,
   )
 
   const fetchTwitterUserLoading = useSelector(
-    (state) => state.user.fetchTwitterUser.loading,
+    (state: { user: UserState }) => state.user.fetchTwitterUser.loading,
   )
 
   const fetchTwitterUserError = useSelector(
-    (state) => state.user.fetchTwitterUser.error,
+    (state: { user: UserState }) => state.user.fetchTwitterUser.error,
   )
 
   const [term, setTerm] = useState('')
@@ -38,8 +45,6 @@ const NewTwitterConversation = ({ route, navigation }) => {
   const search = () => {
     dispatch(FetchTwitterUser.action(term))
   }
-
-  //let searchDebounced = debounce(search, 1500)
 
   return (
     <ThemeProvider useDark={darkMode}>
@@ -116,27 +121,37 @@ const NewTwitterConversation = ({ route, navigation }) => {
                 return (
                   <TouchableWithoutFeedback
                     onPress={() => {
-                      const conversation = {
-                        time: Date.now(),
-                        recipient: {
-                          name: item.name,
-                          image: item.profile_image_url,
-                          username: item.username,
-                          biography: item.description,
-                          followers: item.public_metrics.followers_count,
-                          following: item.public_metrics.following_count,
-                          created_at: item.created_at,
-                          verified: item.verified,
-                        },
-                        platform: 'Twitter',
+                      const rec: Recipient = {
+                        name: item.name,
+                        image: item.profile_image_url,
+                        username: item.username,
+                        biography: item.description,
+                        follower_count: item.public_metrics.followers_count,
+                        following_count: item.public_metrics.following_count,
+                        join_date: item.created_at,
+                        verified: item.verified,
                       }
-                      console.log(JSON.stringify(item))
-                      navigation.navigate(
-                        Config.containerNames.TwitterConversation,
-                        {
-                          item: conversation,
-                        },
-                      )
+
+                      const conversation: Conversation = {
+                        created_at: Utils.getDatetimeForSqlite(),
+                        updated_at: Utils.getDatetimeForSqlite(),
+                        platform: Config.messagingPlatforms.Twitter,
+                      }
+
+                      createRecipient(rec).then(() => {
+                        getLastRecipient().then((r) => {
+                            console.log(r)
+                            conversation.recipient_id = r.id
+                            createConversation(conversation).then(() => {
+                                getLastConversation().then((c) => {
+                                    navigation.navigate(
+                                        Config.containerNames.TwitterConversation,
+                                        { item: c },
+                                    )
+                                })
+                            })
+                        })
+                      })
                     }}
                   >
                     <Card>
