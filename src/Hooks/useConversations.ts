@@ -29,12 +29,12 @@ export function useConversations() {
     return database.getConversations().then(setConversations)
   }
 
-  function createConversation(conversation: Conversation): Promise<void> {
-    return database.createConversation(conversation).then(refreshConversations)
+  async function createConversation(conversation: Conversation): Promise<void> {
+    await database.createConversation(conversation).then(() => Promise.resolve())
   }
 
-  function getLastConversation(): Promise<Conversation> {
-    return database.getLastConversation()
+  async function getLastConversation(): Promise<Conversation> {
+    return await database.getLastConversation()
   }
 
   function deleteConversation(conversationToDelete: number): Promise<void> {

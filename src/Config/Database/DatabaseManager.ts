@@ -1,8 +1,8 @@
-import { React, useEffect } from 'react'
 import SQLite from 'react-native-sqlite-storage'
 import { Conversation, Message, Recipient } from '@/Config/Types'
 import { DatabaseInitialization } from '@/Config/Database/DatabaseInitialization'
 import { AppState, AppStateStatus } from 'react-native'
+import { booleanToInteger, validateBoolean } from '@/Config/Utils'
 
 const DATABASE_NAME = 'MsgMaker.db'
 const DATABASE_VERSION = '1.0'
@@ -11,7 +11,7 @@ export interface Database {
   // Create
   createConversation(conversation: Conversation): Promise<void>
   createRecipient(recipient: Recipient): Promise<void>
-  createMessage(message: Message, conversation_id: number): Promise<void>
+  createMessage(message: Message, conversation_id: number): Promise<Message>
 
   // Read
   getConversations(): Promise<Conversation[]>
@@ -19,18 +19,27 @@ export interface Database {
   getMessages(conversation_id: number): Promise<Message[]>
   getLastRecipient(): Promise<Recipient>
   getLastConversation(): Promise<Conversation>
+  getMessage(message_id: number): Promise<Message>
+  getPreviousGroupMessage(initial_message: number, group_id: number): Promise<Message>
 
   // Update
+  updateMessage(message_id: number, field: string, val: any): Promise<void>
+  updateSingleMessage(message: Message): Promise<void>
+  //updateMessage(message: Message): Promise<void>
+  updateMessageBulk(message_id: number, values: {}): Promise<void>
+  processTwitterMessage(message: Message): Promise<void>
 
   // Delete
   deleteConversation(conversation_id: number): Promise<void>
+  deleteMessage(message_id: number): Promise<void>
 }
 
 let databaseInstance: SQLite.SQLiteDatabase | undefined
 
+// CREATE
+
 async function createConversation(conversation: Conversation): Promise<void> {
   let c = JSON.parse(JSON.stringify(conversation))
-  delete c.id
   let keys = Object.keys(c)
   let vals = Object.values(c)
   return getDatabase()
@@ -55,13 +64,30 @@ async function createRecipient(recipient: Recipient): Promise<void> {
         `INSERT INTO Recipients (${Object.keys(r).join(', ')}) VALUES (${vals.map((v) => `'${v}'`).join(',')});`),
     )
     .then(([results]) => {
-      console.log(results)
+
       if (results === undefined) {
         return Promise.reject(null)
       }
       return Promise.resolve()
     })
 }
+
+async function createMessage(message: Message): Promise<Message> {
+  let c = JSON.parse(JSON.stringify(message))
+  let keys = Object.keys(c)
+  let vals = Object.values(c)
+  return getDatabase()
+    .then((db) => db.executeSql(`INSERT INTO Messages (${keys.join(', ')}) VALUES (${vals.map((v) => `${typeof v === 'string' ? `'${v}'` : v}`).join(', ')});`))
+    .then(([results]) => {
+      if (results === undefined) {
+        return Promise.reject(null)
+      }
+
+      return results.rows.item(0)
+    })
+}
+
+// READ
 
 // Get array of all Conversations
 async function getConversations(): Promise<Conversation[]> {
@@ -126,6 +152,41 @@ async function getLastConversation(): Promise<Conversation> {
     })
 }
 
+async function getMessages(conversation_id: number): Promise<Message[]> {
+  console.log('[db] Fetching Messages from the db...')
+  return getDatabase()
+    .then((db) => db.executeSql(`SELECT * FROM Messages WHERE conversation_id = ${conversation_id} ORDER BY time DESC;`))
+    .then(([results]) => {
+      if (results === undefined) {
+        return []
+      }
+
+      const count = results.rows.length
+      const messages: Message[] = []
+
+      for (let i = 0; i < count; i++) {
+        const row = results.rows.item(i)
+        messages.push(row)
+      }
+
+      return messages
+    })
+}
+
+async function getMessage(message_id: number): Promise<Message> {
+  return getDatabase()
+    .then((db) => db.executeSql(`SELECT * FROM Messages WHERE id = ${message_id};`))
+    .then(([results]) => {
+      if (results === undefined) {
+        return Promise.reject('Message could not be found')
+      }
+
+      return results.rows.item(0)
+    })
+}
+
+// DELETE
+
 async function deleteConversation(conversation_id: number): Promise<void> {
   return getDatabase()
     .then((db) => {
@@ -139,6 +200,105 @@ async function deleteConversation(conversation_id: number): Promise<void> {
       db.executeSql(
         `DELETE FROM Conversations WHERE conversation_id = ${conversation_id};`,
       )
+    })
+}
+
+// UPDATE
+
+async function updateMessage(message_id: number, field: string, val: any): Promise<void> {
+  return getDatabase()
+    .then((db) => db.executeSql(`UPDATE Messages SET ${field} = "${val}" WHERE id = ${message_id};`))
+    .then(([_]) => Promise.resolve())
+}
+
+async function updateMessageBulk(message_id: number, values = {}): Promise<void> {
+  console.log('updating values: ' + JSON.stringify(values))
+  return getDatabase()
+    .then((db) =>
+      db.executeSql(
+        `UPDATE Messages SET ${Object.keys(values)
+          .map((k) => `${k} = "${values[k]}"`)
+          .join(', ')} WHERE id = ${message_id}`,
+      ),
+    )
+    .then(([results]) => Promise.resolve())
+}
+
+async function updateSingleMessage(message: Message): Promise<void> {
+  let m = JSON.parse(JSON.stringify(message))
+
+  return getDatabase()
+    .then((db) =>
+      `UPDATE Messages SET ${Object.keys(m)
+        .map((k) => `${k} = "${m[k]}"`)
+        .join(', ')} WHERE id = ${message.id}`,
+    )
+    .then(([_]) => Promise.resolve())
+}
+
+async function processTwitterMessage(message: Message): Promise<void> {
+  let previousMessage: Message;
+  getPreviousGroupMessage(message.id, message.group_id, message.conversation_id).then((msg) => previousMessage = msg).then(() => {
+    
+    if (previousMessage) {
+      if (message.is_from_me === previousMessage.is_from_me) {
+        const message_date = new Date(message.time)
+        const previous_message_date = new Date(previousMessage.time)
+        const secondsDifference = (message_date.getTime() - previous_message_date.getTime()) / 1000
+        const within1MinuteCondition = secondsDifference < 60
+
+        // Message and PreviousMessage sent within 1 minute of each other.
+        if (within1MinuteCondition) {
+          // Handle new message after initial first message in group
+          // if (validateBoolean(previousMessage.message_first_in_group) && validateBoolean(previousMessage.message_last_in_group)) {
+          //   previousMessage.message_last_in_group = booleanToInteger(false)
+          // }
+
+          message.message_first_in_group = false
+          previousMessage.message_last_in_group = false
+          message.group_id = previousMessage.group_id
+        } else {
+          message.group_id = previousMessage.group_id + 1
+        }
+        // END
+      } else {
+        message.group_id = previousMessage.group_id + 1
+        message.message_last_in_group = true
+      }
+    }
+
+    let m = JSON.parse(JSON.stringify(message))
+    let pm = JSON.parse(JSON.stringify(previousMessage))
+    
+    return getDatabase()
+      .then((db) =>
+        // Update previousMessage
+        db.executeSql(
+          `UPDATE Messages SET ${Object.keys(pm)
+          .map((k) => `${k} = "${pm[k]}"`)
+          .join(', ')} WHERE id = ${pm.id};`
+        )
+      )
+      .then((db) => 
+        // Update message
+        db.executeSql(
+          `UPDATE Messages SET ${Object.keys(m)
+            .map((k) => `${k} = "${m[k]}"`)
+            .join(', ')} WHERE id = ${m.id};`
+        )
+      )
+  })
+}
+
+async function getPreviousGroupMessage(initial_message: number, group_id: number, conversation_id: number): Promise<Message> {
+  return getDatabase()
+    .then((db) => db.executeSql(`SELECT * FROM Messages WHERE id = ${initial_message === 0 ? 0 : initial_message - 1} AND group_id = ${group_id} AND conversation_id = ${conversation_id}`))
+    .then(([results]) => {
+      if (results === undefined) {
+        Promise.reject('No other message inside this group')
+      }
+
+      return results.rows.item(0)
     })
 }
 
@@ -213,4 +373,11 @@ export const sqliteDatabase: Database = {
   deleteConversation,
   getLastConversation,
   getLastRecipient,
+  getMessage,
+  getMessages,
+  createMessage,
+  updateMessageBulk,
+  updateMessage,
+  processTwitterMessage,
+  updateSingleMessage
 }

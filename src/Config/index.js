@@ -4,7 +4,7 @@ import { Models } from '@/Config/Models'
 
 const ContainerNames = {
   Home: 'Home',
-  NewConversation: 'New Conversation',
+  NewConversation: 'NewConversation',
   Conversation: 'Conversation',
   InstagramConversation: 'InstagramConversation',
   InstagramNewConversation: 'InstagramNewConversation',

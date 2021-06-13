@@ -57,13 +57,13 @@ export class DatabaseInitialization {
     }
 
     // Conversations table
-    transaction.executeSql(`CREATE TABLE IF NOT EXISTS Conversations (id INTEGER PRIMARY KEY AUTOINCREMENT,recipient_id INTEGER,platform TEXT,created_at TEXT,updated_at TEXT);`)
+    transaction.executeSql(`CREATE TABLE IF NOT EXISTS Conversations (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,recipient_id INTEGER,platform TEXT,created_at TEXT,updated_at TEXT);`)
 
     // Recipient table
-    transaction.executeSql(`CREATE TABLE IF NOT EXISTS Recipients (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,first_name TEXT,last_name TEXT,image TEXT,username TEXT,works_at TEXT,education TEXT,city TEXT,state TEXT,follower_count INTEGER,following_count INTEGER,post_count INTEGER,join_date TEXT,biography TEXT,verified INTEGER,is_mutual_friends INTEGER,mutual_friends_count INTEGER,mutual_friend TEXT,created_at TEXT);`)
+    transaction.executeSql(`CREATE TABLE IF NOT EXISTS Recipients (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,name TEXT,first_name TEXT,last_name TEXT,image TEXT,username TEXT,works_at TEXT,education TEXT,city TEXT,state TEXT,follower_count INTEGER,following_count INTEGER,post_count INTEGER,join_date TEXT,biography TEXT,verified INTEGER,is_mutual_friends INTEGER,mutual_friends_count INTEGER,mutual_friend TEXT,created_at TEXT);`)
 
     // Messages table
-    transaction.executeSql(`CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT,text TEXT,conversation_id INTEGER,is_from_me INTEGER DEFAULT 1,group_id INTEGER,message_seen INTEGER,show_timestamp INTEGER,FOREIGN KEY ( conversation_id ) REFERENCES Conversations (conversation_id));`)
+    transaction.executeSql(`CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,text TEXT,conversation_id INTEGER,is_from_me INTEGER,group_id INTEGER, time TEXT,message_seen INTEGER, message_first_in_group INTEGER, message_last_in_group INTEGER);`)
 
     // Version table
     transaction.executeSql(`CREATE TABLE IF NOT EXISTS Version(version_id INTEGER PRIMARY KEY NOT NULL,version INTEGER);`)

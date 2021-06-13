@@ -7,7 +7,9 @@ export function useRecipients(conversation_id?: number) {
   const [conversationRecipient, setConversationRecipient] = useState<Recipient>()
 
   useEffect(() => {
-    refreshRecipient(conversation_id).then((r) => setConversationRecipient(r))
+    if (conversation_id) {
+      refreshRecipient(conversation_id).then((r) => setConversationRecipient(r))
+    }
   }, [conversation_id])
 
   function refreshRecipient(c_id?: number): Promise<Recipient> {

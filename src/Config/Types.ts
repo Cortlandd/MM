@@ -1,12 +1,13 @@
 export interface Message {
-  id?: number
+  id: number
   text?: string
-  time?: string
-  conversation_id?: number
-  is_from_me?: boolean
+  time: string
+  conversation_id: number
+  is_from_me?: number
   group_id?: number
-  message_seen?: boolean
-  show_timestamp?: boolean
+  message_seen?: number
+  message_last_in_group?: number
+  message_first_in_group?: number
 }
 
 export interface MessageAttachment {
@@ -24,7 +25,7 @@ export interface RecipientProfileImage {
 }
 
 export interface Recipient {
-  id?: number
+  id: number
   name?: string
   first_name?: string
   last_name?: string
@@ -39,15 +40,15 @@ export interface Recipient {
   post_count?: string
   join_date?: string // For twitter profile
   biography?: string
-  verified?: boolean
-  mutual_friends?: boolean
+  verified?: number
+  mutual_friends?: number
   mutual_friend_count?: number
   mutual_follower?: string
   created_at?: string
 }
 
 export interface Conversation {
-  id?: number
+  id: number
   recipient_id: number
   platform?: string // imessage facebook instagram twitter
   theme_id?: number

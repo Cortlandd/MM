@@ -5,6 +5,9 @@
 import { Config } from '@/Config/index'
 import Images from '@/Theme/Images'
 
+const TRUE_VALUES = [true, 1, '1', 't', 'true', 'y', 'yes']
+const FALSE_VALUES = [false, 0, 'no', 'n']
+
 export function debounce(func, timeout = 300) {
   let timer
   return (...args) => {
@@ -67,4 +70,22 @@ export const getDatetimeForSqlite = () => {
     .getMinutes()
     .toString()
     .padStart(2, '0')}:${dt.getSeconds().toString().padStart(2, '0')}`
+}
+
+export const validateBoolean = (value) => {
+  if (TRUE_VALUES.includes(value)) {
+    return true
+  } else if (FALSE_VALUES.includes(value)) {
+    return false
+  } else {
+    return null
+  }
+} 
+
+export const booleanToInteger = (value) => {
+  if (value) {
+    return 1
+  } else {
+    return 0
+  }
 }

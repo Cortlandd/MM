@@ -1,5 +1,5 @@
 import React from 'react'
-import {createStackNavigator, StackNavigationProp} from '@react-navigation/stack'
+import { createStackNavigator, HeaderBackButton, StackNavigationProp } from '@react-navigation/stack'
 import { IndexHomeContainer as HomeScreen, TwitterConversation, InstagramConversation, MessengerConversation, NewTwitterConversation, NewGenericConversation, NewInstagramConversation } from '@/Containers'
 import { IndexNewConversation as NewConversationScreen } from '@/Containers'
 import { Config } from '@/Config'
@@ -9,13 +9,14 @@ import IMessageConversation from '@/Containers/Conversation/iMessage'
 import {NavigationContainer, useNavigation} from '@react-navigation/native'
 import { useTheme } from '@/Theme'
 import { ConversationContextProvider } from '@/Config/Database/DatabaseContext'
+import { Conversation, Recipient } from '@/Config/Types'
 
 export type RootStackParamList = {
     Main: undefined
     Home: undefined
     NewConversation: undefined
     InstagramConversation: undefined
-    TwitterConversation: undefined
+    TwitterConversation: { conversation: Conversation, recipient: Recipient }
     MessengerConversation: undefined
     iMessageConversation: undefined
     TwitterNewConversation: undefined
@@ -46,7 +47,7 @@ function MainStackScreen() {
             <Icon
               color={darkMode ? 'white' : 'black'}
               onPress={() =>
-                navigation.navigate(Config.containerNames.NewConversation)
+                navigation.navigate('NewConversation')
               }
               name="add"
               style={{
@@ -74,7 +75,15 @@ function MainStackScreen() {
       <MainStack.Screen
         name={Config.containerNames.TwitterConversation}
         component={TwitterConversation}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          headerLeft: (props) => (
+            <HeaderBackButton
+              {...props}
+              onPress={() => navigation.navigate('Home')}
+            />
+          ),
+        }}
       />
       <MainStack.Screen
         name={Config.containerNames.MessengerConversation}

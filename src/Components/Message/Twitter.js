@@ -13,8 +13,9 @@ import Images from '@/Theme/Images'
 import Svg, { Path } from 'react-native-svg'
 import { moderateScale } from 'react-native-size-matters'
 import { Config } from '@/Config'
+import { validateBoolean } from '@/Config/Utils'
 
-const TwitterMessage = ({ message, lastMessage }) => {
+const TwitterMessage = ({ message, recipient }) => {
   const images = Images()
 
   var borderTopRightRadiusValue = 0
@@ -22,8 +23,8 @@ const TwitterMessage = ({ message, lastMessage }) => {
   var borderBottomRightRadiusValue = 0
   var borderBottomLeftRadiusValue = 0
 
-  if (message.is_from_me) {
-    if (message.message_first_in_group) {
+  if (validateBoolean(message.is_from_me)) {
+    if (validateBoolean(message.message_first_in_group)) {
       borderTopRightRadiusValue = 20
       borderTopLeftRadiusValue = 20
       borderBottomLeftRadiusValue = 20
@@ -35,8 +36,8 @@ const TwitterMessage = ({ message, lastMessage }) => {
     }
   }
 
-  if (!message.is_from_me) {
-    if (message.message_first_in_group) {
+  if (!validateBoolean(message.is_from_me)) {
+    if (validateBoolean(message.message_first_in_group)) {
       borderTopRightRadiusValue = 20
       borderTopLeftRadiusValue = 20
       borderBottomRightRadiusValue = 20
@@ -69,19 +70,19 @@ const TwitterMessage = ({ message, lastMessage }) => {
       justifyContent: 'center',
       alignItems: 'center',
       paddingVertical: 10,
-      color: message.is_from_me ? '#fff' : '#000',
+      color: validateBoolean(message.is_from_me) ? '#fff' : '#000',
       fontSize: 15,
     },
   })
 
   function getProfileImage() {
     if (
-      (!message.is_from_me &&
-        message.message_first_in_group &&
-        message.message_last_in_group) ||
-      (!message.is_from_me && message.message_last_in_group)
+      (!validateBoolean(message.is_from_me) &&
+        validateBoolean(message.message_first_in_group) &&
+        validateBoolean(message.message_last_in_group)) ||
+      (!validateBoolean(message.is_from_me) && validateBoolean(message.message_last_in_group))
     ) {
-      return message.recipient.image
+      return recipient.image
     } else {
       return null
     }
@@ -99,19 +100,19 @@ const TwitterMessage = ({ message, lastMessage }) => {
       var is_yesterday = diff_years === 0 && diff_months === 0 && diff_days === 1
 
       if (is_today) {
-        return message.time.toLocaleTimeString([], {
+        return new Date(message.time).toLocaleTimeString([], {
           hour: 'numeric',
           minute: '2-digit',
         })
       } else if (is_yesterday) {
-        const msg = message.time.toLocaleTimeString([], {
+        const msg = new Date(message.time).toLocaleTimeString([], {
           hour: 'numeric',
           minute: '2-digit',
         })
 
         return 'Yesterday ' + msg
       } else {
-        return message.time.toLocaleTimeString([], {
+        return new Date(message.time).toLocaleTimeString([], {
           year: 'numeric',
           month: 'numeric',
           day: 'numeric',
@@ -127,14 +128,14 @@ const TwitterMessage = ({ message, lastMessage }) => {
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
-          alignSelf: message.is_from_me ? 'flex-end' : 'flex-start',
+          alignSelf: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
           marginTop: 2,
         }}
       >
         <Text style={{ color: 'gray', fontSize: 13 }}>
-          {dateValidation(message.time)}
+          {dateValidation(new Date(message.time))}
         </Text>
-        {message.is_from_me && message.isMsgRead && (
+        {validateBoolean(message.is_from_me) && validateBoolean(message.message_seen) && (
           <Svg
             viewBox="0 0 24 24"
             width={moderateScale(15)}
@@ -163,19 +164,19 @@ const TwitterMessage = ({ message, lastMessage }) => {
       }}
     >
       {/* Avatar */}
-      <View style={message.is_from_me && { display: 'none' }}>
+      <View style={validateBoolean(message.is_from_me) && { display: 'none' }}>
         <Avatar
           rounded
-          avatarStyle={!message.showAvatar && { display: 'none' }}
+          avatarStyle={!validateBoolean(message.message_last_in_group) && { display: 'none' }}
           source={
-            __DEV__ ? images.sample_profile_woman : { uri: getProfileImage() }
+            !__DEV__ ? images.sample_profile_woman : { uri: getProfileImage() }
           }
         />
       </View>
       <View
         style={{
           flexDirection: 'column',
-          marginHorizontal: message.is_from_me ? 15 : 10,
+          marginHorizontal: validateBoolean(message.is_from_me) ? 15 : 10,
         }}
       >
         {/* Message and timestamp */}
@@ -183,8 +184,8 @@ const TwitterMessage = ({ message, lastMessage }) => {
           <View
             style={{
               ...styles.messageItem,
-              justifyContent: message.is_from_me ? 'flex-end' : 'flex-start',
-              marginTop: message.message_first_in_group ? 15 : 2,
+              justifyContent: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
+              marginTop: validateBoolean(message.message_first_in_group) ? 15 : 2,
             }}
             activeOpacity={1}
           >
@@ -192,19 +193,19 @@ const TwitterMessage = ({ message, lastMessage }) => {
               style={[
                 styles.message,
                 {
-                  alignItems: message.is_from_me ? 'flex-end' : 'flex-start',
-                  backgroundColor: message.is_from_me ? '#1DA1F2' : '#E1E8ED',
-                  marginRight: !message.is_from_me && 8,
+                  alignItems: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
+                  backgroundColor: validateBoolean(message.is_from_me) ? '#1DA1F2' : '#E1E8ED',
+                  ...!validateBoolean(message.is_from_me) && { marginRight: 8 },
                 },
               ]}
             >
-              <Text style={styles.msgText}>{message.message}</Text>
+              <Text style={styles.msgText}>{message.text}</Text>
             </View>
             {!message.is_from_me && (
               <Svg
                 style={
-                  message.is_from_me &&
-                  !message.message_last_in_group && { display: 'none' }
+                  validateBoolean(message.is_from_me) &&
+                  !validateBoolean(message.message_last_in_group) && { display: 'none' }
                 }
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -223,7 +224,7 @@ const TwitterMessage = ({ message, lastMessage }) => {
             )}
           </View>
         </TouchableOpacity>
-        {message.showTimestamp && <MessageTimestamp />}
+        {validateBoolean(message.message_last_in_group) && <MessageTimestamp />}
       </View>
     </View>
   )

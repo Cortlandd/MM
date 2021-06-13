@@ -21,11 +21,17 @@ import { useRecipients } from '@/Hooks/useRecipients'
 import { Conversation } from '@/Config/Types'
 import { Recipient } from '@/Config/Types'
 import { UserState } from '@/Store/User'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '@/Navigators/Main'
 
-const NewTwitterConversation = ({ navigation }) => {
+interface Props {
+  navigation: StackNavigationProp<RootStackParamList, 'TwitterNewConversation'>
+}
+
+const NewTwitterConversation = ({ navigation }: Props) => {
   const dispatch = useDispatch()
   const { darkMode } = useTheme()
-  const { createConversation, getLastConversation } = useConversations()
+  const { createConversation, getLastConversation, refreshConversations } = useConversations()
   const { createRecipient, getLastRecipient } = useRecipients()
 
   const fetchTwitterUserListener = useSelector(
@@ -129,7 +135,7 @@ const NewTwitterConversation = ({ navigation }) => {
                         follower_count: item.public_metrics.followers_count,
                         following_count: item.public_metrics.following_count,
                         join_date: item.created_at,
-                        verified: item.verified,
+                        verified: Utils.booleanToInteger(item.verified),
                       }
 
                       const conversation: Conversation = {
@@ -140,14 +146,10 @@ const NewTwitterConversation = ({ navigation }) => {
 
                       createRecipient(rec).then(() => {
                         getLastRecipient().then((r) => {
-                            console.log(r)
                             conversation.recipient_id = r.id
                             createConversation(conversation).then(() => {
                                 getLastConversation().then((c) => {
-                                    navigation.navigate(
-                                        Config.containerNames.TwitterConversation,
-                                        { item: c },
-                                    )
+                                  refreshConversations().then(() => navigation.navigate(Config.containerNames.TwitterConversation, { conversation: c, recipient: r }))
                                 })
                             })
                         })

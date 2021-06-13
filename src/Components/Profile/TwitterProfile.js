@@ -27,19 +27,19 @@ const TwitterProfile = ({ recipient }) => {
           <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{recipient.name} </Text>
           <Text style={{ color: '#1DA1F2', fontSize: 16 }}>@{recipient.username}</Text>
         </View>
-        <Text style={{ fontSize: 15, marginBottom: 10, alignSelf: 'center', justifyContent: 'center' }}>{recipient.biography ? recipient.biography : 'This is the users biography'}</Text>
+        <Text style={{ fontSize: 15, marginBottom: 10, alignSelf: 'center', textAlign: 'center' }}>{!recipient.biography ? recipient.biography : 'The official Twitter account of @WWE and its fans worldwide!'}</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignSelf: 'center', marginBottom: 10 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', marginRight: 2 }}>
-            <Text style={{ fontWeight: 'bold' }}>{recipient.following ? convert(recipient.following) : convert(123)} </Text>
+            <Text style={{ fontWeight: 'bold' }}>{recipient.following_count ? convert(recipient.following_count) : convert(123)} </Text>
             <Text style={{ color: '#657786' }}>Following</Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignSelf: 'baseline' }}>
             <Text style={{ fontWeight: 'bold' }}>
-              {recipient.followers
-                ? convert(recipient.followers)
+              {recipient.follower_count
+                ? convert(recipient.follower_count)
                 : convert(12345)}
             </Text>
-            <Text style={{ color: '#657786' }}>Followers</Text>
+            <Text style={{ color: '#657786' }}> Followers</Text>
           </View>
         </View>
         <Text style={{ alignSelf: 'center', color: '#657786' }}>{recipient.created_at ? recipient.created_at : 'Joined August 2020'}</Text>
