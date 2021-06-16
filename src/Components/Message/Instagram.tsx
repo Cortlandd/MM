@@ -131,7 +131,7 @@ const InstagramMessage = ({ message, lastMessage, recipient }: Props) => {
             rounded={true}
             avatarStyle={!validateBoolean(message.message_last_in_group) && { display: 'none' }}
             source={
-              __DEV__ ? images.sample_profile_woman : { uri: recipient.image }
+              recipient && recipient.image ? {uri: recipient.image} : images.sample_profile_woman
             }
           />
           {/* Set constraint so that if the last message and current has 15 min difference show other don't. */}

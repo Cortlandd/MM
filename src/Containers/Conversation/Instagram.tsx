@@ -68,7 +68,8 @@ const InstagramConversation = ({ navigation, route }: Props) => {
     let message: Message = msg
 
     // Get message by time, because timestamp is always unique and subtract 1 to get the previous message
-    let previousMessage: Message = conversationMessages[conversationMessages.length - 1]
+    let previousMessageIndex = conversationMessages.findIndex(v => v.time === message.time) + 1
+    let previousMessage: Message = conversationMessages[previousMessageIndex]
     
     if (previousMessage) {
       // Handle Message sent within an our
@@ -129,24 +130,27 @@ const InstagramConversation = ({ navigation, route }: Props) => {
           enabled={true}
         >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <FlatList
-              data={conversationMessages}
-              ListHeaderComponent={<InstagramProfile recipient={recipient} />}
-              renderItem={({ item, index }) => {
-                return (
-                  <InstagramMessage
-                    message={item}
-                    lastMessage={conversationMessages[index - 1]}
-                    recipient={recipient}
-                  />
-                )
-              }}
-              style={{ flex: 1, marginRight: 5, marginLeft: 10 }}
-              keyExtractor={(item, index) => item.time}
-              ref={ (ref) => { this.myFlatListRef = ref } }
-              onContentSizeChange={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
-              onLayout={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
-            />
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled>
+              <InstagramProfile recipient={recipient} />
+              <FlatList
+                data={conversationMessages}
+                inverted={true}
+                renderItem={({ item, index }) => {
+                  return (
+                    <InstagramMessage
+                      message={item}
+                      lastMessage={conversationMessages[index - 1]}
+                      recipient={recipient}
+                    />
+                  )
+                }}
+                style={{ flex: 1, marginRight: 5, marginLeft: 10 }}
+                keyExtractor={(item, index) => item.time}
+                ref={ (ref) => { this.myFlatListRef = ref } }
+                onContentSizeChange={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
+                onLayout={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
+              />
+            </ScrollView>
           </TouchableWithoutFeedback>
           <View style={{ margin: 10 }}>
             <SegmentedControlTab

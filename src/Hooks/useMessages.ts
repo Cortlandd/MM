@@ -14,7 +14,7 @@ export function useMessages(conversation: Conversation) {
     if (conversation !== undefined) {
       let c = await database.getMessages(conversation.id)
       if (c) {
-        if (conversation.platform === 'Twitter') {
+        if (conversation.platform === 'Twitter' || conversation.platform === 'Instagram') {
           c = c.reverse()
         }
       }
