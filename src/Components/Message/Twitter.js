@@ -201,12 +201,8 @@ const TwitterMessage = ({ message, recipient }) => {
             >
               <Text style={styles.msgText}>{message.text}</Text>
             </View>
-            {!message.is_from_me && (
+            {!message.is_from_me && validateBoolean(message.message_last_in_group) && (
               <Svg
-                style={
-                  validateBoolean(message.is_from_me) &&
-                  !validateBoolean(message.message_last_in_group) && { display: 'none' }
-                }
                 viewBox="0 0 24 24"
                 aria-hidden="true"
                 width={moderateScale(22.5)}

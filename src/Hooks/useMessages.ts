@@ -12,7 +12,12 @@ export function useMessages(conversation: Conversation) {
   
   async function refreshMessages(): Promise<void> {
     if (conversation !== undefined) {
-      const c = await database.getMessages(conversation.id)
+      let c = await database.getMessages(conversation.id)
+      if (c) {
+        if (conversation.platform === 'Twitter') {
+          c = c.reverse()
+        }
+      }
       setConversationMessages(c)
     } else {
       return Promise.reject('Could not get messages for this Conversation.')

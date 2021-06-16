@@ -6,7 +6,7 @@ import Icons from '@/Theme/Icons'
 import Images from '@/Theme/Images'
 import { useTheme } from '@/Theme'
 
-const InstagramNavigationBar = ({ callback, title, userData }) => {
+const InstagramNavigationBar = ({ callback, title, recipient }) => {
   const icons = Icons()
   const images = Images()
   const { Fonts, darkMode, Colors } = useTheme()
@@ -38,14 +38,12 @@ const InstagramNavigationBar = ({ callback, title, userData }) => {
             />
           </View>
           <View style={{ marginLeft: 10 }}>
-            <Text
-              style={{ ...Fonts.textSmall, fontWeight: 'bold', fontSize: 13 }}
-            >
-              {userData.recipient.name}
+            <Text style={{ ...Fonts.textSmall, fontWeight: 'bold', fontSize: 13 }}>
+              {recipient.name}
             </Text>
             {Platform.OS === 'ios' && (
               <Text style={{ fontSize: 12, color: 'grey', marginTop: 2 }}>
-                {userData.recipient.name}
+                {recipient.username}
               </Text>
             )}
           </View>

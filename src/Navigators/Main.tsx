@@ -15,12 +15,13 @@ export type RootStackParamList = {
     Main: undefined
     Home: undefined
     NewConversation: undefined
-    InstagramConversation: undefined
+    InstagramConversation: { conversation: Conversation, recipient: Recipient }
     TwitterConversation: { conversation: Conversation, recipient: Recipient }
     MessengerConversation: undefined
     iMessageConversation: undefined
-    TwitterNewConversation: undefined
+    NewTwitterConversation: undefined
     NewGenericConversation: undefined
+    NewInstagramConversation: undefined
 }
 
 const MainStack = createStackNavigator<RootStackParamList>()
@@ -109,13 +110,18 @@ const MainNavigator = ({ navigation }) => {
         <RootStack.Navigator mode="modal" headerMode="none">
           <RootStack.Screen name="Main" component={MainStackScreen} />
           <RootStack.Screen
-            name={Config.containerNames.TwitterNewConversation}
+            name={Config.containerNames.NewTwitterConversation}
             component={NewTwitterConversation}
             options={{ headerShown: true }}
           />
           <RootStack.Screen
             name={Config.containerNames.NewGenericConversation}
             component={NewGenericConversation}
+            options={{ headerShown: true }}
+          />
+          <RootStack.Screen
+            name={Config.containerNames.NewInstagramConversation}
+            component={NewInstagramConversation}
             options={{ headerShown: true }}
           />
         </RootStack.Navigator>

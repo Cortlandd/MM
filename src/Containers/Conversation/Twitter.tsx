@@ -110,10 +110,12 @@ const TwitterConversation = ({ navigation, route }: Props) => {
           previousMessage.message_last_in_group = booleanToInteger(false)
           message.group_id = previousMessage.group_id
         } else {
+          // @ts-ignore
           message.group_id = previousMessage.group_id + 1
         }
         // END
       } else {
+        // @ts-ignore
         message.group_id = previousMessage.group_id + 1
         message.message_last_in_group = booleanToInteger(true)
       }
@@ -164,9 +166,11 @@ const TwitterConversation = ({ navigation, route }: Props) => {
                 />
               )
             }}
-            extraData={messagesData}
             style={{ flex: 1,  marginLeft: 15 }}
             keyExtractor={(item, index) => item.time}
+            ref={ (ref) => { this.myFlatListRef = ref } }
+            onContentSizeChange={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
+            onLayout={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
           />
           <View
             style={{

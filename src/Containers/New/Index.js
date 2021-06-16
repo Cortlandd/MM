@@ -14,9 +14,9 @@ const IndexNewConversation = () => {
   const determineRoute = (name) => {
     switch (name) {
       case Config.messagingPlatforms.Instagram:
-        return Config.containerNames.NewGenericConversation
+        return Config.containerNames.NewInstagramConversation
       case Config.messagingPlatforms.Twitter:
-        return Config.containerNames.TwitterNewConversation
+        return Config.containerNames.NewTwitterConversation
       case Config.messagingPlatforms.Messenger:
         return Config.containerNames.NewGenericConversation
       case Config.messagingPlatforms.iMessage:

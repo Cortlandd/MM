@@ -25,7 +25,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '@/Navigators/Main'
 
 interface Props {
-  navigation: StackNavigationProp<RootStackParamList, 'TwitterNewConversation'>
+  navigation: StackNavigationProp<RootStackParamList, 'NewTwitterConversation'>
 }
 
 const NewTwitterConversation = ({ navigation }: Props) => {

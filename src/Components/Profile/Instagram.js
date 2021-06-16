@@ -4,8 +4,9 @@ import { Avatar, ThemeProvider } from 'react-native-elements'
 import Images from '@/Theme/Images'
 import { useTheme } from '@/Theme'
 import Icons from '@/Theme/Icons'
+import { validateBoolean } from '@/Config/Utils'
 
-const InstagramProfile = ({ user }) => {
+const InstagramProfile = ({ recipient }) => {
   const images = Images()
   const icons = Icons()
   const { Fonts, darkMode } = useTheme()
@@ -33,13 +34,13 @@ const InstagramProfile = ({ user }) => {
           fontSize: 18,
         }}
       >
-        {user.name}
+        {recipient.name}
       </Text>
       <View
         style={{ flexDirection: 'row', alignSelf: 'center' }}
       >
-        <Text style={Fonts.textRegular}>{user.name}</Text>
-        <Text style={Fonts.textRegular}> · </Text>
+        <Text style={{ ...Fonts.textRegular, display: !recipient.name ? 'none' : '' }}>{recipient.username}</Text>
+        <Text style={{ ...Fonts.textRegular, display: !recipient.name ? 'none' : '' }}> · </Text>
         <Text style={Fonts.textRegular}>Instagram</Text>
       </View>
       <View
@@ -52,7 +53,7 @@ const InstagramProfile = ({ user }) => {
             fontSize: 16,
           }}
         >
-          486 followers
+          {recipient.follower_count} followers
         </Text>
         <Text
           style={{
@@ -71,42 +72,60 @@ const InstagramProfile = ({ user }) => {
             fontSize: 16,
           }}
         >
-          8 posts
+          {recipient.post_count} posts
         </Text>
       </View>
-      <Text
-        style={{
-          color: 'gray',
-          flexDirection: 'row',
-          alignSelf: 'center',
-          fontWeight: darkMode ? '600' : '400',
-          fontSize: 16,
-        }}
-      >
-        You follow each other on Instagram
-      </Text>
-      <Text
-        style={{
-          color: 'gray',
-          flexDirection: 'row',
-          alignSelf: 'center',
-          marginBottom: 10,
-          fontWeight: darkMode ? '600' : '400',
-          fontSize: 16,
-        }}
-      >
-        You both follow username and 5 others
-      </Text>
+      {validateBoolean(recipient.is_mutual_friends) && recipient.mutual_friend && recipient.mutual_friends_count ? (
+        <View>
+          <Text
+            style={{
+              color: 'gray',
+              flexDirection: 'row',
+              alignSelf: 'center',
+              fontWeight: darkMode ? '600' : '400',
+              fontSize: 16,
+            }}
+          >
+            You follow each other on Instagram
+          </Text>
+          <Text
+            style={{
+              color: 'gray',
+              flexDirection: 'row',
+              alignSelf: 'center',
+              marginBottom: 10,
+              fontWeight: darkMode ? '600' : '400',
+              fontSize: 16,
+            }}
+          >
+            You both follow {recipient.mutual_friend} and {recipient.mutual_friends_count} others
+          </Text>
+        </View>
+      ) : (
+        <View>
+          <Text
+            style={{
+              color: 'gray',
+              flexDirection: 'row',
+              alignSelf: 'center',
+              fontWeight: darkMode ? '600' : '400',
+              fontSize: 16,
+            }}
+          >
+            You've followed this Instagram account since {recipient.friend_since_year}
+          </Text>
+        </View>
+      )}
       <View
         style={{
           flexDirection: 'row',
           alignSelf: 'center',
           borderWidth: 1,
           borderColor: darkMode ? 'white' : 'lightgray',
-          paddingTop: 3,
-          paddingBottom: 3,
-          paddingLeft: 10,
-          paddingRight: 10,
+          paddingTop: 5,
+          paddingBottom: 5,
+          paddingLeft: 13,
+          paddingRight: 13,
           borderRadius: 5,
         }}
       >

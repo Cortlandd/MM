@@ -2,7 +2,7 @@ import SQLite from 'react-native-sqlite-storage'
 import { Conversation, Message, Recipient } from '@/Config/Types'
 import { DatabaseInitialization } from '@/Config/Database/DatabaseInitialization'
 import { AppState, AppStateStatus } from 'react-native'
-import { booleanToInteger, validateBoolean } from '@/Config/Utils'
+import { booleanToInteger, validateBoolean, getDatetimeForSqlite } from '@/Config/Utils'
 
 const DATABASE_NAME = 'MsgMaker.db'
 const DATABASE_VERSION = '1.0'
@@ -73,10 +73,14 @@ async function createRecipient(recipient: Recipient): Promise<void> {
 }
 
 async function createMessage(message: Message): Promise<Message> {
+  console.log('[db] Creating message into the db...')
   let c = JSON.parse(JSON.stringify(message))
   let keys = Object.keys(c)
   let vals = Object.values(c)
   return getDatabase()
+    .then((db) => 
+      db.executeSql(`UPDATE Conversations SET updated_at = '${getDatetimeForSqlite()}' WHERE id = ${message.conversation_id};`).then(() => db)
+    )
     .then((db) => db.executeSql(`INSERT INTO Messages (${keys.join(', ')}) VALUES (${vals.map((v) => `${typeof v === 'string' ? `'${v}'` : v}`).join(', ')});`))
     .then(([results]) => {
       if (results === undefined) {
@@ -155,7 +159,7 @@ async function getLastConversation(): Promise<Conversation> {
 async function getMessages(conversation_id: number): Promise<Message[]> {
   console.log('[db] Fetching Messages from the db...')
   return getDatabase()
-    .then((db) => db.executeSql(`SELECT * FROM Messages WHERE conversation_id = ${conversation_id} ORDER BY time DESC;`))
+    .then((db) => db.executeSql(`SELECT * FROM Messages WHERE conversation_id = ${conversation_id} ORDER BY time;`))
     .then(([results]) => {
       if (results === undefined) {
         return []
@@ -212,12 +216,11 @@ async function updateMessage(message_id: number, field: string, val: any): Promi
 }
 
 async function updateMessageBulk(message_id: number, values = {}): Promise<void> {
-  console.log('updating values: ' + JSON.stringify(values))
   return getDatabase()
     .then((db) =>
       db.executeSql(
         `UPDATE Messages SET ${Object.keys(values)
-          .map((k) => `${k} = "${values[k]}"`)
+          .map((k) => `${k} = ${typeof values[k] === 'string' ? `'${values[k]}'` : values[k]}`)
           .join(', ')} WHERE id = ${message_id}`,
       ),
     )

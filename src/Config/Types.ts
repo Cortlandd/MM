@@ -8,6 +8,7 @@ export interface Message {
   message_seen?: number
   message_last_in_group?: number
   message_first_in_group?: number
+  show_timestamp?: number
 }
 
 export interface MessageAttachment {
@@ -41,10 +42,11 @@ export interface Recipient {
   join_date?: string // For twitter profile
   biography?: string
   verified?: number
-  mutual_friends?: number
-  mutual_friend_count?: number
-  mutual_follower?: string
+  is_mutual_friends?: number
+  mutual_friends_count?: number
+  mutual_friend?: string
   created_at?: string
+  friend_since_year?: number
 }
 
 export interface Conversation {
