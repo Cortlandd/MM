@@ -32,7 +32,7 @@ const InstagramNavigationBar = ({ callback, title, recipient }) => {
         <TouchableOpacity style={styles.userInfo}>
           <View>
             <Avatar
-              source={icons.sample_bag}
+              source={recipient.image ? { uri: recipient.image } : icons.sample_bag}
               size={28}
               rounded={true}
             />

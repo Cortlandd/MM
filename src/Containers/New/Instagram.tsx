@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator, Alert,
   KeyboardAvoidingView,
@@ -11,15 +11,18 @@ import {
 } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '@/Navigators/Main'
-import { Button, Icon, Input, ThemeProvider } from 'react-native-elements'
+import { Avatar, Button, Icon, Input, ThemeProvider } from 'react-native-elements'
 import Icons from '@/Theme/Icons'
 import { useTheme } from '@/Theme'
-import { Conversation, Recipient } from '@/Config/Types'
+import { Conversation, InstagramUserASearch, Recipient } from '@/Config/Types'
 import { booleanToInteger } from '@/Config/Utils'
 import * as Utils from '@/Config/Utils'
 import { Config } from '@/Config'
 import { useConversations } from '@/Hooks/useConversations'
 import { useRecipients } from '@/Hooks/useRecipients'
+import { useDispatch, useSelector } from 'react-redux'
+import { UserState } from '@/Store/User'
+import FetchInstagramUser from '@/Store/User/FetchInstagramUser'
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'NewInstagramConversation'>
@@ -27,9 +30,14 @@ interface Props {
 
 const NewInstagramConversation = ({ navigation }: Props) => {
   const icons = Icons()
+  const dispatch = useDispatch()
   const { Fonts, darkMode } = useTheme()
   const { createConversation, getLastConversation, refreshConversations } = useConversations()
   const { createRecipient, getLastRecipient } = useRecipients()
+  
+  const fetchInstagramUserListener = useSelector((state: { user: UserState }) => state.user.fetchInstagramUser.results)
+  const fetchInstagramUserError = useSelector((state: { user: UserState }) => state.user.fetchInstagramUser.error)
+  const fetchInstagramUserLoading = useSelector((state: { user: UserState }) => state.user.fetchInstagramUser.loading)
   
   const [displayName, setDisplayName] = useState('')
   const [username, setUsername] = useState('')
@@ -40,10 +48,53 @@ const NewInstagramConversation = ({ navigation }: Props) => {
   const [mutualFollow, setMutualFollow] = useState('')
   const [mutualFollowCount, setMutualFollowCount] = useState()
   const [activityIndicatorAnimating, setActivityIndicatorAnimating] = useState(false)
+  const [profileImage, setProfileImage] = useState('')
+  
+  const [userSearchResult, setUserSearchResult] = useState<InstagramUserASearch>()
 
+  useEffect(() => {}, [dispatch])
+  
+  const searchUser = () => {
+    if (username === '') {
+      Alert.alert(
+        'User Search (beta)',
+        'Enter a username to search'
+      )
+    } else {
+      Alert.alert(
+        'User Search (beta)',
+        'This search feature is experimental. Does not guarantee results.',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              try {
+                dispatch(FetchInstagramUser.action(username))
+                setUserSearchResult(fetchInstagramUserListener)
+
+                if (fetchInstagramUserError) {
+                  Alert.alert('User Search Error', 'Try again or fill in user information.')
+                }
+
+                if (fetchInstagramUserListener) {
+                  setDisplayName(fetchInstagramUserListener.full_name)
+                  setFollowersCount(fetchInstagramUserListener.edge_followed_by.count)
+                  setPostCount(fetchInstagramUserListener.edge_owner_to_timeline_media.count)
+                  setProfileImage(fetchInstagramUserListener.profile_pic_url) 
+                }
+              } catch (e) {
+                Alert.alert('User Search Error', 'Try again or fill in user information.')
+                console.log(e)
+              }
+            },
+            style: 'default' },
+          { text: 'Cancel', style: 'cancel' }
+        ]
+      )
+    }
+  }
+  
   const processSave = () => {
-    console.log('SAVE CLICKED')
-
     if (followEachother) {
       if (username === '') {
         Alert.alert(
@@ -64,6 +115,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
     
     let recipient: Recipient = {
       name: displayName,
+      image: profileImage,
       username: username,
       follower_count: followersCount,
       created_at: Utils.getDatetimeForSqlite(),
@@ -108,7 +160,8 @@ const NewInstagramConversation = ({ navigation }: Props) => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={54}
           enabled={true}>
-          <TouchableWithoutFeedback onPress={() => console.log('')}>
+          {fetchInstagramUserLoading && (<ActivityIndicator animating={true} size={'large'} />)}
+          {fetchInstagramUserListener && fetchInstagramUserListener.profile_pic_url ? (
             <View
               style={{
                 alignSelf: 'center',
@@ -117,16 +170,40 @@ const NewInstagramConversation = ({ navigation }: Props) => {
                 borderRadius: 150,
                 padding: 10,
                 borderColor: 'gray',
-                height: 150,
-                width: 150,
+                height: 100,
+                width: 100,
               }}
             >
-              <View style={{ alignContent: 'center', justifyContent: 'center' }}>
-                <Text style={{ textAlign: 'center', color: darkMode ? '#FFF' : 'gray', fontWeight: 'bold' }}>Upload Profile Image</Text>
-                <Icon name={'add'} color={'green'} />
-              </View>
+              <Avatar
+                containerStyle={{
+                  alignSelf: 'center',
+                }}
+                size={100}
+                rounded={true}
+                source={{ uri: profileImage }}
+              />
             </View>
-          </TouchableWithoutFeedback>
+          ) : (
+            <TouchableWithoutFeedback onPress={() => console.log('')}>
+              <View
+                style={{
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  borderWidth: 2,
+                  borderRadius: 150,
+                  padding: 10,
+                  borderColor: 'gray',
+                  height: 150,
+                  width: 150,
+                }}
+              >
+                <View style={{ alignContent: 'center', justifyContent: 'center' }}>
+                  <Text style={{ textAlign: 'center', color: darkMode ? '#FFF' : 'gray', fontWeight: 'bold' }}>Upload Profile Image</Text>
+                  <Icon name={'add'} color={'green'} />
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          )}
           <View>
             <View style={{ alignSelf: 'center', width: '50%' }}>
               <Input
@@ -141,6 +218,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
               </TextInput>
               <Text style={{ fontSize: 16 }}> · </Text>
               <Text style={{ fontSize: 16 }}>Instagram</Text>
+              <Icon name={'search'} size={20} onPress={searchUser} />
             </View>
             <View style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 10 }}>
               <TextInput style={{

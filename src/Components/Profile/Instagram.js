@@ -24,7 +24,7 @@ const InstagramProfile = ({ recipient }) => {
         }}
         size={100}
         rounded={true}
-        source={icons.sample_bag}
+        source={recipient.image ? { uri: recipient.image } : icons.sample_bag}
       />
       <Text
         style={{
@@ -37,14 +37,14 @@ const InstagramProfile = ({ recipient }) => {
         {recipient.name}
       </Text>
       <View
-        style={{ flexDirection: 'row', alignSelf: 'center' }}
+        style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
       >
-        <Text style={{ ...Fonts.textRegular, display: !recipient.name ? 'none' : '' }}>{recipient.username}</Text>
-        <Text style={{ ...Fonts.textRegular, display: !recipient.name ? 'none' : '' }}> · </Text>
-        <Text style={Fonts.textRegular}>Instagram</Text>
+        {recipient.name && (<Text style={{ fontSize: 15 }}>{recipient.username}</Text>)}
+        {recipient.name && (<Text style={{ fontSize: 15 }}> · </Text>)}
+        <Text style={{ fontSize: 15 }}>Instagram</Text>
       </View>
       <View
-        style={{ flexDirection: 'row', alignSelf: 'center' }}
+        style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
       >
         <Text
           style={{
@@ -102,7 +102,7 @@ const InstagramProfile = ({ recipient }) => {
           </Text>
         </View>
       ) : (
-        <View>
+        <View style={{ marginBottom: 10 }}>
           <Text
             style={{
               color: 'gray',

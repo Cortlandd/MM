@@ -11,6 +11,21 @@ export interface Message {
   show_timestamp?: number
 }
 
+export interface InstagramUserASearch {
+  full_name: string
+  username: string
+  profile_pic_url_hd: string
+  edge_followed_by: {
+    count: number
+  }
+  edge_follow: {
+    count: number
+  }
+  edge_owner_to_timeline_media: {
+    count: number
+  }
+}
+
 export interface MessageAttachment {
   id: number
   message_id?: number
