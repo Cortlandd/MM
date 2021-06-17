@@ -12,7 +12,7 @@ export default async (username: string) => {
     return []
   } else {
     const user = response.data.graphql.user
-    //console.log(JSON.stringify(response.data.graphql.user))
+    console.log(JSON.stringify(user))
     return user
   }
   

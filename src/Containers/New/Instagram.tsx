@@ -3,7 +3,8 @@ import {
   ActivityIndicator, Alert,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView, Switch,
+  SafeAreaView,
+  Switch,
   Text,
   TextInput,
   TouchableWithoutFeedback,
@@ -211,66 +212,71 @@ const NewInstagramConversation = ({ navigation }: Props) => {
             <View style={{ alignSelf: 'center', width: '50%' }}>
               <Input
                 onChangeText={(value) => setDisplayName(value)}
-                placeholder={'Display Name'}>
+                placeholder={'Display Name'} style={{padding: 0}}>
                 <Text style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}>{displayName}</Text>
               </Input>
             </View>
-            <View style={{ flexDirection: 'row', alignSelf: 'center', width: '100%', justifyContent: 'center', marginBottom: 10 }}>
-              <TextInput onChangeText={(value) => setUsername(value.toLowerCase())} placeholder={'Username'}>
+            <View style={{ flexDirection: 'row', alignSelf: 'center', width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+              <TextInput onChangeText={(value) => setUsername(value.toLowerCase())} style={{padding: 0}} placeholder={'Username'}>
                 <Text style={{ color: 'orange', fontSize: 16 }}>{username}</Text>
               </TextInput>
               <Text style={{ fontSize: 16 }}> · </Text>
               <Text style={{ fontSize: 16 }}>Instagram</Text>
               <Icon name={'search'} size={20} onPress={searchUser} />
             </View>
-            <View style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 10 }}>
+            <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
               <TextInput style={{
                 color: 'gray',
                 fontWeight: darkMode ? '600' : '400',
                 fontSize: 16,
+                textAlign: 'right',
+                padding: 0
               }} keyboardType={'numeric'} onChangeText={(value) => setFollowersCount(value)} placeholder={'Follower Count'}>
                 <Text style={{ color: 'orange' }}>{followersCount}</Text>
               </TextInput>
-              <Text style={{ color: 'gray', fontWeight: darkMode ? '600' : '400', fontSize: 16 }}> followers</Text>
+              <Text style={{ fontWeight: darkMode ? '600' : '400', fontSize: 16 }}> followers</Text>
               <Text style={{ color: 'gray', fontWeight: darkMode ? '600' : '400', fontSize: 16 }}>{' '}·{' '}</Text>
               <TextInput style={{
                 color: 'orange',
                 fontWeight: darkMode ? '600' : '400',
                 fontSize: 16,
+                padding: 0
               }} keyboardType={'numeric'} onChangeText={(value) => setPostCount(value)} placeholder={'Post Count'}>
                 <Text style={{ color: 'orange' }}>{postCount}</Text>
               </TextInput>
-              <Text style={{ color: 'gray', fontWeight: darkMode ? '600' : '400', fontSize: 16 }}> posts</Text>
+              <Text style={{ fontWeight: darkMode ? '600' : '400', fontSize: 16 }}> posts</Text>
             </View>
             
-            <View style={{ justifyContent: 'center', alignSelf: 'center', marginBottom: 10 }}>
+            <View style={{ justifyContent: 'center', alignSelf: 'center', alignItems: 'center' }}>
               {followEachother
                 ? (
-                  <Text style={{ color: 'gray', fontSize: 16 }}>You follow each other on Instagram</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 16, color: 'black' }}>You follow each other on Instagram</Text>
+                  </View>
                 )
                 : (
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ fontSize: 16, color: 'gray' }}>You've followed this Instagram account since </Text>
-                    <TextInput keyboardType={'numeric'} maxLength={4} style={{ color: 'orange', fontWeight: darkMode ? '600' : '400', fontSize: 16 }} onChangeText={(value) => setFollowingSince(value)} placeholder={'Year'}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 16, color: 'black' }}>You've followed this Instagram account since </Text>
+                    <TextInput keyboardType={'numeric'} maxLength={4} style={{ color: 'orange', fontWeight: darkMode ? '600' : '400', fontSize: 16, padding: 0 }} onChangeText={(value) => setFollowingSince(value)} placeholder={'Year'}>
                       <Text style={{ fontSize: 16, color: 'orange' }}>{followingSince}</Text>
                     </TextInput>
                   </View>
                 )}
               <Switch
                 style={{ alignSelf: 'center' }}
-                trackColor={{ false: '#765077', true: '#81b0ff' }}
+                trackColor={{ false: 'gray', true: 'gray' }}
                 onValueChange={(value) => setFollowEachother(value)}
                 value={followEachother}
               />
             </View>
             {followEachother && (
-              <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+              <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
                 <Text style={{ fontSize: 16 }}>You both follow </Text>
-                <TextInput style={{ color: 'gray'}} onChangeText={(value) => setMutualFollow(value.toLowerCase())} placeholder={'Mutual Follow'}>
+                <TextInput style={{ color: 'gray', padding: 0}} onChangeText={(value) => setMutualFollow(value.toLowerCase())} placeholder={'Mutual Follow'}>
                   <Text style={{ fontSize: 16, color: 'orange' }}>{mutualFollow}</Text>
                 </TextInput>
                 <Text style={{ fontSize: 16 }}> and </Text>
-                <TextInput style={{ color: 'gray'}} keyboardType={'numeric'} onChangeText={(value) => setMutualFollowCount(value)} placeholder={'Mutual Follow Count'}>
+                <TextInput style={{ color: 'gray', padding: 0 }} keyboardType={'numeric'} onChangeText={(value) => setMutualFollowCount(value)} placeholder={'Mutual Follow Count'}>
                   <Text style={{ fontSize: 16, color: 'orange' }}>{mutualFollowCount}</Text>
                 </TextInput>
                 <Text style={{ fontSize: 16 }}> others</Text>
