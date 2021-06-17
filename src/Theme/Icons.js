@@ -8,6 +8,7 @@ export default function () {
     instagram_microphone: require('@/Assets/Icons/instagram-microphone.webp'),
     instagram_back_arrow: require('@/Assets/Icons/instagram-back-arrow.png'),
     instagram_back_arrow_ios: require('@/Assets/Icons/instagram-back-arrow-ios.webp'),
+    instagram_verified_icon: require('@/Assets/Icons/instagram_verified.png'),
     twitter_gif: require('@/Assets/Icons/twitter-gif.png'),
     twitter_photo_album: require('@/Assets/Icons/twitter-photo.png'),
     twitter_send: require('@/Assets/Icons/twitter-send.png'),

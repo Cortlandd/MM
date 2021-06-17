@@ -26,16 +26,21 @@ const InstagramProfile = ({ recipient }) => {
         rounded={true}
         source={recipient.image ? { uri: recipient.image } : icons.sample_bag}
       />
-      <Text
-        style={{
-          ...Fonts.textRegular,
-          fontWeight: 'bold',
-          alignSelf: 'center',
-          fontSize: 18,
-        }}
-      >
-        {recipient.name}
-      </Text>
+      <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
+        <Text
+          style={{
+            ...Fonts.textRegular,
+            fontWeight: 'bold',
+            alignSelf: 'center',
+            fontSize: 18,
+          }}
+        >
+          {recipient.name}
+        </Text>
+        {recipient.verified && (
+          <Avatar size={18} source={icons.instagram_verified_icon} />
+        )}
+      </View>
       <View
         style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
       >

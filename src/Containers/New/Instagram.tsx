@@ -49,6 +49,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
   const [mutualFollowCount, setMutualFollowCount] = useState()
   const [activityIndicatorAnimating, setActivityIndicatorAnimating] = useState(false)
   const [profileImage, setProfileImage] = useState('')
+  const [verified, setVerified] = useState(false)
   
   const [userSearchResult, setUserSearchResult] = useState<InstagramUserASearch>()
 
@@ -80,7 +81,8 @@ const NewInstagramConversation = ({ navigation }: Props) => {
                   setDisplayName(fetchInstagramUserListener.full_name)
                   setFollowersCount(fetchInstagramUserListener.edge_followed_by.count)
                   setPostCount(fetchInstagramUserListener.edge_owner_to_timeline_media.count)
-                  setProfileImage(fetchInstagramUserListener.profile_pic_url) 
+                  setProfileImage(fetchInstagramUserListener.profile_pic_url)
+                  setVerified(fetchInstagramUserListener.is_verified)
                 }
               } catch (e) {
                 Alert.alert('User Search Error', 'Try again or fill in user information.')
@@ -121,6 +123,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
       created_at: Utils.getDatetimeForSqlite(),
       post_count: postCount,
       is_mutual_friends: booleanToInteger(followEachother),
+      verified: booleanToInteger(verified),
     }
     
     if (followEachother) {

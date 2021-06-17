@@ -37,7 +37,7 @@ const InstagramNavigationBar = ({ callback, title, recipient }) => {
               rounded={true}
             />
           </View>
-          <View style={{ marginLeft: 10 }}>
+          <View style={{ marginLeft: 10, marginRight: 5 }}>
             <Text style={{ ...Fonts.textSmall, fontWeight: 'bold', fontSize: 13 }}>
               {recipient.name}
             </Text>
@@ -47,6 +47,11 @@ const InstagramNavigationBar = ({ callback, title, recipient }) => {
               </Text>
             )}
           </View>
+          {recipient.verified && (
+            <View>
+              <Avatar size={20} source={icons.instagram_verified_icon} />
+            </View>
+          )}
         </TouchableOpacity>
       </View>
       <View style={styles.rightOptions}>
