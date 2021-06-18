@@ -29,6 +29,7 @@ export interface InstagramUserASearch {
 export interface MessageAttachment {
   id: number
   message_id?: number
+  conversation_id?: number
   attachment_binary_code_or_path?: string
 }
 
@@ -46,6 +47,7 @@ export interface Recipient {
   first_name?: string
   last_name?: string
   image?: string // Or BLOB
+  local_image: string,
   username?: string
   works_at?: string
   education_at?: string
