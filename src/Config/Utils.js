@@ -4,6 +4,7 @@
 // leading edge, instead of the trailing. https://stackoverflow.com/a/61241621
 import { Config } from '@/Config/index'
 import Images from '@/Theme/Images'
+import { Platform } from 'react-native'
 
 const TRUE_VALUES = [true, 1, '1', 't', 'true', 'y', 'yes']
 const FALSE_VALUES = [false, 0, 'no', 'n']
@@ -88,4 +89,58 @@ export const booleanToInteger = (value) => {
   } else {
     return 0
   }
+}
+
+export function CreateGuid() {
+  function _p8(s) {
+    let p = (Math.random().toString(16)+"000000000").substr(2,8);
+    return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
+  }
+  return _p8() + _p8(true) + _p8(true) + _p8();
+}
+
+export const dateValidation = (d) => {
+  var dt = new Date(d)
+  var date = dt.getDate()
+  var diff_days = new Date().getDate() - date
+  var diff_months = new Date().getMonth() - dt.getMonth()
+  var diff_years = new Date().getFullYear() - dt.getFullYear()
+
+  var is_today = diff_years === 0 && diff_months === 0 && diff_days === 0
+  var is_yesterday = diff_years === 0 && diff_months === 0 && diff_days === 1
+
+  if (is_today) {
+    return dt.toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit',
+    })
+  } else if (is_yesterday) {
+    const msg = dt.toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit',
+    })
+
+    return 'Yesterday ' + msg
+  } else {
+    return dt.toLocaleTimeString([], {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    })
+  }
+}
+
+let RNFS = require('react-native-fs');
+export const imagePath = (file_name) => {
+  const extension = Platform.OS === 'android' ? 'file://' : ''
+  return `${extension}${RNFS.DocumentDirectoryPath}/${file_name}`
+}
+
+export const isValidURL = (str) => {
+  if (str === '' || str === ' ') return false
+
+  var res = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+  return (res !== null)
 }
