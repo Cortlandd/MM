@@ -13,7 +13,7 @@ import Images from '@/Theme/Images'
 import Svg, { Path } from 'react-native-svg'
 import { moderateScale } from 'react-native-size-matters'
 import { Config } from '@/Config'
-import { validateBoolean } from '@/Config/Utils'
+import { dateValidation, validateBoolean } from '@/Config/Utils'
 
 const TwitterMessage = ({ message, recipient }) => {
   const images = Images()
@@ -89,38 +89,6 @@ const TwitterMessage = ({ message, recipient }) => {
   }
 
   const MessageTimestamp = () => {
-    const dateValidation = (d) => {
-      var dt = new Date(d)
-      var date = dt.getDate()
-      var diff_days = new Date().getDate() - date
-      var diff_months = new Date().getMonth() - dt.getMonth()
-      var diff_years = new Date().getFullYear() - dt.getFullYear()
-
-      var is_today = diff_years === 0 && diff_months === 0 && diff_days === 0
-      var is_yesterday = diff_years === 0 && diff_months === 0 && diff_days === 1
-
-      if (is_today) {
-        return new Date(message.time).toLocaleTimeString([], {
-          hour: 'numeric',
-          minute: '2-digit',
-        })
-      } else if (is_yesterday) {
-        const msg = new Date(message.time).toLocaleTimeString([], {
-          hour: 'numeric',
-          minute: '2-digit',
-        })
-
-        return 'Yesterday ' + msg
-      } else {
-        return new Date(message.time).toLocaleTimeString([], {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit',
-        })
-      }
-    }
 
     return (
       <View

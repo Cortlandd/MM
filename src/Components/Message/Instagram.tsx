@@ -106,13 +106,13 @@ const InstagramMessage = ({ message, lastMessage, recipient }: Props) => {
   
   return (
     <View>
-      {validateBoolean(message.show_timestamp) && (
+      {validateBoolean(message.show_timestamp) ? (
         <View style={{ alignSelf: 'center', marginBottom: 10, marginTop: 10 }}>
           <Text style={{ color: 'gray', textAlign: 'center' }}>
             {dateValidation(message.time)}
           </Text>
         </View>
-      )}
+      ) : null}
       <TouchableOpacity
         style={{
           ...styles.messageItem,

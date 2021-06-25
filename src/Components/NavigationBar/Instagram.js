@@ -5,6 +5,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height'
 import Icons from '@/Theme/Icons'
 import Images from '@/Theme/Images'
 import { useTheme } from '@/Theme'
+import { validateBoolean } from '@/Config/Utils'
 
 const InstagramNavigationBar = ({ callback, title, recipient }) => {
   const icons = Icons()
@@ -38,7 +39,7 @@ const InstagramNavigationBar = ({ callback, title, recipient }) => {
             />
           </View>
           <View style={{ marginLeft: 10, marginRight: 5 }}>
-            <Text style={{ ...Fonts.textSmall, fontWeight: 'bold', fontSize: 13 }}>
+            <Text style={{ ...Fonts.textSmall, fontWeight: 'bold', fontSize: 14 }}>
               {recipient.name}
             </Text>
             {Platform.OS === 'ios' && (
@@ -47,7 +48,7 @@ const InstagramNavigationBar = ({ callback, title, recipient }) => {
               </Text>
             )}
           </View>
-          {recipient.verified && (
+          {validateBoolean(recipient.verified) && (
             <View>
               <Avatar size={20} source={icons.instagram_verified_icon} />
             </View>
