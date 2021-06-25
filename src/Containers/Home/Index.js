@@ -50,7 +50,7 @@ const IndexHomeContainer = ({ navigation }) => {
               )}
             </ListItem.Title>
             <ListItem.Subtitle>
-              <Text style={{ color: 'gray', fontSize: 12 }}>{conversation.updated_at}</Text>
+              <Text style={{ color: 'gray', fontSize: 12 }}>{Utils.dateValidation(conversation.updated_at)}</Text>
             </ListItem.Subtitle>
           </ListItem.Content>
           <ListItem.Chevron />
