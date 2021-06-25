@@ -7,6 +7,7 @@ import Icons from '@/Theme/Icons'
 import { validateBoolean } from '@/Config/Utils'
 
 const InstagramProfile = ({ recipient }) => {
+  console.log(recipient)
   const images = Images()
   const icons = Icons()
   const { Fonts, darkMode } = useTheme()
@@ -37,15 +38,15 @@ const InstagramProfile = ({ recipient }) => {
         >
           {recipient.name}
         </Text>
-        {recipient.verified && (
+        {recipient.verified ? (
           <Avatar size={18} source={icons.instagram_verified_icon} />
-        )}
+        ) : null }
       </View>
       <View
         style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
       >
-        {recipient.name && (<Text style={{ fontSize: 15 }}>{recipient.username}</Text>)}
-        {recipient.name && (<Text style={{ fontSize: 15 }}> · </Text>)}
+        {recipient.username ? (<Text style={{ fontSize: 15 }}>{recipient.username}</Text>) : null}
+        {recipient.name ? (<Text style={{ fontSize: 15 }}> · </Text>) : null}
         <Text style={{ fontSize: 15 }}>Instagram</Text>
       </View>
       <View

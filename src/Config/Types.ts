@@ -9,6 +9,12 @@ export interface Message {
   message_last_in_group?: number
   message_first_in_group?: number
   show_timestamp?: number
+  message_type?: string
+}
+
+export const MessageType = {
+  basic: "basic",
+  picture: "picture"
 }
 
 export interface InstagramUserASearch {
@@ -64,6 +70,13 @@ export interface Recipient {
   mutual_friend?: string
   created_at?: string
   friend_since_year?: number
+}
+
+export interface RecipientImage {
+  id: number
+  path?: string,
+  recipient_id?: number
+  created_at?: string
 }
 
 export interface Conversation {

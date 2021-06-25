@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '@/Navigators/Main'
-import { Avatar, Button, Icon, Input, ThemeProvider } from 'react-native-elements'
+import { Avatar, Button, Icon, Input, ThemeProvider, Overlay } from 'react-native-elements'
 import Icons from '@/Theme/Icons'
 import { useTheme } from '@/Theme'
 import { Conversation, InstagramUserASearch, Recipient } from '@/Config/Types'
@@ -24,6 +24,8 @@ import { useRecipients } from '@/Hooks/useRecipients'
 import { useDispatch, useSelector } from 'react-redux'
 import { UserState } from '@/Store/User'
 import FetchInstagramUser from '@/Store/User/FetchInstagramUser'
+import * as ImagePicker from "react-native-image-picker"
+import * as RNFS from 'react-native-fs'
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'NewInstagramConversation'>
@@ -49,12 +51,82 @@ const NewInstagramConversation = ({ navigation }: Props) => {
   const [mutualFollow, setMutualFollow] = useState('')
   const [mutualFollowCount, setMutualFollowCount] = useState()
   const [activityIndicatorAnimating, setActivityIndicatorAnimating] = useState(false)
-  const [profileImage, setProfileImage] = useState('')
   const [verified, setVerified] = useState(false)
-  
-  const [userSearchResult, setUserSearchResult] = useState<InstagramUserASearch>()
+  const [profileImage, setProfileImage] = useState('')
+  const [localImage, setLocalImage] = useState()
+  const [overlayVisible, setOverlayVisible] = useState(false)
+  const [urlInput, setUrlInput] = useState('')
+  const [recipientImage, setRecipientImage] = useState('')
+  const [finishedDownloading, setFinishedDownloading] = useState(false)
+  const [tempLocalImage, setTempLocalImage] = useState('')
 
   useEffect(() => {}, [dispatch])
+  
+  useEffect(() => {
+    if (profileImage !== '') { handleUrlProcessing() }
+    if (localImage !== undefined) { processLocalImage() }
+  }, [profileImage, localImage])
+
+  function handleUrlProcessing() {
+    if (localImage !== undefined) {
+      RNFS.exists(Utils.imagePath(localImage.fileName)).then((exists) => {
+        if (exists) {
+          RNFS.unlink(Utils.imagePath(localImage.fileName)).then(() => {
+            setLocalImage(undefined)
+          })
+        }
+      })
+    }
+    
+    const filename = profileImage.substring(profileImage.lastIndexOf('/') + 1);
+    const ret = RNFS.downloadFile({ fromUrl: profileImage, toFile: Utils.imagePath(filename), });
+    ret.promise.then(async res => {
+      setRecipientImage(Utils.imagePath(filename))
+    }).catch(err => {
+      console.error('Download Error: ', err);
+    });
+  }
+  
+  function processLocalImage() {
+    if (profileImage !== '') {
+      const filename = profileImage.substring(profileImage.lastIndexOf('/') + 1);
+      RNFS.exists(Utils.imagePath(filename)).then((exists) => {
+        if (exists) {
+          RNFS.unlink(Utils.imagePath(filename)).then(() => {
+            setProfileImage('')
+          })
+        }
+      })
+    }
+
+    if (localImage !== undefined) {
+      RNFS.moveFile(localImage.uri, Utils.imagePath(localImage.fileName))
+        .then(() => {
+          setRecipientImage(Utils.imagePath(localImage.fileName))
+          setTempLocalImage(Utils.imagePath(localImage.fileName))
+        })
+    }
+  }
+  
+  function handleImageUpload() {
+    const options: ImagePicker.ImageLibraryOptions = { 
+      mediaType: 'photo',
+    }
+    ImagePicker.launchImageLibrary(options, async function(response) {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const res = response.assets[0]
+        setLocalImage(res)
+        console.log(res)
+        setUrlInput('')
+
+        setOverlayVisible(false)
+      }
+    })
+  }
   
   const searchUser = () => {
     if (username === '') {
@@ -72,7 +144,6 @@ const NewInstagramConversation = ({ navigation }: Props) => {
             onPress: () => {
               try {
                 dispatch(FetchInstagramUser.action(username))
-                setUserSearchResult(fetchInstagramUserListener)
 
                 if (fetchInstagramUserError) {
                   Alert.alert('User Search Error', 'Try again or fill in user information.')
@@ -84,6 +155,9 @@ const NewInstagramConversation = ({ navigation }: Props) => {
                   setPostCount(fetchInstagramUserListener.edge_owner_to_timeline_media.count)
                   setProfileImage(fetchInstagramUserListener.profile_pic_url)
                   setVerified(fetchInstagramUserListener.is_verified)
+                  
+                  // Clear local image
+                  // setLocalImage(undefined)
                 }
               } catch (e) {
                 Alert.alert('User Search Error', 'Try again or fill in user information.')
@@ -118,7 +192,6 @@ const NewInstagramConversation = ({ navigation }: Props) => {
     
     let recipient: Recipient = {
       name: displayName,
-      image: profileImage,
       username: username,
       follower_count: followersCount,
       created_at: Utils.getDatetimeForSqlite(),
@@ -140,6 +213,8 @@ const NewInstagramConversation = ({ navigation }: Props) => {
       platform: Config.messagingPlatforms.Instagram,
     }
 
+    recipient.image = recipientImage
+
     createRecipient(recipient).then(() => {
       getLastRecipient().then((r) => {
         conversation.recipient_id = r.id
@@ -155,6 +230,41 @@ const NewInstagramConversation = ({ navigation }: Props) => {
   
   return (
     <ThemeProvider useDark={darkMode} style={{ justifyContent: 'center', alignSelf: 'center' }}>
+      <Overlay isVisible={overlayVisible} onBackdropPress={() => setOverlayVisible(false)}>
+        <View style={{ width: 350, padding: 20 }}>
+          <Text style={{ fontSize: 24, fontWeight: '500', textAlign: 'center' }}>Profile Image</Text>
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Input
+              value={urlInput}
+              onChangeText={(value) => setUrlInput(value)}
+              placeholder={'Enter URL of Image'}
+              textContentType={"URL"}
+              rightIcon={(
+                <Icon
+                  name={'arrow-forward'}
+                  color={'white'}
+                  style={{ backgroundColor: Utils.isValidURL(urlInput) ? '#2089dc' : 'lightgray', borderRadius: 50, padding: 5 }}
+                  type={'ionicon'}
+                  onPress={() => {
+                    setProfileImage(urlInput)
+                    setLocalImage(undefined)
+                    setOverlayVisible(false)
+                  }}
+                />
+              )}
+            />
+          </View>
+          <Text style={{ fontSize: 16, fontWeight: '400', textAlign: 'center', marginBottom: 10, color: 'gray' }}>Or</Text>
+          <Button
+            icon={
+              <Icon name={'image'} type={'ionicon'} color={'white'} />
+            }
+            title={'Upload Image'}
+            raised
+            onPress={handleImageUpload}
+          />
+        </View>
+      </Overlay>
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', width: '100%' }}>
           <View style={{ alignSelf: 'flex-end' }}><Icon name={'close'} onPress={() => navigation.goBack()} size={40} /></View>
@@ -165,44 +275,41 @@ const NewInstagramConversation = ({ navigation }: Props) => {
           keyboardVerticalOffset={54}
           enabled={true}>
           {fetchInstagramUserLoading && (<ActivityIndicator animating={true} size={'large'} />)}
-          {fetchInstagramUserListener && fetchInstagramUserListener.profile_pic_url ? (
-            <View
-              style={{
-                alignSelf: 'center',
-                justifyContent: 'center',
-                borderWidth: 2,
-                borderRadius: 150,
-                padding: 10,
-                borderColor: 'gray',
-                height: 100,
-                width: 100,
-              }}
-            >
-              <Avatar
-                containerStyle={{
-                  alignSelf: 'center',
-                }}
-                size={100}
-                rounded={true}
-                source={{ uri: profileImage }}
-              />
+          {profileImage || localImage ? (
+            <View>
+              <Icon name={'close'} style={{ alignSelf: 'center', marginLeft: 100, backgroundColor: 'lightgray', borderRadius: 50}} color={'red'} onPress={() => {
+                setProfileImage('')
+                setUrlInput('')
+                setLocalImage(undefined)
+              }} />
+              <View style={{ alignSelf: 'center', justifyContent: 'center', borderWidth: 1, borderRadius: 150, borderColor: 'gray', height: 105, width: 105, }}>
+                <Avatar
+                  containerStyle={{
+                    alignSelf: 'center',
+                  }}
+                  size={100}
+                  rounded={true}
+                  source={{ uri: profileImage !== '' ? profileImage : tempLocalImage }}
+                  renderPlaceholderContent={(<ActivityIndicator animating={true} size={'large'} color={'white'} />)}
+                />
+              </View>
             </View>
           ) : (
-            <TouchableWithoutFeedback onPress={() => console.log('')}>
+            <TouchableWithoutFeedback onPress={() => setOverlayVisible(true)}>
               <View
                 style={{
                   alignSelf: 'center',
                   justifyContent: 'center',
-                  borderWidth: 2,
+                  borderWidth: 1,
                   borderRadius: 150,
                   padding: 10,
                   borderColor: 'gray',
-                  height: 150,
-                  width: 150,
+                  height: 100,
+                  width: 100,
                 }}
               >
                 <View style={{ alignContent: 'center', justifyContent: 'center' }}>
-                  <Text style={{ textAlign: 'center', color: darkMode ? '#FFF' : 'gray', fontWeight: 'bold' }}>Upload Profile Image</Text>
+                  <Text style={{ textAlign: 'center', color: darkMode ? '#FFF' : 'gray', fontWeight: 'bold' }}>Profile Image</Text>
                   <Icon name={'add'} color={'green'} />
                 </View>
               </View>
@@ -216,7 +323,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
                 <Text style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}>{displayName}</Text>
               </Input>
             </View>
-            <View style={{ flexDirection: 'row', alignSelf: 'center', width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ marginBottom: 10, flexDirection: 'row', alignSelf: 'center', width: '100%', alignItems: 'center', justifyContent: 'center' }}>
               <TextInput onChangeText={(value) => setUsername(value.toLowerCase())} style={{padding: 0}} placeholder={'Username'}>
                 <Text style={{ color: 'orange', fontSize: 16 }}>{username}</Text>
               </TextInput>
@@ -224,7 +331,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
               <Text style={{ fontSize: 16 }}>Instagram</Text>
               <Icon name={'search'} size={20} onPress={searchUser} />
             </View>
-            <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
+            <View style={{ marginBottom: 10, flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
               <TextInput style={{
                 color: 'gray',
                 fontWeight: darkMode ? '600' : '400',
@@ -263,14 +370,14 @@ const NewInstagramConversation = ({ navigation }: Props) => {
                   </View>
                 )}
               <Switch
-                style={{ alignSelf: 'center' }}
-                trackColor={{ false: 'gray', true: 'gray' }}
+                style={{ marginBottom: 10, alignSelf: 'center' }}
+                trackColor={{ false: 'gray', true: 'orange' }}
                 onValueChange={(value) => setFollowEachother(value)}
                 value={followEachother}
               />
             </View>
             {followEachother && (
-              <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 16 }}>You both follow </Text>
                 <TextInput style={{ color: 'gray', padding: 0}} onChangeText={(value) => setMutualFollow(value.toLowerCase())} placeholder={'Mutual Follow'}>
                   <Text style={{ fontSize: 16, color: 'orange' }}>{mutualFollow}</Text>
