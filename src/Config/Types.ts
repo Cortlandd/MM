@@ -53,7 +53,6 @@ export interface Recipient {
   first_name?: string
   last_name?: string
   image?: string // Or BLOB
-  local_image: string,
   username?: string
   works_at?: string
   education_at?: string
