@@ -26,6 +26,7 @@ import { UserState } from '@/Store/User'
 import FetchInstagramUser from '@/Store/User/FetchInstagramUser'
 import * as ImagePicker from "react-native-image-picker"
 import * as RNFS from 'react-native-fs'
+import { Asset } from 'react-native-image-picker'
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'NewInstagramConversation'>
@@ -53,7 +54,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
   const [activityIndicatorAnimating, setActivityIndicatorAnimating] = useState(false)
   const [verified, setVerified] = useState(false)
   const [profileImage, setProfileImage] = useState('')
-  const [localImage, setLocalImage] = useState()
+  const [localImage, setLocalImage] = useState<Asset>()
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [urlInput, setUrlInput] = useState('')
   const [recipientImage, setRecipientImage] = useState('')
@@ -178,6 +179,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
           "Required Field Missing",
           "Username is required"
         )
+        return
       }
     } else {
       if (username === '' || followingSince === '') {
@@ -185,6 +187,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
           "Required Fields Missing",
           "Username and Year are required."
         )
+        return
       }
     }
 
@@ -275,7 +278,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
           keyboardVerticalOffset={54}
           enabled={true}>
           {fetchInstagramUserLoading && (<ActivityIndicator animating={true} size={'large'} />)}
-          {profileImage || localImage ? (
+          {profileImage || tempLocalImage ? (
             <View>
               <Icon name={'close'} style={{ alignSelf: 'center', marginLeft: 100, backgroundColor: 'lightgray', borderRadius: 50}} color={'red'} onPress={() => {
                 setProfileImage('')

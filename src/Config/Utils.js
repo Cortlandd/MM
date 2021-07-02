@@ -91,7 +91,7 @@ export const booleanToInteger = (value) => {
   }
 }
 
-export function CreateGuid() {
+export function createGuid() {
   function _p8(s) {
     let p = (Math.random().toString(16)+"000000000").substr(2,8);
     return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
@@ -143,4 +143,30 @@ export const isValidURL = (str) => {
 
   var res = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
   return (res !== null)
+}
+
+export const getURLExtension = (url) => {
+  if (url === '') return null
+
+  return url.split(/[#?]/)[0].split('.').pop().trim();
+}
+
+export const getConversationContainer = (platform) => {
+  switch (platform) {
+    case Config.messagingPlatforms.Instagram: {
+      return Config.containerNames.InstagramConversation
+    }
+    case Config.messagingPlatforms.iMessage: {
+      return Config.containerNames.iMessageConversation
+    }
+    case Config.messagingPlatforms.Messenger: {
+      return Config.containerNames.MessengerConversation
+    }
+    case Config.messagingPlatforms.Twitter: {
+      return Config.containerNames.TwitterConversation
+    }
+    default: {
+      break
+    }
+  }
 }

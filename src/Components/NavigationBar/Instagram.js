@@ -69,7 +69,7 @@ const InstagramNavigationBar = ({ callback, title, recipient }) => {
 
 export default InstagramNavigationBar
 
-const STATUS_BAR_HEIGHT: number = getStatusBarHeight()
+const STATUS_BAR_HEIGHT = getStatusBarHeight()
 const styles = StyleSheet.create({
   navigationBar: {
     width: '100%',
