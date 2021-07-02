@@ -20,7 +20,7 @@ export type RootStackParamList = {
     MessengerConversation: undefined
     iMessageConversation: undefined
     NewTwitterConversation: undefined
-    NewGenericConversation: undefined
+    NewGenericConversation: { platform: string }
     NewInstagramConversation: undefined
 }
 
@@ -39,7 +39,7 @@ function MainStackScreen() {
         name={Config.containerNames.Home}
         component={HomeScreen}
         options={{
-          title: 'Msg Maker',
+          title: 'Conversations',
           headerStyle: {
             backgroundColor: darkMode ? 'black' : 'white',
             elevation: 0,
@@ -50,6 +50,7 @@ function MainStackScreen() {
               onPress={() =>
                 navigation.navigate('NewConversation')
               }
+              size={35}
               name="add"
               style={{
                 marginRight: 5,
@@ -62,6 +63,7 @@ function MainStackScreen() {
         name={Config.containerNames.NewConversation}
         component={NewConversationScreen}
         options={{
+          title: 'Select Platform',
           headerStyle: {
             backgroundColor: darkMode ? 'black' : 'white',
             elevation: 0,

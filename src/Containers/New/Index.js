@@ -33,7 +33,7 @@ const IndexNewConversation = () => {
         data={Config.messagingPlatformList}
         renderItem={({ item }) => {
           return (
-            <ListItem bottomDivider onPress={() => navigation.navigate(determineRoute(item.name), { item: item }) }>
+            <ListItem bottomDivider onPress={() => navigation.navigate(determineRoute(item.name), { platform: item.name }) }>
               <Avatar source={images[item.name]} />
               <ListItem.Content>
                 <ListItem.Title>{item.name}</ListItem.Title>
