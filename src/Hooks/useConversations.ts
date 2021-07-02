@@ -29,8 +29,8 @@ export function useConversations() {
     return database.getConversations().then(setConversations)
   }
 
-  async function createConversation(conversation: Conversation): Promise<void> {
-    await database.createConversation(conversation).then(() => Promise.resolve())
+  function createConversation(conversation: Conversation): Promise<Conversation> {
+    return database.createConversation(conversation).then((conversation) => Promise.resolve(conversation))
   }
 
   async function getLastConversation(): Promise<Conversation> {

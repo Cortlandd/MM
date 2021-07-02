@@ -9,8 +9,8 @@ const DATABASE_VERSION = '1.0'
 
 export interface Database {
   // Create
-  createConversation(conversation: Conversation): Promise<void>
-  createRecipient(recipient: Recipient): Promise<void>
+  createConversation(conversation: Conversation): Promise<Conversation>
+  createRecipient(recipient: Recipient): Promise<Recipient>
   createMessage(message: Message, conversation_id: number): Promise<Message>
 
   // Read
@@ -38,13 +38,18 @@ let databaseInstance: SQLite.SQLiteDatabase | undefined
 
 // CREATE
 
-async function createConversation(conversation: Conversation): Promise<void> {
+async function createConversation(conversation: Conversation): Promise<Conversation> {
   let c = JSON.parse(JSON.stringify(conversation))
   let keys = Object.keys(c)
   let vals = Object.values(c)
-  return getDatabase()
+  const database = getDatabase()
+  database
     .then((db) =>
-      db.executeSql(`INSERT INTO Conversations (${keys.join(', ')}) VALUES (${vals.map((v) => `'${v}'`).join(', ')});`))
+      db.executeSql(`INSERT INTO Conversations (${keys.join(', ')}) VALUES (${vals.map((v) => `'${v}'`).join(', ')});`)
+    ).then(() => Promise.resolve())
+
+  return database
+    .then((db) => db.executeSql('SELECT * FROM Conversations WHERE id = (SELECT MAX(id) FROM Conversations);'))
     .then(([results]) => {
       if (results === undefined) {
         return Promise.reject(null)
@@ -55,20 +60,25 @@ async function createConversation(conversation: Conversation): Promise<void> {
 }
 
 // Create recipient for a conversation
-async function createRecipient(recipient: Recipient): Promise<void> {
+async function createRecipient(recipient: Recipient): Promise<Recipient> {
   let r = JSON.parse(JSON.stringify(recipient))
   let vals = Object.values(r)
-  return getDatabase()
-    .then((db) =>
-      db.executeSql(
-        `INSERT INTO Recipients (${Object.keys(r).join(', ')}) VALUES (${vals.map((v) => `'${v}'`).join(',')});`),
-    )
+  const database = getDatabase()
+  // Create Recipient
+  database.then((db) => db.executeSql(
+    `INSERT INTO Recipients (${Object.keys(r).join(', ')}) VALUES (${vals.map((v) => `'${v}'`).join(',')});`),
+  ).then(() => Promise.resolve())
+  
+  // Get Previously created recipient
+  return database
+    .then((db) => db.executeSql('SELECT * FROM Recipients WHERE id = (SELECT MAX(id) FROM Recipients);'))
     .then(([results]) => {
-
+      console.debug('recipient results', results.rows.item(0))
       if (results === undefined) {
         return Promise.reject(null)
       }
-      return Promise.resolve()
+
+      return results.rows.item(0)
     })
 }
 

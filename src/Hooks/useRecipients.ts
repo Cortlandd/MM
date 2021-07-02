@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Conversation, Recipient } from '@/Config/Types'
+import { Recipient } from '@/Config/Types'
 import { useDatabase } from '@/Config/Database/DatabaseContext'
 
 export function useRecipients(conversation_id?: number) {
@@ -20,8 +20,8 @@ export function useRecipients(conversation_id?: number) {
     }
   }
 
-  async function createRecipient(recipient: Recipient): Promise<void> {
-    await database.createRecipient(recipient)
+  function createRecipient(recipient: Recipient): Promise<Recipient> {
+    return database.createRecipient(recipient).then((r) => Promise.resolve(r))
   }
 
   function getRecipient(id: number): Promise<Recipient> {
