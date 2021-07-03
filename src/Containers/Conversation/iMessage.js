@@ -20,7 +20,7 @@ import { IMessageMessage } from '@/Components'
 import { moderateScale } from 'react-native-size-matters'
 
 const IMessageConversation = ({ route, navigation }) => {
-  const { item } = route.params
+  const { conversation, recipient } = route.params
   const dispatch = useDispatch()
   const images = Images()
 
@@ -41,8 +41,8 @@ const IMessageConversation = ({ route, navigation }) => {
     msg.is_from_me = selectedReceiverIndex === 1
     msg.show_arrow = true
     msg.recipient = {
-      name: item.recipient.name,
-      image: item.recipient.image,
+      name: recipient.name,
+      image: recipient.image,
     }
 
     initialData.push(msg)
@@ -71,9 +71,9 @@ const IMessageConversation = ({ route, navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <IMessageNavigationBar
-        title={item.recipient.name}
+        title={`${recipient.first_name} ${recipient.last_name}`}
         callback={() => navigation.goBack()}
-        userData={item}
+        recipient={recipient}
       />
       <KeyboardAvoidingView
         style={{ flex: 1 }}

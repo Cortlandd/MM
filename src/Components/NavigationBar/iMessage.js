@@ -13,7 +13,7 @@ import Icons from '@/Theme/Icons'
 import Images from '@/Theme/Images'
 import IMessageContact from '@/Components/iMessageContact'
 
-const IMessageNavigationBar = ({ callback, title, userData }) => {
+const IMessageNavigationBar = ({ callback, title, recipient }) => {
   const icons = Icons()
   const images = Images()
 
@@ -64,14 +64,20 @@ const IMessageNavigationBar = ({ callback, title, userData }) => {
           alignItems: 'center',
         }}
       >
-        <IMessageContact name={extractName(title)} />
+        {recipient.image ? (
+          <Avatar source={{ uri: recipient.image }} rounded={true} size={50} />
+        ) : recipient.first_name || recipient.last_name ? (
+          <IMessageContact name={extractName(title)} />
+        ) : (
+          <Avatar source={icons.ios_no_contact_icon} />
+        )}
         <View
           style={{
             flexDirection: 'row',
             marginVertical: 5,
           }}
         >
-          <Text style={{ fontSize: 12 }}>{userData.recipient.name}</Text>
+          <Text style={{ fontSize: 12 }}>{`${recipient.first_name} ${recipient.last_name}`}</Text>
           <Icon name={'chevron-right'} size={15} color={'gray'} />
         </View>
       </View>

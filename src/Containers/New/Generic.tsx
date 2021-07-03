@@ -187,7 +187,7 @@ const NewGenericConversation = ({ navigation, route }: Props) => {
         recipient.city = city
         recipient.state = state
         recipient.mutual_friends_count = friendCount | 0
-        recipient.image = recipientImage
+        if (recipientImage) recipient.image = recipientImage
         break
       }
       
@@ -195,7 +195,7 @@ const NewGenericConversation = ({ navigation, route }: Props) => {
         recipient.first_name = firstName
         recipient.last_name = lastName
         recipient.created_at = Utils.getDatetimeForSqlite()
-        recipient.image = recipientImage
+        if (recipientImage) recipient.image = recipientImage
         break
       }
       
@@ -314,14 +314,15 @@ const NewGenericConversation = ({ navigation, route }: Props) => {
                   borderRadius: 150,
                   padding: 10,
                   borderColor: 'gray',
-                  height: 100,
-                  width: 100,
+                  height: 120,
+                  width: 120,
                 }}
               >
                 <View style={{ alignContent: 'center', justifyContent: 'center' }}>
                   <Text style={{ textAlign: 'center', color: darkMode ? '#FFF' : 'gray', fontWeight: 'bold' }}>Profile Image</Text>
                   <Icon name={'add'} color={'green'} />
                 </View>
+                <Text style={{ color: 'lightgray', alignSelf: 'center', fontStyle: 'italic' }}>(optional)</Text>
               </View>
             </TouchableWithoutFeedback>
           )}

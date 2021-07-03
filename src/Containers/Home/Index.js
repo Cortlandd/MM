@@ -36,10 +36,10 @@ const IndexHomeContainer = ({ navigation }) => {
               {conversationRecipient && (
                 <View style={{ flexDirection: 'row', alignContent: 'center' }}>
                   <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-                    {conversationRecipient.name}
+                    {conversationRecipient.name || `${conversationRecipient.first_name} ${conversationRecipient.last_name}`}
                   </Text>
                   <Text style={{ color: 'gray', marginLeft: 5 }}>
-                    @{conversationRecipient.username}
+                    {conversationRecipient.username && `@${conversationRecipient.username}`}
                   </Text>
                   {Utils.validateBoolean(conversationRecipient.verified) && (
                     <Svg viewBox="0 0 24 24" width={20} fill={'#1DA1F2'} aria-label="Verified account">
