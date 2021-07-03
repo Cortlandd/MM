@@ -6,7 +6,7 @@ import Icons from '@/Theme/Icons'
 import Images from '@/Theme/Images'
 import Svg, { Path } from 'react-native-svg'
 
-const MessengerNavigationBar = ({ callback, userData }) => {
+const MessengerNavigationBar = ({ callback, recipient }) => {
   const icons = Icons()
   const images = Images()
 
@@ -26,11 +26,11 @@ const MessengerNavigationBar = ({ callback, userData }) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.userInfo}>
           <View>
-            <Avatar source={images.sample_profile_woman} size={28} rounded={true} />
+            <Avatar source={{ uri: recipient.image }} size={34} rounded={true} />
           </View>
           <View style={{ marginLeft: 10 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              {userData.recipient.name}
+            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+              {`${recipient.first_name} ${recipient.last_name}`}
             </Text>
           </View>
         </TouchableOpacity>
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 1,
     borderBottomColor: '#ddd',
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
+    paddingBottom: 5,
     zIndex: 1,
   },
   rightOptions: {

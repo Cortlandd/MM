@@ -58,6 +58,8 @@ const NewGenericConversation = ({ navigation, route }: Props) => {
   const [followerCount, setFollowerCount] = useState<number>(0)
   const [followingCount, setFollowingCount] = useState<number>(0)
   const [recipientImage, setRecipientImage] = useState<string>()
+  const [workLocation, setWorkLocation] = useState<string>('')
+  const [education, setEducation] = useState('')
   
   useEffect(() =>{
     if (profileURL !== '') processURLImage()
@@ -186,6 +188,8 @@ const NewGenericConversation = ({ navigation, route }: Props) => {
         recipient.created_at = Utils.getDatetimeForSqlite()
         recipient.city = city
         recipient.state = state
+        recipient.works_at = workLocation
+        recipient.education = education
         recipient.mutual_friends_count = friendCount | 0
         if (recipientImage) recipient.image = recipientImage
         break
@@ -393,6 +397,14 @@ const NewGenericConversation = ({ navigation, route }: Props) => {
                   </Col>
                   <Col>
                     <Input value={state} onChangeText={(value) => setState(value)} placeholder={'State (Optional)'} />
+                  </Col>
+                </Row>
+                <Row style={{ height: 50 }}>
+                  <Col>
+                    <Input value={workLocation} onChangeText={(value) => setWorkLocation(value)} placeholder={'Works at (Optional)'} />
+                  </Col>
+                  <Col>
+                    <Input value={education} onChangeText={(value) => setEducation(value)} placeholder={'Education (Optional)'} />
                   </Col>
                 </Row>
                 <Row style={{ height: 50, marginLeft: 10 }}>

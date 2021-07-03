@@ -55,7 +55,7 @@ export interface Recipient {
   image?: string // Or BLOB
   username?: string
   works_at?: string
-  education_at?: string
+  education?: string
   city?: string
   state?: string
   follower_count?: string

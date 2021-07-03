@@ -19,7 +19,7 @@ import MessengerMessage from '@/Components/Message/Messenger'
 import MessengerProfile from '@/Components/Profile/Messenger'
 
 const MessengerConversation = ({ route, navigation }) => {
-  const { item } = route.params
+  const { conversation, recipient } = route.params
   const dispatch = useDispatch()
   const images = Images()
 
@@ -48,16 +48,16 @@ const MessengerConversation = ({ route, navigation }) => {
       msg.type = 'received'
       msg.is_from_me = false
       msg.recipient = {
-        name: item.sender.name,
-        image: item.sender.image,
+        name: recipient.name,
+        image: recipient.image,
       }
     } else {
       // Sender
       msg.type = 'sent'
       msg.is_from_me = true
       msg.recipient = {
-        name: item.recipient.name,
-        image: item.recipient.image,
+        name: recipient.name,
+        image: recipient.image,
       }
     }
     initialData.push(msg)
@@ -123,13 +123,13 @@ const MessengerConversation = ({ route, navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 8 }}>
       <MessengerNavigationBar
         callback={() => navigation.goBack()}
-        userData={item}
+        recipient={recipient}
       />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
           <FlatList
             data={initialData}
-            ListHeaderComponent={<MessengerProfile user={item.recipient} />}
+            ListHeaderComponent={<MessengerProfile recipient={recipient} />}
             renderItem={({ item, index }) => {
               return (
                 <MessengerMessage
