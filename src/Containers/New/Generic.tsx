@@ -291,9 +291,10 @@ const NewGenericConversation = ({ navigation, route }: Props) => {
                 color={'red'}
                 onPress={() => {
                   setUrlInput('')
-                  discardImages()
                   setProfileURL('')
                   setUploadResponse(undefined)
+                  setTempUploadImage('')
+                  discardImages()
                 }}
               />
               <View style={{ alignSelf: 'center', justifyContent: 'center', borderWidth: 1, borderRadius: 150, borderColor: 'gray', height: 105, width: 105, }}>

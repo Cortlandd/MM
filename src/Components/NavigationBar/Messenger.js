@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     borderBottomColor: '#ddd',
     borderBottomWidth: 0.5,
+    paddingTop: 7,
     paddingBottom: 5,
     zIndex: 1,
   },
