@@ -218,15 +218,11 @@ const NewInstagramConversation = ({ navigation }: Props) => {
 
     recipient.image = recipientImage
 
-    createRecipient(recipient).then(() => {
-      getLastRecipient().then((r) => {
-        conversation.recipient_id = r.id
-        createConversation(conversation).then(() => {
-          getLastConversation().then((c) => {
-            setActivityIndicatorAnimating(false)
-            refreshConversations().then(() => navigation.navigate(Config.containerNames.InstagramConversation, { conversation: c, recipient: r }))
-          })
-        })
+    createRecipient(recipient).then((r) => {
+      conversation.recipient_id = r.id
+      createConversation(conversation).then((c) => {
+        setActivityIndicatorAnimating(false)
+        refreshConversations().then(() => navigation.navigate(Config.containerNames.InstagramConversation, { conversation: c, recipient: r }))
       })
     })
   }

@@ -144,14 +144,10 @@ const NewTwitterConversation = ({ navigation }: Props) => {
                         platform: Config.messagingPlatforms.Twitter,
                       }
 
-                      createRecipient(rec).then(() => {
-                        getLastRecipient().then((r) => {
-                            conversation.recipient_id = r.id
-                            createConversation(conversation).then(() => {
-                                getLastConversation().then((c) => {
-                                  refreshConversations().then(() => navigation.navigate(Config.containerNames.TwitterConversation, { conversation: c, recipient: r }))
-                                })
-                            })
+                      createRecipient(rec).then((r) => {
+                        conversation.recipient_id = r.id
+                        createConversation(conversation).then((c) => {
+                          refreshConversations().then(() => navigation.navigate(Config.containerNames.TwitterConversation, { conversation: c, recipient: r }))
                         })
                       })
                     }}
