@@ -101,7 +101,7 @@ const TwitterMessage = ({ message, recipient }) => {
         }}
       >
         <Text style={{ color: 'gray', fontSize: 13 }}>
-          {dateValidation(new Date(message.time))}
+          {dateValidation(message.time)}
         </Text>
         {validateBoolean(message.is_from_me) && validateBoolean(message.message_seen) && (
           <Svg
