@@ -128,7 +128,7 @@ const TwitterMessage = ({ message, recipient }) => {
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'baseline',
-        justifyContent: message.is_from_me ? 'flex-end' : 'flex-start',
+        justifyContent: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
       }}
     >
       {/* Avatar */}
