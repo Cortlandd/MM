@@ -52,7 +52,7 @@ const MessengerProfile = ({ recipient }) => {
         </View>
       ) : null}
       <View style={{ paddingHorizontal: 15, paddingVertical: 7, backgroundColor: '#ececec', alignSelf: 'center', borderRadius: 20, marginTop: 5 }}>
-        <Text style={{ fontWeight: 'bold', fontSize: 14 }}>VIEW PROFILE</Text>
+        <Text style={{ fontWeight: '600', fontSize: 14 }}>VIEW PROFILE</Text>
       </View>
     </View>
   )

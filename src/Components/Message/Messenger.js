@@ -10,9 +10,16 @@ import {
 } from 'react-native'
 import { Avatar } from 'react-native-elements'
 import Images from '@/Theme/Images'
+import * as Utils from '@/Config/Utils'
+import { validateBoolean } from '@/Config/Utils'
 
-const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
+const MessengerMessage = ({message, lastMessage, recipient }) => {
   const images = Images()
+  
+  message.is_from_me = validateBoolean(message.is_from_me)
+  message.message_last_in_group = validateBoolean(message.message_last_in_group)
+  message.message_first_in_group = validateBoolean(message.message_first_in_group)
+  message.show_timestamp = validateBoolean(message.show_timestamp)
 
   var borderTopRightRadiusValue = 2
   var borderTopLeftRadiusValue = 2
@@ -28,37 +35,79 @@ const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
     )
   }
 
+  const dateValidation = (d) => {
+    var dt = new Date(d)
+    var date = dt.getDate()
+    var diff_days = new Date().getDate() - date
+    var diff_months = new Date().getMonth() - dt.getMonth()
+    var diff_years = new Date().getFullYear() - dt.getFullYear()
+
+    var is_today = diff_years === 0 && diff_months === 0 && diff_days === 0
+    var is_yesterday = diff_years === 0 && diff_months === 0 && diff_days === 1
+
+    if (is_today) {
+      const t = new Date(message.time).toLocaleTimeString([], {
+        hour: 'numeric',
+        minute: '2-digit',
+      })
+
+      return 'Today ' + t
+    } else if (is_yesterday) {
+      const msg = new Date(message.time).toLocaleTimeString([], {
+        hour: 'numeric',
+        minute: '2-digit',
+      })
+
+      return 'Yesterday ' + msg
+    } else {
+      return new Date(message.time).toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })
+    }
+  }
+
   if (message.is_from_me) {
-    if (message.message_first_in_group) {
-      borderTopRightRadiusValue = 15
-      borderTopLeftRadiusValue = 15
-      borderBottomLeftRadiusValue = 15
+    if (message.message_first_in_group && message.message_last_in_group) {
+      borderTopRightRadiusValue = 20
+      borderTopLeftRadiusValue = 20
+      borderBottomLeftRadiusValue = 20
+      borderBottomRightRadiusValue = 20
     } else if (message.message_last_in_group) {
-      borderBottomRightRadiusValue = 15
-      borderBottomLeftRadiusValue = 15
-      borderTopLeftRadiusValue = 15
+      borderBottomRightRadiusValue = 20
+      borderBottomLeftRadiusValue = 20
+      borderTopLeftRadiusValue = 20
+    } else if (message.message_first_in_group) {
+      borderTopRightRadiusValue = 20
+      borderTopLeftRadiusValue = 20
+      borderBottomLeftRadiusValue = 20
     } else {
       borderBottomRightRadiusValue = 2
       borderTopRightRadiusValue = 2
-
-      borderTopLeftRadiusValue = 15
-      borderBottomLeftRadiusValue = 15
+      borderTopLeftRadiusValue = 20
+      borderBottomLeftRadiusValue = 20
     }
   }
 
   if (!message.is_from_me) {
     if (message.message_first_in_group) {
-      borderTopLeftRadiusValue = 15
-      borderTopRightRadiusValue = 15
+      borderTopLeftRadiusValue = 20
+      borderTopRightRadiusValue = 20
       borderBottomLeftRadiusValue = 2
-      borderBottomRightRadiusValue = 15
+      borderBottomRightRadiusValue = 20
     } else if (message.message_last_in_group) {
-      borderBottomRightRadiusValue = 15
-      borderBottomLeftRadiusValue = 15
-      borderTopRightRadiusValue = 15
+      borderBottomRightRadiusValue = 20
+      borderBottomLeftRadiusValue = 20
+      borderTopRightRadiusValue = 20
+    } else if (message.message_first_in_group && message.message_last_in_group) {
+      borderTopRightRadiusValue = 20
+      borderTopLeftRadiusValue = 20
+      borderBottomLeftRadiusValue = 20
+      borderBottomRightRadiusValue = 20
     } else {
-      borderBottomRightRadiusValue = 15
-      borderTopRightRadiusValue = 15
+      borderBottomRightRadiusValue = 20
+      borderTopRightRadiusValue = 20
 
       borderTopLeftRadiusValue = 0
       borderBottomLeftRadiusValue = 0
@@ -78,7 +127,7 @@ const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
       borderBottomRightRadius: borderBottomRightRadiusValue,
       maxWidth: SCREEN_WIDTH * 0.6,
       backgroundColor: '#e4e6eb',
-      marginHorizontal: 10,
+      marginHorizontal: 5,
     },
     textMessage: {
       paddingLeft: 12,
@@ -88,7 +137,7 @@ const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
       justifyContent: 'center',
       alignItems: 'center',
       paddingVertical: 8,
-      color: is_from_me ? '#fff' : '#000',
+      color: message.is_from_me ? '#fff' : '#000',
       fontSize: 15,
     },
     myMessage: {
@@ -104,8 +153,13 @@ const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
   })
 
   function getProfileImage() {
-    if (!message.is_from_me && message.message_last_in_group) {
-      return images.sample_profile_woman
+    if (
+      (!validateBoolean(message.is_from_me) &&
+        validateBoolean(message.message_first_in_group) &&
+        validateBoolean(message.message_last_in_group)) ||
+      (!validateBoolean(message.is_from_me) && validateBoolean(message.message_last_in_group))
+    ) {
+      return recipient.image
     } else {
       return null
     }
@@ -113,36 +167,31 @@ const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      {message.message_first_in_group && (
+      {message.show_timestamp ? (
         <Text style={{ color: 'gray', alignSelf: 'center', marginTop: 10, marginBottom: 10 }}>
-          {message.time.toLocaleTimeString([], {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-          })}
+          {dateValidation(message.time)}
         </Text>
-      )}
+      ) : null}
       <View
         style={{
           flex: 1,
           flexDirection: 'row',
           flexWrap: 'wrap',
           alignItems: 'baseline',
-          justifyContent: is_from_me ? 'flex-end' : 'flex-start',
+          justifyContent: message.is_from_me ? 'flex-end' : 'flex-start',
+          marginTop: lastMessage && validateBoolean(message.is_from_me) === validateBoolean(lastMessage.is_from_me) && message.group_id !== lastMessage.group_id && 8
         }}
       >
         {/* Avatar */}
         <View>
-          <Avatar rounded={true} size={25} source={!message.is_from_me && message.message_last_in_group ? images.sample_profile_woman : null} />
+          <Avatar rounded={true} size={25} source={!message.is_from_me && message.message_last_in_group ? { uri: recipient.image } : null} />
         </View>
         {/* Message and timestamp */}
         <View style={{ flex: 1 }}>
           <View
             style={{
               ...styles.messageItem,
-              justifyContent: is_from_me ? 'flex-end' : 'flex-start',
+              justifyContent: message.is_from_me ? 'flex-end' : 'flex-start',
               marginBottom: 1,
               marginTop: 1,
             }}
@@ -151,21 +200,22 @@ const MessengerMessage = ({ is_from_me, message, lastMessage }) => {
             <View
               style={[
                 styles.message,
-                is_from_me ? styles.myMessage : styles.yourMessage,
+                message.is_from_me ? styles.myMessage : styles.yourMessage,
                 styles.textMessage,
                 {
-                  alignItems: is_from_me ? 'flex-end' : 'flex-start',
+                  alignItems: message.is_from_me ? 'flex-end' : 'flex-start',
                 },
               ]}
             >
-              <Text style={styles.msgText}>{message.message}</Text>
+              <Text style={styles.msgText}>{message.text}</Text>
             </View>
             <Avatar
               rounded={true}
               size={20}
               source={
-                is_from_me && message.message_last_in_group
-                  ? images.sample_profile_woman
+                message.is_from_me && message.message_last_in_group
+                  // Change URI
+                  ? recipient.imag
                   : null
               }
             />
