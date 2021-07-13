@@ -7,37 +7,40 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
-  TouchableWithoutFeedback, Keyboard, TextInput, ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  TextInput,
 } from 'react-native'
+import IMessageNavigationBar from '@/Components/NavigationBar/iMessage'
 import Images from '@/Theme/Images'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
-import MessengerNavigationBar from '@/Components/NavigationBar/Messenger'
-import InstagramNavigationBar from '@/Components/NavigationBar/Instagram'
-import MessengerTextInput from '@/Components/TextInput/Messenger'
-import MessengerMessage from '@/Components/Message/Messenger'
-import MessengerProfile from '@/Components/Profile/Messenger'
-import * as Utils from '@/Config/Utils'
-import { booleanToInteger, validateBoolean } from '@/Config/Utils'
+import IMessageTextInput from '@/Components/TextInput/iMessage'
+import { IMessageMessage } from '@/Components'
+import { moderateScale } from 'react-native-size-matters'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '@/Navigators/Main'
 import { RouteProp } from '@react-navigation/native'
+import * as Utils from '@/Config/Utils'
 import { useMessages } from '@/Hooks/useMessages'
 import { Message } from '@/Config/Types'
+import { booleanToInteger, validateBoolean } from '@/Config/Utils'
 
 interface Props {
-  navigation: StackNavigationProp<RootStackParamList, 'MessengerConversation'>;
-  route: RouteProp<RootStackParamList, 'MessengerConversation'>
+  navigation: StackNavigationProp<RootStackParamList, 'iMessageConversation'>;
+  route: RouteProp<RootStackParamList, 'iMessageConversation'>
 }
 
-const MessengerConversation = ({ navigation, route }: Props) => {
+const IMessageConversation = ({ navigation, route }: Props) => {
   const { conversation, recipient } = route.params
   const { conversationMessages, createMessage, updateMessageBulk } = useMessages(conversation)
-  
   const images = Images()
 
+  const [initialData] = useState([])
+  const [messagesData, setMessagesData] = useState([])
   const [message, setMessage] = useState('')
-  const [messagesData, setMessagesData] = useState<Message[]>([])
   const [selectedReceiverIndex, setSelectedReceiverIndex] = useState(1)
+
+  const ONE_MINUTE_SECONDS = 60
 
   const sendMessage = () => {
     const msg: Message = {
@@ -51,7 +54,7 @@ const MessengerConversation = ({ navigation, route }: Props) => {
       message_first_in_group: Utils.booleanToInteger(true),
       message_last_in_group: Utils.booleanToInteger(true)
     }
-    
+
     handleMessageData(msg)
     setMessage('')
   }
@@ -66,7 +69,7 @@ const MessengerConversation = ({ navigation, route }: Props) => {
     let latestMessage: Message
     let latestMessageIndex
     let previousMessage: Message
-
+    
     if (conversationMessages.length > 0) {
       latestMessage = conversationMessages.reduce((a, b) => {
         return new Date(a.time) > new Date(b.time) ? a : b;
@@ -74,11 +77,9 @@ const MessengerConversation = ({ navigation, route }: Props) => {
 
       latestMessageIndex = conversationMessages.findIndex(v => v.time === latestMessage.time)
       previousMessage = conversationMessages[latestMessageIndex]
-    } else {
-      previousMessage = undefined
     }
 
-    if (previousMessage !== undefined) {
+    if (previousMessage) {
       const message_date = new Date(message.time)
       const previous_message_date = new Date(previousMessage.time)
       const secondsDifference = (message_date.getTime() - previous_message_date.getTime()) / 1000
@@ -98,7 +99,7 @@ const MessengerConversation = ({ navigation, route }: Props) => {
             message.message_first_in_group = booleanToInteger(true)
             message.message_last_in_group = booleanToInteger(true)
           }
-          
+
         } else {
           // new group, show timestamp
           message.message_first_in_group = booleanToInteger(true)
@@ -106,7 +107,7 @@ const MessengerConversation = ({ navigation, route }: Props) => {
           message.show_timestamp = booleanToInteger(true)
           message.group_id = previousMessage.group_id + 1
         }
-        
+
       } else {
         message.group_id = previousMessage.group_id! + 1
         message.message_last_in_group = booleanToInteger(true)
@@ -117,6 +118,7 @@ const MessengerConversation = ({ navigation, route }: Props) => {
         // }
       }
     } else {
+      // TODO: This is wrong?
       message.show_timestamp = booleanToInteger(true)
     }
 
@@ -128,46 +130,68 @@ const MessengerConversation = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingBottom: 8 }}>
-      <MessengerNavigationBar
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <IMessageNavigationBar
+        title={`${recipient.first_name} ${recipient.last_name}`}
         callback={() => navigation.goBack()}
         recipient={recipient}
       />
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
-        <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled>
-            <MessengerProfile recipient={recipient} />
-            <FlatList
-              data={conversationMessages}
-              renderItem={({ item, index }) => {
-                return (
-                  <MessengerMessage
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={54}
+        enabled={true}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <FlatList
+            data={conversationMessages}
+            ListHeaderComponent={() => <Text style={{ alignSelf: 'center', color: 'gray'}}>iMessage</Text>}
+            renderItem={({ item, index }) => {
+              return (
+                <View style={{ marginTop: 1, marginBottom: 1 }}>
+                  <IMessageMessage
                     message={item}
-                    lastMessage={conversationMessages && conversationMessages[index-1]}
+                    previousMessage={conversationMessages && conversationMessages[index - 1]}
                     recipient={recipient}
                   />
-                )
-              }}
-              style={{ flex: 1, marginTop: 30, marginRight: 5, marginLeft: 15 }}
-              keyExtractor={(item, index) => item.time}
-              ref={ (ref) => { this.myFlatListRef = ref } }
-              onContentSizeChange={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
-              onLayout={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
-            />
-          </ScrollView>
+                  {item.is_from_me && index === conversationMessages.length - 1 ? (
+                    <View
+                      style={{
+                        marginVertical: moderateScale(3, 2),
+                        ...!item.is_from_me && { marginLeft: 20 },
+                        ...item.is_from_me && { marginRight: 20, alignSelf: 'flex-end' },
+                      }}
+                    >
+                      <Text style={{ fontWeight: '500', color: 'gray', fontSize: 12 }}>
+                        Delivered
+                      </Text>
+                    </View>
+                  ) : null}
+                </View>
+              )
+            }}
+            style={{ flex: 1, marginRight: 5, marginLeft: 5 }}
+            keyExtractor={(item, index) => item.time}
+            ref={ (ref) => { this.myFlatListRef = ref } }
+            onContentSizeChange={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
+            onLayout={ () => { this.myFlatListRef.scrollToEnd({animated:false}) } }
+          />
         </TouchableWithoutFeedback>
-        <View style={{ width: '100%' }}>
+        <View style={{ margin: 10 }}>
           <SegmentedControlTab
-            tabsContainerStyle={{ marginHorizontal: 10, marginBottom: 10 }}
             values={['Receiving', 'Sending']}
             selectedIndex={selectedReceiverIndex}
             onTabPress={(index) => setSelectedReceiverIndex(index)}
           />
-          <MessengerTextInput messageInput={message} setMessageInput={setMessage} onSend={sendMessage} />
         </View>
+        <IMessageTextInput
+          messageInput={message}
+          setMessageInput={setMessage}
+          onSend={sendMessage}
+        />
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
 
-export default MessengerConversation
+export default IMessageConversation

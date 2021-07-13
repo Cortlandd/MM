@@ -12,17 +12,20 @@ import {
 import Svg, { Path } from 'react-native-svg'
 import { Avatar } from 'react-native-elements'
 import { moderateScale } from 'react-native-size-matters'
+import { validateBoolean } from '@/Config/Utils'
 
-const IMessageMessage = ({
-  is_from_me = false,
-  showTimestamp = false,
-  message,
-}) => {
-  const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)
+const IMessageMessage = ({ message, previousMessage, recipient }) => {
+  message.is_from_me = validateBoolean(message.is_from_me)
+  message.message_last_in_group = validateBoolean(message.message_last_in_group)
+  message.message_first_in_group = validateBoolean(message.message_first_in_group)
+  message.show_timestamp = validateBoolean(message.show_timestamp)
 
   const styles = StyleSheet.create({
     message: {
       flexDirection: 'row',
+      ...previousMessage && {
+        marginTop: (validateBoolean(message.is_from_me) === validateBoolean(previousMessage.is_from_me) && message.group_id !== previousMessage.group_id) ? 8 : 0
+      },
     },
     mine: {
       marginLeft: 20,
@@ -35,11 +38,10 @@ const IMessageMessage = ({
       maxWidth: moderateScale(250, 2),
       paddingHorizontal: moderateScale(10, 2),
       paddingTop: moderateScale(5, 2),
-      paddingBottom: moderateScale(7, 2),
+      paddingBottom: moderateScale(5, 2),
       borderRadius: 20,
     },
     text: {
-      paddingTop: 3,
       fontSize: 17,
       lineHeight: 22,
     },
@@ -68,30 +70,59 @@ const IMessageMessage = ({
     },
   })
 
+  const dateValidation = (d) => {
+    var dt = new Date(d)
+    var date = dt.getDate()
+    var diff_days = new Date().getDate() - date
+    var diff_months = new Date().getMonth() - dt.getMonth()
+    var diff_years = new Date().getFullYear() - dt.getFullYear()
+
+    var is_today = diff_years === 0 && diff_months === 0 && diff_days === 0
+    var is_yesterday = diff_years === 0 && diff_months === 0 && diff_days === 1
+
+    if (is_today) {
+      const t = new Date(message.time).toLocaleTimeString([], {
+        hour: 'numeric',
+        minute: '2-digit',
+      })
+
+      return 'Today ' + t
+    } else if (is_yesterday) {
+      const msg = new Date(message.time).toLocaleTimeString([], {
+        hour: 'numeric',
+        minute: '2-digit',
+      })
+
+      return 'Yesterday ' + msg
+    } else {
+      return new Date(message.time).toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })
+    }
+  }
+
   return (
     <View>
+      {message.show_timestamp ? (
+        <Text style={{ color: 'gray', alignSelf: 'center', marginBottom: 10 }}>
+          {dateValidation(message.time)}
+        </Text>
+      ) : null}
       <View style={[styles.message, !message.is_from_me ? styles.mine : styles.not_mine]}>
         <View
           style={[
             styles.cloud,
             {
-              backgroundColor: !is_from_me ? '#dddddd' : '#007aff',
+              backgroundColor: !message.is_from_me ? '#dddddd' : '#007aff',
             },
           ]}
         >
-          {message.message && (
-            <Text
-              style={[
-                styles.text,
-                {
-                  color: is_from_me ? 'white' : 'black',
-                },
-              ]}
-            >
-              {message.message}
-            </Text>
-          )}
-          {message.show_arrow && (
+          <Text style={[styles.text, { color: message.is_from_me ? 'white' : 'black', },]}>
+            {message.text}
+          </Text>
+          {message.message_last_in_group && (
             <View
               style={[
                 styles.arrow_container,
