@@ -216,7 +216,7 @@ async function deleteConversation(conversation_id: number): Promise<void> {
     })
     .then((db) => {
       return db.executeSql(
-        `DELETE FROM Recipients WHERE ROWID IN (SELECT ROWID FROM Conversations WHERE id = ${conversation_id});`
+        `DELETE from Recipients where id in (select recipient_id from Conversations where id = ${conversation_id});`
       ).then(() => db)
     })
     .then((db) => {
