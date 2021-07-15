@@ -202,6 +202,10 @@ async function getMessage(message_id: number): Promise<Message> {
 // DELETE
 
 async function deleteConversation(conversation_id: number): Promise<void> {
+  // const database = getDatabase()
+  // database.then((db) => db.executeSql(`DELETE FROM Messages WHERE conversation_id = ${conversation_id};`,)).then(() => Promise.resolve())
+  // database.then((db) => db.executeSql(`DELETE FROM Recipients WHERE ROWID IN (SELECT ROWID FROM Conversations WHERE id = ${conversation_id});`))
+  
   return getDatabase()
     .then((db) => {
       return db
@@ -211,9 +215,14 @@ async function deleteConversation(conversation_id: number): Promise<void> {
         .then(() => db)
     })
     .then((db) => {
-      db.executeSql(
-        `DELETE FROM Conversations WHERE conversation_id = ${conversation_id};`,
-      )
+      return db.executeSql(
+        `DELETE FROM Recipients WHERE ROWID IN (SELECT ROWID FROM Conversations WHERE id = ${conversation_id});`
+      ).then(() => db)
+    })
+    .then((db) => {
+      return db.executeSql(
+        `DELETE FROM Conversations WHERE id = ${conversation_id}`
+      ).then(() => db)
     })
 }
 
