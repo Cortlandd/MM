@@ -15,6 +15,7 @@ const ContainerNames = {
   iMessageConversation: 'iMessageConversation',
   iMessageNewConversation: 'iMessageNewConversation',
   NewGenericConversation: 'NewGenericConversation',
+  ConversationSettings: 'ConversationSettings'
 }
 
 const MessagingPlatforms = {
