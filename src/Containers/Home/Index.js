@@ -30,6 +30,7 @@ const IndexHomeContainer = ({ navigation }) => {
         }
       >
         <ListItem.Swipeable
+          bottomDivider={true}
           rightContent={
             <Button
               title="Delete"
