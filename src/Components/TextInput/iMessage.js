@@ -64,10 +64,10 @@ const IMessageTextInput = ({ messageInput, setMessageInput, onSend }) => {
         style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}
       >
         <TouchableOpacity style={{ ...styles.btnNavigation }}>
-          <Icon name={'camera'} color={'gray'} type={'ionicon'} size={30} />
+          <Icon name={'camera'} color={'#999999'} type={'ionicon'} size={30} />
         </TouchableOpacity>
         <TouchableOpacity style={{ ...styles.btnNavigation, marginRight: 10 }}>
-          <Icon name={'camera'} color={'gray'} type={'ionicon'} size={30} />
+          <Avatar source={icons.ios_imessage_drawer_icon} />
         </TouchableOpacity>
       </View>
       <View style={{ ...styles.msgInputWrapper, marginRight: 20 }}>

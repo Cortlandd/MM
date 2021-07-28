@@ -128,6 +128,10 @@ const IMessageConversation = ({ navigation, route }: Props) => {
       handleCreateMessage(message)
     }
   }
+  
+  function handleConversationUpdate() {
+    
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -135,6 +139,7 @@ const IMessageConversation = ({ navigation, route }: Props) => {
         title={`${recipient.first_name} ${recipient.last_name}`}
         callback={() => navigation.goBack()}
         recipient={recipient}
+        navigationClick={() => navigation.navigate('ConversationSettings', { conversation: conversation, recipient: recipient, backRoute: 'IMessageConversation' })}
       />
       <KeyboardAvoidingView
         style={{ flex: 1 }}

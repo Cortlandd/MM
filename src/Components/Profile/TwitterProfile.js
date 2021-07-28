@@ -42,7 +42,7 @@ const TwitterProfile = ({ recipient }) => {
             <Text style={{ color: '#657786' }}> Followers</Text>
           </View>
         </View>
-        <Text style={{ alignSelf: 'center', color: '#657786' }}>{recipient.created_at ? recipient.created_at : 'Joined August 2020'}</Text>
+        <Text style={{ alignSelf: 'center', color: '#657786' }}>{recipient.join_date ? recipient.join_date : 'Joined August 2020'}</Text>
       </View>
       <View style={{ borderBottomWidth: 1, borderBottomColor: 'lightgray', opacity: 0.2 }}></View>
     </View>

@@ -134,7 +134,7 @@ const NewTwitterConversation = ({ navigation }: Props) => {
                         biography: item.description,
                         follower_count: item.public_metrics.followers_count,
                         following_count: item.public_metrics.following_count,
-                        join_date: item.created_at,
+                        join_date: Utils.parseTwitterDate(item.created_at),
                         verified: Utils.booleanToInteger(item.verified),
                       }
 

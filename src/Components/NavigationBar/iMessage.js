@@ -5,7 +5,7 @@ import {
   Image,
   View,
   TouchableOpacity,
-  Dimensions,
+  Dimensions, TouchableWithoutFeedback,
 } from 'react-native'
 import { Icon, Avatar } from 'react-native-elements'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
@@ -13,7 +13,7 @@ import Icons from '@/Theme/Icons'
 import Images from '@/Theme/Images'
 import IMessageContact from '@/Components/iMessageContact'
 
-const IMessageNavigationBar = ({ callback, title, recipient }) => {
+const IMessageNavigationBar = ({ callback, title, recipient, navigationClick }) => {
   const icons = Icons()
   const images = Images()
 
@@ -57,30 +57,32 @@ const IMessageNavigationBar = ({ callback, title, recipient }) => {
       <TouchableOpacity style={styles.btnNavigation} onPress={onCallback}>
         <Icon name="arrow-back-ios" color={'#147EFB'} />
       </TouchableOpacity>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        {recipient.image ? (
-          <Avatar source={{ uri: recipient.image }} rounded={true} size={50} />
-        ) : recipient.first_name || recipient.last_name ? (
-          <IMessageContact name={extractName(title)} />
-        ) : (
-          <Avatar source={icons.ios_no_contact_icon} />
-        )}
+      <TouchableWithoutFeedback onPress={navigationClick}>
         <View
           style={{
-            flexDirection: 'row',
-            marginVertical: 5,
+            justifyContent: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 12 }}>{`${recipient.first_name} ${recipient.last_name}`}</Text>
-          <Icon name={'chevron-right'} size={15} color={'gray'} />
+          {recipient.image ? (
+            <Avatar source={{ uri: recipient.image }} renderPlaceholderContent={() => <IMessageContact name={extractName(title)} />} rounded={true} size={50} />
+          ) : recipient.first_name || recipient.last_name ? (
+            <IMessageContact name={extractName(title)} />
+          ) : (
+            <Avatar source={icons.ios_no_contact_icon} />
+          )}
+          <View
+            style={{
+              flexDirection: 'row',
+              marginVertical: 5,
+            }}
+          >
+            <Text style={{ fontSize: 12 }}>{`${recipient.first_name} ${recipient.last_name}`}</Text>
+            <Icon name={'chevron-right'} size={15} color={'gray'} />
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </View>
   )
 }

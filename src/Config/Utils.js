@@ -6,8 +6,10 @@ import { Config } from '@/Config/index'
 import Images from '@/Theme/Images'
 import { Platform } from 'react-native'
 
-const TRUE_VALUES = [true, 1, '1', 't', 'true', 'y', 'yes']
-const FALSE_VALUES = [false, 0, 'no', 'n']
+const TRUE_VALUES = [true, 1, '1', 't', 'true', 'y', 'yes', 'Y']
+const FALSE_VALUES = [false, 0, 'no', 'n', 'N']
+
+let RNFS = require('react-native-fs');
 
 export function debounce(func, timeout = 300) {
   let timer
@@ -132,7 +134,6 @@ export const dateValidation = (d) => {
   }
 }
 
-let RNFS = require('react-native-fs');
 export const imagePath = (file_name) => {
   const extension = Platform.OS === 'android' ? 'file://' : ''
   return `${extension}${RNFS.DocumentDirectoryPath}/${file_name}`
@@ -170,3 +171,18 @@ export const getConversationContainer = (platform) => {
     }
   }
 }
+
+export const recipientImageExist = (path) => {
+  RNFS.exists(path).then((exists) => {
+    return exists
+  })
+}
+
+export const parseTwitterDate = (d) => {
+  const date = new Date(d)
+  const options = { year: 'numeric', month: 'long' };
+  // TODO: Handle this by user settings
+  // TODO: Use something like moment for handling dates in android
+  const parsed = date.toLocaleDateString('en-US', options);
+  return 'Joined ' + parsed
+} 

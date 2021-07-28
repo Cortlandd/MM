@@ -1,5 +1,6 @@
 export default function () {
   return {
+    no_image_display: require('@/Assets/Icons/no-image-display.png'),
     instagram_camera_white: require('@/Assets/Icons/camera-white.png'),
     instagram_video_call: require('@/Assets/Icons/instagram-video2.png'),
     instagram_photo: require('@/Assets/Icons/instagram-photo-library.webp'),
@@ -19,7 +20,7 @@ export default function () {
     ios_no_contact_icon: require('@/Assets/Icons/ios-contact-icon.png'),
     ios_record_icon: require('@/Assets/Icons/ios-record-icon.png'),
     ios_send_message_icon: require('@/Assets/Icons/ios-send-message-icon.png'),
-    ios_imessage_drawer_icon: require('@/Assets/Icons/ios-imessage-drawer-icon.png'),
+    ios_imessage_drawer_icon: require('@/Assets/Icons/message_app_icon.png'),
     sample_bag: require('@/Assets/Icons/sample-bag.jpeg'),
     messenger_dot_icon: require('@/Assets/Icons/messenger-dot-icon.png'),
   }

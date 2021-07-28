@@ -5,8 +5,9 @@ import { getStatusBarHeight } from 'react-native-status-bar-height'
 import Icons from '@/Theme/Icons'
 import Images from '@/Theme/Images'
 import Svg, { Path } from 'react-native-svg'
+import * as Utils from '@/Config/Utils'
 
-const MessengerNavigationBar = ({ callback, recipient }) => {
+const MessengerNavigationBar = ({ callback, recipient, navigationLink }) => {
   const icons = Icons()
   const images = Images()
 
@@ -24,9 +25,9 @@ const MessengerNavigationBar = ({ callback, recipient }) => {
             <Icon name="arrow-back" color={'#0099FF'} size={22} />
           )}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.userInfo}>
+        <TouchableOpacity style={styles.userInfo} onPress={navigationLink}>
           <View>
-            <Avatar source={{ uri: recipient.image }} size={34} rounded={true} />
+            <Avatar source={Utils.recipientImageExist(recipient.image) ? { uri: recipient.image } : icons.no_image_display} size={34} rounded={true} />
           </View>
           <View style={{ marginLeft: 10 }}>
             <Text style={{ fontWeight: 'bold', fontSize: 16 }}>

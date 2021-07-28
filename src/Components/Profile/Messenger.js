@@ -1,15 +1,23 @@
 import React from 'react'
-import { View, Text, Platform } from 'react-native'
+import { View, Text, Platform, ActivityIndicator } from 'react-native'
 import { Avatar } from 'react-native-elements'
 import Images from '@/Theme/Images'
 import * as Utils from '@/Config/Utils'
+import Icons from '@/Theme/Icons'
 
 const MessengerProfile = ({ recipient }) => {
   const images = Images()
+  const icons = Icons()
 
   return (
     <View style={{ justifyContent: 'center', alignSelf: 'center', marginTop: 20 }}>
-      <Avatar containerStyle={{ alignSelf: 'center', margin: 10 }} rounded={true} size={100} source={{ uri: recipient.image }} />
+      <Avatar
+        renderPlaceholderContent={<ActivityIndicator animating={true} />}
+        containerStyle={{ alignSelf: 'center', margin: 10 }}
+        rounded={true}
+        size={100}
+        source={Utils.recipientImageExist(recipient.image) ? { uri: recipient.image } : icons.no_image_display}
+      />
       <Text style={{ fontWeight: 'bold', alignSelf: 'center', fontSize: 22, marginBottom: 3 }}>{`${recipient.first_name} ${recipient.last_name}`}</Text>
       <Text style={{ alignSelf: 'center', fontSize: 14, fontWeight: '700' }}>Facebook</Text>
       <Text

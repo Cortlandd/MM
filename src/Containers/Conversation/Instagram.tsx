@@ -27,6 +27,7 @@ import { RootStackParamList } from '@/Navigators/Main'
 import { RouteProp } from '@react-navigation/native'
 import { Message } from '@/Config/Types'
 import { useMessages } from '@/Hooks/useMessages'
+import { useRecipients } from '@/Hooks/useRecipients'
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'InstagramConversation'>;
@@ -36,10 +37,11 @@ interface Props {
 const InstagramConversation = ({ navigation, route }: Props) => {
   const { conversation, recipient } = route.params
   const { conversationMessages, createMessage, updateMessage, updateSingleMessage, updateMessageBulk } = useMessages(conversation)
+  const { updateRecipientImage } = useRecipients(conversation.id)
   const images = Images()
   const { darkMode } = useTheme()
 
-  const [messageData, setMessageData] = useState([])
+  const [messagesData, setMessagesData] = useState(conversationMessages)
   const [message, setMessage] = useState('')
   const [selectedReceiverIndex, setSelectedReceiverIndex] = useState(1)
 
@@ -122,6 +124,7 @@ const InstagramConversation = ({ navigation, route }: Props) => {
           title={recipient.name}
           callback={() => navigation.goBack()}
           recipient={recipient}
+          navigationClick={() => navigation.navigate('ConversationSettings', { conversation: conversation, recipient: recipient, backRoute: 'InstagramConversation' })}
         />
         <KeyboardAvoidingView
           style={{ flex: 1, paddingBottom: 15 }}

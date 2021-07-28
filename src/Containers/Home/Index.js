@@ -11,11 +11,17 @@ import { useConversations } from '@/Hooks/useConversations'
 import { useRecipients } from '@/Hooks/useRecipients'
 import { Svg, Path } from 'react-native-svg'
 
+let RNFS = require('react-native-fs');
+
 const IndexHomeContainer = ({ navigation }) => {
   const { darkMode } = useTheme()
   const images = Images()
   // Use the useLists hook to simplify list management.
-  const { conversations, deleteConversation } = useConversations()
+  const { conversations, deleteConversation, refreshConversations } = useConversations()
+
+  useEffect(() => {
+    refreshConversations().then(Promise.resolve())
+  }, [])
 
   const ConversationRow = ({ conversation }) => {
     const { conversationRecipient } = useRecipients(conversation.recipient_id)
@@ -36,7 +42,14 @@ const IndexHomeContainer = ({ navigation }) => {
               title="Delete"
               icon={{ name: 'delete', color: 'white' }}
               buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
-              onPress={() => deleteConversation(conversation.id)}
+              onPress={() => {
+                // Delete Local image
+                if (Utils.recipientImageExist(conversationRecipient.image)) {
+                  RNFS.unlink(conversationRecipient.image).then(() => deleteConversation(conversation.id))
+                } else {
+                  deleteConversation(conversation.id)
+                }
+              }}
             />
           }
         >

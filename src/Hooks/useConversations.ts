@@ -20,10 +20,6 @@ export function useConversations() {
     conversations: Conversation[],
   ) => void = useSetConversationsContext()
 
-  useEffect(() => {
-    refreshConversations()
-  }, [])
-
   function refreshConversations() {
     // Query all conversations from the DB, then store them as state
     return database.getConversations().then(setConversations)

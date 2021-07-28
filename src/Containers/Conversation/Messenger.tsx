@@ -9,10 +9,8 @@ import {
   Platform,
   TouchableWithoutFeedback, Keyboard, TextInput, ScrollView,
 } from 'react-native'
-import Images from '@/Theme/Images'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import MessengerNavigationBar from '@/Components/NavigationBar/Messenger'
-import InstagramNavigationBar from '@/Components/NavigationBar/Instagram'
 import MessengerTextInput from '@/Components/TextInput/Messenger'
 import MessengerMessage from '@/Components/Message/Messenger'
 import MessengerProfile from '@/Components/Profile/Messenger'
@@ -32,8 +30,6 @@ interface Props {
 const MessengerConversation = ({ navigation, route }: Props) => {
   const { conversation, recipient } = route.params
   const { conversationMessages, createMessage, updateMessageBulk } = useMessages(conversation)
-  
-  const images = Images()
 
   const [message, setMessage] = useState('')
   const [messagesData, setMessagesData] = useState<Message[]>([])
@@ -132,6 +128,7 @@ const MessengerConversation = ({ navigation, route }: Props) => {
       <MessengerNavigationBar
         callback={() => navigation.goBack()}
         recipient={recipient}
+        navigationLink={() => navigation.navigate('ConversationSettings', { conversation: conversation, recipient: recipient, backRoute: 'MessengerConversation' })}
       />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>

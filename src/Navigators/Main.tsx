@@ -10,6 +10,7 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native'
 import { useTheme } from '@/Theme'
 import { ConversationContextProvider } from '@/Config/Database/DatabaseContext'
 import { Conversation, Recipient } from '@/Config/Types'
+import ConversationSettings from '@/Containers/ConversationSettings'
 
 export type RootStackParamList = {
     Main: undefined
@@ -19,7 +20,7 @@ export type RootStackParamList = {
     TwitterConversation: { conversation: Conversation, recipient: Recipient }
     MessengerConversation: { conversation: Conversation, recipient: Recipient }
     iMessageConversation: { conversation: Conversation, recipient: Recipient }
-    ConversationSettings: { conversation: Conversation, recipient: Recipient }
+    ConversationSettings: { conversation: Conversation, recipient: Recipient, backRoute: string }
     NewTwitterConversation: undefined
     NewGenericConversation: { platform: string }
     NewInstagramConversation: undefined
@@ -98,6 +99,13 @@ function MainStackScreen() {
         name={Config.containerNames.iMessageConversation}
         component={IMessageConversation}
         options={{ headerShown: false }}
+      />
+      <MainStack.Screen
+        name={Config.containerNames.ConversationSettings}
+        component={ConversationSettings}
+        options={{
+          title: 'Conversation Settings',
+        }}
       />
     </MainStack.Navigator>
   )

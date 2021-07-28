@@ -31,11 +31,21 @@ export function useRecipients(conversation_id?: number) {
   function getLastRecipient(): Promise<Recipient> {
     return database.getLastRecipient()
   }
+  
+  function updateRecipientImage(recipient_id: number): Promise<void> {
+    return database.updateRecipientImage(recipient_id).then(() => Promise.resolve())
+  }
+
+  function updateRecipient(recipient_id: number, recipient: Recipient): Promise<void> {
+    return database.updateRecipient(recipient_id, recipient).then(() => Promise.resolve())
+  }
 
   return {
     conversationRecipient,
     createRecipient,
     getRecipient,
     getLastRecipient,
+    updateRecipientImage,
+    updateRecipient,
   }
 }

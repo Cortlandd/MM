@@ -147,6 +147,7 @@ const TwitterConversation = ({ navigation, route }: Props) => {
           title={recipient.name}
           callback={() => navigation.goBack()}
           userData={recipient}
+          navigationClick={() => navigation.navigate('ConversationSettings', { conversation: conversation, recipient: recipient, backRoute: 'TwitterConversation' })}
         />
         <KeyboardAvoidingView
           style={{ flex: 1 }}

@@ -27,7 +27,8 @@ export interface Database {
   updateSingleMessage(message: Message): Promise<void>
   //updateMessage(message: Message): Promise<void>
   updateMessageBulk(message_id: number, values: {}): Promise<void>
-  processTwitterMessage(message: Message): Promise<void>
+  updateRecipientImage(recipient_id: number): Promise<void>
+  updateRecipient(recipient_id: number, recipient: Recipient): Promise<void>
 
   // Delete
   deleteConversation(conversation_id: number): Promise<void>
@@ -240,7 +241,7 @@ async function updateMessageBulk(message_id: number, values = {}): Promise<void>
       db.executeSql(
         `UPDATE Messages SET ${Object.keys(values)
           .map((k) => `${k} = ${typeof values[k] === 'string' ? `'${values[k]}'` : values[k]}`)
-          .join(', ')} WHERE id = ${message_id}`,
+          .join(', ') } WHERE id = ${message_id}`,
       ),
     )
     .then(([results]) => Promise.resolve())
@@ -258,58 +259,24 @@ async function updateSingleMessage(message: Message): Promise<void> {
     .then(([_]) => Promise.resolve())
 }
 
-async function processTwitterMessage(message: Message): Promise<void> {
-  let previousMessage: Message;
-  getPreviousGroupMessage(message.id, message.group_id, message.conversation_id).then((msg) => previousMessage = msg).then(() => {
-    
-    if (previousMessage) {
-      if (message.is_from_me === previousMessage.is_from_me) {
-        const message_date = new Date(message.time)
-        const previous_message_date = new Date(previousMessage.time)
-        const secondsDifference = (message_date.getTime() - previous_message_date.getTime()) / 1000
-        const within1MinuteCondition = secondsDifference < 60
+async function updateRecipientImage(recipient_id: number): Promise<void> {
+  return getDatabase()
+    .then((db) => db.executeSql(`UPDATE Recipients SET image = NULL WHERE id = ${recipient_id};`))
+    .then(([results]) => Promise.resolve())
+}
 
-        // Message and PreviousMessage sent within 1 minute of each other.
-        if (within1MinuteCondition) {
-          // Handle new message after initial first message in group
-          // if (validateBoolean(previousMessage.message_first_in_group) && validateBoolean(previousMessage.message_last_in_group)) {
-          //   previousMessage.message_last_in_group = booleanToInteger(false)
-          // }
-
-          message.message_first_in_group = false
-          previousMessage.message_last_in_group = false
-          message.group_id = previousMessage.group_id
-        } else {
-          message.group_id = previousMessage.group_id + 1
-        }
-        // END
-      } else {
-        message.group_id = previousMessage.group_id + 1
-        message.message_last_in_group = true
-      }
-    }
-
-    let m = JSON.parse(JSON.stringify(message))
-    let pm = JSON.parse(JSON.stringify(previousMessage))
-    
-    return getDatabase()
-      .then((db) =>
-        // Update previousMessage
-        db.executeSql(
-          `UPDATE Messages SET ${Object.keys(pm)
-          .map((k) => `${k} = "${pm[k]}"`)
-          .join(', ')} WHERE id = ${pm.id};`
-        )
-      )
-      .then((db) => 
-        // Update message
-        db.executeSql(
-          `UPDATE Messages SET ${Object.keys(m)
-            .map((k) => `${k} = "${m[k]}"`)
-            .join(', ')} WHERE id = ${m.id};`
-        )
-      )
-  })
+async function updateRecipient(recipient_id: number, recipient: Recipient): Promise<void> {
+  let r = JSON.parse(JSON.stringify(recipient))
+  let vals = Object.values(r)
+  
+  return getDatabase()
+    .then((db) =>
+      db.executeSql(`UPDATE Recipients SET ${Object.keys(r).map((k) => `${k} = '${r[k]}'`).join(', ')} WHERE id = ${recipient_id};`)
+    )
+    .then(([_]) => {
+      return Promise.resolve()
+    })
+  
 }
 
 async function getPreviousGroupMessage(initial_message: number, group_id: number, conversation_id: number): Promise<Message> {
@@ -400,6 +367,7 @@ export const sqliteDatabase: Database = {
   createMessage,
   updateMessageBulk,
   updateMessage,
-  processTwitterMessage,
-  updateSingleMessage
+  updateSingleMessage,
+  updateRecipientImage,
+  updateRecipient,
 }

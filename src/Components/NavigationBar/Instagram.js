@@ -7,7 +7,7 @@ import Images from '@/Theme/Images'
 import { useTheme } from '@/Theme'
 import { validateBoolean } from '@/Config/Utils'
 
-const InstagramNavigationBar = ({ callback, title, recipient }) => {
+const InstagramNavigationBar = ({ callback, title, recipient, navigationClick }) => {
   const icons = Icons()
   const images = Images()
   const { Fonts, darkMode, Colors } = useTheme()
@@ -30,7 +30,7 @@ const InstagramNavigationBar = ({ callback, title, recipient }) => {
             />
           )}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.userInfo}>
+        <TouchableOpacity style={styles.userInfo} onPress={navigationClick}>
           <View>
             <Avatar
               source={recipient.image ? { uri: recipient.image } : icons.sample_bag}

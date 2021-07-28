@@ -17,7 +17,7 @@ import { useTheme } from '@/Theme'
 import { Grid, Col, Row } from 'react-native-easy-grid'
 import * as Utils from '@/Config/Utils'
 
-const TwitterNavigationBar = ({ callback, title, userData }) => {
+const TwitterNavigationBar = ({ callback, title, userData, navigationClick }) => {
   const icons = Icons()
   const images = Images()
   const { darkMode } = useTheme()
@@ -141,7 +141,7 @@ const TwitterNavigationBar = ({ callback, title, userData }) => {
             }}
           >
             <View style={{ alignItems: 'flex-end' }}>
-              <TouchableOpacity style={styles.btnNavigation}>
+              <TouchableOpacity style={styles.btnNavigation} onPress={navigationClick}>
                 <Svg
                   width={moderateScale(23)}
                   height={moderateScale(23)}
