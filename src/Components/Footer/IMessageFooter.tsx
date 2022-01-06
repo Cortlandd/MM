@@ -6,7 +6,7 @@ import { Recipient } from '@/Config/Types'
 import Icons from '@/Theme/Icons'
 
 interface Props {
-  recipient: Recipient,
+  recipient?: Recipient,
   firstName: string,
   lastName: string,
   tempImage?: string
@@ -54,8 +54,8 @@ const IMessageFooter = ({ recipient, firstName, lastName, tempImage }: Props) =>
         marginHorizontal: 10
       }}
     >
-      {recipient.image || tempImage ? (
-        <Avatar source={{ uri: tempImage ? tempImage : recipient.image }} renderPlaceholderContent={<IMessageContact name={extractName(`${firstName} ${lastName}`)} />} rounded={true} size={50} />
+      {recipient?.image || tempImage ? (
+        <Avatar source={{ uri: recipient?.image ? recipient.image : tempImage }} renderPlaceholderContent={<IMessageContact name={extractName(`${firstName} ${lastName}`)} />} rounded={true} size={50} />
       ) : firstName || lastName ? (
         <IMessageContact name={extractName(`${firstName} ${lastName}`)} />
       ) : (

@@ -185,4 +185,4 @@ export const parseTwitterDate = (d) => {
   // TODO: Use something like moment for handling dates in android
   const parsed = date.toLocaleDateString('en-US', options);
   return 'Joined ' + parsed
-} 
+}

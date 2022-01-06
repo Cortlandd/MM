@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '@/Navigators/Main'
-import { View, TextInput, Text } from 'react-native'
+import { View, TextInput, Text, ActivityIndicator } from 'react-native'
 import { RouteProp } from '@react-navigation/native'
 import { Button, Switch, Avatar, Input, Icon, Overlay } from 'react-native-elements'
 import { SettingsData, SettingsScreen } from 'react-native-settings-screen'
@@ -14,11 +14,12 @@ import MessengerFooter from '@/Components/Footer/MessengerFooter'
 import TwitterFooter from '@/Components/Footer/TwitterFooter'
 import InstagramFooter from '@/Components/Footer/InstagramFooter'
 import { useRecipients } from '@/Hooks/useRecipients'
-import { Recipient } from '@/Config/Types'
+import { Conversation, Recipient } from '@/Config/Types'
 import * as RNFS from 'react-native-fs'
 import * as Utils from '@/Config/Utils'
 import * as ImagePicker from "react-native-image-picker"
 import { Asset } from 'react-native-image-picker'
+import { useConversations } from '@/Hooks/useConversations'
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'ConversationSettings'>,
@@ -26,40 +27,38 @@ interface Props {
 }
 
 const ConversationSettings = ({ navigation, route }: Props) => {
-  const { conversation, recipient, backRoute } = route.params
-  
-  const { updateRecipient } = useRecipients(conversation.id)
-  
-  // Conversation
-  const [conversationPlatform, setConversationPlatform] = useState(conversation.platform)
+  const { conversation, recipient, backRoute, platform } = route.params
+  const { createConversation, refreshConversations } = useConversations()
+  const { updateRecipient, createRecipient } = useRecipients(conversation?.id)
   
   // Misc
-  const [tempImage, setTempImage] = useState()
+  const [tempImage, setTempImage] = useState<string>('')
   const [tempImagePath, setTempImagePath] = useState()
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [urlInput, setUrlInput] = useState('')
   const [uploadResponse, setUploadResponse] = useState<Asset>()
+  const [activityIndicatorAnimating, setActivityIndicatorAnimating] = useState(false)
   
   // Recipient
-  const [name, setName] = useState(recipient.name)
-  const [firstName, setFirstName] = useState(recipient.first_name)
-  const [lastName, setLastName] = useState(recipient.last_name)
-  const [image, setImage] = useState(recipient.image || tempImage)
-  const [username, setUsername] = useState(recipient.username)
-  const [worksAt, setWorksAt] = useState(recipient.works_at)
-  const [education, setEducation] = useState(recipient.education)
-  const [city, setCity] = useState(recipient.city)
-  const [state, setState] = useState(recipient.state)
-  const [followerCount, setFollowerCount] = useState(recipient.follower_count)
-  const [followingCount, setFollowingCount] = useState(recipient.following_count)
-  const [postCount, setPostCount] = useState(recipient.post_count)
-  const [joinDate, setJoinDate] = useState(recipient.join_date)
-  const [biography, setBiography] = useState(recipient.biography)
-  const [verified, setVerified] = useState(validateBoolean(recipient.verified))
-  const [isMutualFriends, setIsMutualFriends] = useState(validateBoolean(recipient.is_mutual_friends))
-  const [mutualFriendsCount, setMutualFriendsCount] = useState(recipient.mutual_friends_count)
-  const [mutualFriend, setMutualFriend] = useState(recipient.mutual_friend)
-  const [friendSinceYear, setFriendSinceYear] = useState(recipient.friend_since_year)
+  const [name, setName] = useState(recipient?.name)
+  const [firstName, setFirstName] = useState(recipient?.first_name)
+  const [lastName, setLastName] = useState(recipient?.last_name)
+  const [image, setImage] = useState(recipient?.image || tempImage)
+  const [username, setUsername] = useState(recipient?.username)
+  const [worksAt, setWorksAt] = useState(recipient?.works_at)
+  const [education, setEducation] = useState(recipient?.education)
+  const [city, setCity] = useState(recipient?.city)
+  const [state, setState] = useState(recipient?.state)
+  const [followerCount, setFollowerCount] = useState(recipient?.follower_count)
+  const [followingCount, setFollowingCount] = useState(recipient?.following_count)
+  const [postCount, setPostCount] = useState(recipient?.post_count)
+  const [joinDate, setJoinDate] = useState(recipient?.join_date)
+  const [biography, setBiography] = useState(recipient?.biography)
+  const [verified, setVerified] = useState(validateBoolean(recipient?.verified))
+  const [isMutualFriends, setIsMutualFriends] = useState(validateBoolean(recipient?.is_mutual_friends))
+  const [mutualFriendsCount, setMutualFriendsCount] = useState(recipient?.mutual_friends_count)
+  const [mutualFriend, setMutualFriend] = useState(recipient?.mutual_friend)
+  const [friendSinceYear, setFriendSinceYear] = useState(recipient?.friend_since_year)
   
   function processLocalImage() {
     if (uploadResponse !== undefined) {
@@ -113,7 +112,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
           title: 'Image',
           renderAccessory: () => (
             <View>
-              <Avatar rounded={true} source={{ uri: tempImage ? tempImage : recipient.image }} />
+              <Avatar rounded={true} source={{ uri: tempImage ? tempImage : recipient?.image }} />
             </View>
           ),
           onPress: () => setOverlayVisible(true),
@@ -124,13 +123,13 @@ const ConversationSettings = ({ navigation, route }: Props) => {
     {
       type: 'CUSTOM_VIEW',
       render: () => {
-        if (conversation.platform === Config.messagingPlatforms.iMessage) {
+        if (platform === Config.messagingPlatforms.iMessage) {
           return (<IMessageFooter recipient={recipient} firstName={firstName} tempImage={tempImage} lastName={lastName} />)
-        } else if (conversation.platform === Config.messagingPlatforms.Messenger) {
-          return (<MessengerFooter isFriends={isMutualFriends} tempImage={tempImage} city={city} state={state} firstName={firstName} lastName={lastName} worksAt={worksAt} education={education} image={recipient.image} platform={conversation.platform} />)
-        } else if (conversation.platform === Config.messagingPlatforms.Twitter) {
+        } else if (platform === Config.messagingPlatforms.Messenger) {
+          return (<MessengerFooter isFriends={isMutualFriends} tempImage={tempImage} city={city} state={state} firstName={firstName} lastName={lastName} worksAt={worksAt} education={education} image={recipient?.image} platform={platform} />)
+        } else if (platform === Config.messagingPlatforms.Twitter) {
           return (<TwitterFooter name={name} username={username} following_count={followingCount} follower_count={followerCount} join_date={joinDate} biography={biography} verified={verified} />)
-        } else if (conversation.platform === Config.messagingPlatforms.Instagram) {
+        } else if (platform === Config.messagingPlatforms.Instagram) {
           return (<InstagramFooter name={name} tempImage={tempImage} username={username} image={image} verified={verified} follower_count={followerCount} is_mutual_friends={isMutualFriends} mutual_friend={mutualFriend} post_count={postCount} mutual_friends_count={mutualFriendsCount} friend_since_year={friendSinceYear} />)
         }
       }
@@ -154,13 +153,13 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       {
         title: 'Follower Count',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setFollowerCount} placeholder={'Follower Count'} value={followerCount.toString()} />
+          <TextInput style={{ color: 'orange' }} onChangeText={setFollowerCount} placeholder={'Follower Count'} value={followerCount} />
         )
       },
       {
         title: 'Post Count',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setPostCount} keyboardType={'numeric'} placeholder={'Post Count'} value={postCount.toString()} />
+          <TextInput style={{ color: 'orange' }} onChangeText={setPostCount} keyboardType={'numeric'} placeholder={'Post Count'} value={postCount} />
         )
       },
       {
@@ -304,7 +303,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
     )
   }
 
-  switch (conversation.platform) {
+  switch (platform) {
     case Config.messagingPlatforms.Instagram:
       instagramFields()
       break
@@ -322,18 +321,21 @@ const ConversationSettings = ({ navigation, route }: Props) => {
   }
   
   function saveRecipient() {
+    setActivityIndicatorAnimating(true)
+
     let rec: Recipient = {}
-    rec.id = recipient.id
+    if (backRoute !== 'Home') rec.id = recipient.id
     rec.image = tempImagePath
     processLocalImage()
     
-    switch (conversation.platform) {
+    switch (platform) {
       case Config.messagingPlatforms.Instagram:
         rec.name = name
         rec.username = username
         rec.follower_count = followerCount
         rec.post_count = postCount
         rec.is_mutual_friends = booleanToInteger(isMutualFriends)
+        if (backRoute === 'Home') rec.created_at = Utils.getDatetimeForSqlite()
         rec.mutual_friend = mutualFriend
         rec.friend_since_year = friendSinceYear
         rec.verified = booleanToInteger(verified)
@@ -344,7 +346,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
         rec.follower_count = followerCount
         rec.biography = biography
         rec.following_count = followingCount
-        rec.created_at = joinDate
+        rec.join_date = joinDate
         rec.verified = booleanToInteger(verified)
         break
       case Config.messagingPlatforms.Messenger:
@@ -363,10 +365,27 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       default:
         break
     }
-  
-    updateRecipient(recipient.id, rec).then(() => {
-      return navigation.navigate(backRoute, { recipient: rec })
-    })
+
+    if (backRoute === 'Home') {
+      const conversation: Conversation = {
+        created_at: Utils.getDatetimeForSqlite(),
+        updated_at: Utils.getDatetimeForSqlite(),
+        platform: platform,
+      }
+
+      createRecipient(recipient).then((r) => {
+        conversation.recipient_id = r.id
+        createConversation(conversation).then((c) => {
+          setActivityIndicatorAnimating(false)
+          refreshConversations().then(() => navigation.navigate(Utils.determineRoute(platform), { conversation: c, recipient: r }))
+        })
+      })
+      
+    } else {
+      updateRecipient(recipient.id, rec).then(() => {
+        return navigation.navigate(backRoute, { recipient: rec })
+      }) 
+    }
   }
   
   return (
@@ -408,6 +427,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
           />
         </View>
       </Overlay>
+      <ActivityIndicator animating={activityIndicatorAnimating} color={'gray'} size={'large'} />
       <SettingsScreen data={conversationData} />
       <Button
         title={'Save'}

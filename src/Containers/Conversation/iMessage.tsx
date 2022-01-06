@@ -139,7 +139,7 @@ const IMessageConversation = ({ navigation, route }: Props) => {
         title={`${recipient.first_name} ${recipient.last_name}`}
         callback={() => navigation.goBack()}
         recipient={recipient}
-        navigationClick={() => navigation.navigate('ConversationSettings', { conversation: conversation, recipient: recipient, backRoute: 'IMessageConversation' })}
+        navigationClick={() => navigation.navigate('ConversationSettings', { conversation: conversation, recipient: recipient, backRoute: 'IMessageConversation', platform: conversation.platform })}
       />
       <KeyboardAvoidingView
         style={{ flex: 1 }}

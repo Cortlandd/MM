@@ -57,7 +57,6 @@ const TwitterConversation = ({ navigation, route }: Props) => {
       message_first_in_group: Utils.booleanToInteger(true),
       message_last_in_group: Utils.booleanToInteger(true),
     }
-
     
     handleMessageData(msg)
     //handleCreateMessage(newMessage)
@@ -147,7 +146,9 @@ const TwitterConversation = ({ navigation, route }: Props) => {
           title={recipient.name}
           callback={() => navigation.goBack()}
           userData={recipient}
-          navigationClick={() => navigation.navigate('ConversationSettings', { conversation: conversation, recipient: recipient, backRoute: 'TwitterConversation' })}
+          navigationClick={() => navigation.navigate('ConversationSettings', {
+            conversation: conversation, recipient: recipient, backRoute: 'TwitterConversation', platform: conversation.platform 
+          })}
         />
         <KeyboardAvoidingView
           style={{ flex: 1 }}

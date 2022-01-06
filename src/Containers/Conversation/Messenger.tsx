@@ -128,7 +128,7 @@ const MessengerConversation = ({ navigation, route }: Props) => {
       <MessengerNavigationBar
         callback={() => navigation.goBack()}
         recipient={recipient}
-        navigationLink={() => navigation.navigate('ConversationSettings', { conversation: conversation, recipient: recipient, backRoute: 'MessengerConversation' })}
+        navigationLink={() => navigation.navigate('ConversationSettings', { conversation: conversation, recipient: recipient, backRoute: 'MessengerConversation', platform: conversation.platform })}
       />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={54} enabled={true}>
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>

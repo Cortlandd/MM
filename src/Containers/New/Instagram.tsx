@@ -36,8 +36,8 @@ const NewInstagramConversation = ({ navigation }: Props) => {
   const icons = Icons()
   const dispatch = useDispatch()
   const { Fonts, darkMode } = useTheme()
-  const { createConversation, getLastConversation, refreshConversations } = useConversations()
-  const { createRecipient, getLastRecipient } = useRecipients()
+  const { createConversation, refreshConversations } = useConversations()
+  const { createRecipient } = useRecipients()
   
   const fetchInstagramUserListener = useSelector((state: { user: UserState }) => state.user.fetchInstagramUser.results)
   const fetchInstagramUserError = useSelector((state: { user: UserState }) => state.user.fetchInstagramUser.error)
@@ -62,11 +62,6 @@ const NewInstagramConversation = ({ navigation }: Props) => {
   const [tempLocalImage, setTempLocalImage] = useState('')
 
   useEffect(() => {}, [dispatch])
-  
-  useEffect(() => {
-    if (profileImage !== '') { handleUrlProcessing() }
-    if (localImage !== undefined) { processLocalImage() }
-  }, [profileImage, localImage])
 
   function handleUrlProcessing() {
     if (localImage !== undefined) {
@@ -81,7 +76,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
     
     const filename = profileImage.substring(profileImage.lastIndexOf('/') + 1);
     const ret = RNFS.downloadFile({ fromUrl: profileImage, toFile: Utils.imagePath(filename), });
-    ret.promise.then(async res => {
+    return ret.promise.then(async res => {
       setRecipientImage(Utils.imagePath(filename))
     }).catch(err => {
       console.error('Download Error: ', err);
@@ -101,7 +96,7 @@ const NewInstagramConversation = ({ navigation }: Props) => {
     }
 
     if (localImage !== undefined) {
-      RNFS.moveFile(localImage.uri, Utils.imagePath(localImage.fileName))
+      return RNFS.moveFile(localImage.uri, Utils.imagePath(localImage.fileName))
         .then(() => {
           setRecipientImage(Utils.imagePath(localImage.fileName))
           setTempLocalImage(Utils.imagePath(localImage.fileName))
@@ -215,6 +210,10 @@ const NewInstagramConversation = ({ navigation }: Props) => {
       updated_at: Utils.getDatetimeForSqlite(),
       platform: Config.messagingPlatforms.Instagram,
     }
+
+    if (profileImage !== '') { handleUrlProcessing() }
+
+    if (localImage !== undefined) { processLocalImage() }
 
     recipient.image = recipientImage
 

@@ -20,7 +20,7 @@ export type RootStackParamList = {
     TwitterConversation: { conversation: Conversation, recipient: Recipient }
     MessengerConversation: { conversation: Conversation, recipient: Recipient }
     iMessageConversation: { conversation: Conversation, recipient: Recipient }
-    ConversationSettings: { conversation: Conversation, recipient: Recipient, backRoute: string }
+    ConversationSettings: { conversation?: Conversation, recipient?: Recipient, backRoute?: string, platform?: string }
     NewTwitterConversation: undefined
     NewGenericConversation: { platform: string }
     NewInstagramConversation: undefined
