@@ -68,7 +68,7 @@ export interface Recipient {
   mutual_friends_count?: number
   mutual_friend?: string
   created_at?: string
-  friend_since_year?: number
+  friend_since_year?: string
 }
 
 export interface RecipientImage {

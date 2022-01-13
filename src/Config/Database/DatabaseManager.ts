@@ -63,6 +63,11 @@ async function createConversation(conversation: Conversation): Promise<Conversat
 // Create recipient for a conversation
 async function createRecipient(recipient: Recipient): Promise<Recipient> {
   let r = JSON.parse(JSON.stringify(recipient))
+  Object.keys(r).forEach(key => {
+    if (r[key] === null || r[key] === "null" || r[key] === undefined) {
+      delete r[key];
+    }
+  });
   let vals = Object.values(r)
   const database = getDatabase()
   // Create Recipient
@@ -267,6 +272,11 @@ async function updateRecipientImage(recipient_id: number): Promise<void> {
 
 async function updateRecipient(recipient_id: number, recipient: Recipient): Promise<void> {
   let r = JSON.parse(JSON.stringify(recipient))
+  Object.keys(r).forEach(key => {
+    if (r[key] === null || r[key] === "null" || r[key] === undefined) {
+      delete r[key];
+    }
+  });
   let vals = Object.values(r)
   
   return getDatabase()

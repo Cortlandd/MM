@@ -31,12 +31,12 @@ const InstagramFooter = ({...props}: Props) => {
       <Avatar
         containerStyle={{
           alignSelf: 'center',
-          marginTop: 20,
-          marginBottom: 10,
+          marginTop: 5,
+          marginBottom: 5,
         }}
         size={100}
         rounded={true}
-        source={{ uri: props.tempImage ? props.tempImage : props.image }}
+        source={props.tempImage ? { uri: props.tempImage ? props.tempImage : props.image } : {}}
       />
       <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
         <Text
@@ -92,7 +92,7 @@ const InstagramFooter = ({...props}: Props) => {
           {props.post_count} posts
         </Text>
       </View>
-      {validateBoolean(props.is_mutual_friends) && props.mutual_friend && props.mutual_friends_count ? (
+      {validateBoolean(props.is_mutual_friends) && props.mutual_friend !== "" && props.mutual_friends_count !== null ? (
         <View>
           <Text
             style={{

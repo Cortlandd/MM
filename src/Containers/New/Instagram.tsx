@@ -116,7 +116,6 @@ const NewInstagramConversation = ({ navigation }: Props) => {
       } else {
         const res = response.assets[0]
         setLocalImage(res)
-        console.log(res)
         setUrlInput('')
 
         setOverlayVisible(false)

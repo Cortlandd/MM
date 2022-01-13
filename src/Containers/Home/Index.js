@@ -45,8 +45,10 @@ const IndexHomeContainer = ({ navigation }) => {
               onPress={() => {
                 // Delete Local image
                 if (Utils.recipientImageExist(conversationRecipient.image)) {
+                  console.log('Image exists')
                   RNFS.unlink(conversationRecipient.image).then(() => deleteConversation(conversation.id))
                 } else {
+                  console.log("Image doesn't exists")
                   deleteConversation(conversation.id)
                 }
               }}

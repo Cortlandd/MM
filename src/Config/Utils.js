@@ -81,7 +81,7 @@ export const validateBoolean = (value) => {
   } else if (FALSE_VALUES.includes(value)) {
     return false
   } else {
-    return null
+    return false
   }
 } 
 
@@ -173,9 +173,13 @@ export const getConversationContainer = (platform) => {
 }
 
 export const recipientImageExist = (path) => {
-  RNFS.exists(path).then((exists) => {
-    return exists
-  })
+  if (path) {
+    RNFS.exists(path).then((exists) => {
+      return exists
+    })
+  }
+  
+  return false
 }
 
 export const parseTwitterDate = (d) => {

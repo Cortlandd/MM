@@ -7,7 +7,6 @@ import Icons from '@/Theme/Icons'
 import { validateBoolean } from '@/Config/Utils'
 
 const InstagramProfile = ({ recipient }) => {
-  console.log(recipient)
   const images = Images()
   const icons = Icons()
   const { Fonts, darkMode } = useTheme()
@@ -45,9 +44,9 @@ const InstagramProfile = ({ recipient }) => {
       <View
         style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
       >
-        {recipient.username ? (<Text style={{ fontSize: 15 }}>{recipient.username}</Text>) : null}
-        {recipient.name ? (<Text style={{ fontSize: 15 }}> · </Text>) : null}
-        <Text style={{ fontSize: 15 }}>Instagram</Text>
+        {recipient.username ? (<Text style={{ fontSize: 15, color: 'gray' }}>{recipient.username}</Text>) : null}
+        {recipient.name ? (<Text style={{ fontSize: 15, color: 'gray' }}> · </Text>) : null}
+        <Text style={{ fontSize: 15, color: 'gray' }}>Instagram</Text>
       </View>
       <View
         style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
