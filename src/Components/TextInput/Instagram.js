@@ -39,10 +39,10 @@ const InstagramTextInput = ({ messageInput, setMessageInput, onSend }) => {
               <Image style={{ width: 30, height: 30, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_microphone} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnNavigation}>
-              <Image style={{ width: 23, height: 23, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_photo} />
+              <Image style={{ width: 25, height: 25, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_photo} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnNavigation}>
-              <Image style={{ width: 23, height: 23, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_emoji} />
+              <Image style={{ width: 25, height: 25, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_emoji} />
             </TouchableOpacity>
           </View>
         ) : (
@@ -66,15 +66,16 @@ const styles = StyleSheet.create({
     borderRadius: 44,
     borderWidth: 1,
     paddingRight: 10,
-    borderColor: 'lightgray',
+    borderColor: 'gray',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   btnCamera: {
-    height: 40,
-    width: 40,
+    height: 35,
+    width: 35,
     margin: 4,
+    marginRight: 7,
     borderRadius: 34,
     backgroundColor: '#318bfb',
     justifyContent: 'center',
@@ -95,7 +96,8 @@ const styles = StyleSheet.create({
   msgRightOptions: {
     flexDirection: 'row',
     height: 44,
-    justifyContent: 'center',
+    display: 'flex',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     position: 'absolute',
     right: 0,
@@ -103,8 +105,8 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   btnNavigation: {
-    height: 44,
-    width: 44,
+    height: 38,
+    width: 38,
     justifyContent: 'center',
     alignItems: 'center',
   },

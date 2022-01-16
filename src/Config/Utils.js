@@ -139,6 +139,10 @@ export const imagePath = (file_name) => {
   return `${extension}${RNFS.DocumentDirectoryPath}/${file_name}`
 }
 
+export const extractFilename = (path) => {
+  return path.replace(/^.*[\\\/]/, '')
+}
+
 export const isValidURL = (str) => {
   if (str === '' || str === ' ') return false
 
@@ -180,6 +184,25 @@ export const recipientImageExist = (path) => {
   }
   
   return false
+}
+
+export const convertFollowNumber = (n) => {
+  if (isNaN(n)) return 0
+  
+  var n_format
+  if (n < 1000) {
+    n_format = Number(n).toFixed()
+  } else if (n < 1000000) {
+    // Anything less than a million
+    n_format = Number(n / 1000).toFixed(1) + 'k'
+  } else if (n < 1000000000) {
+    // Anything less than a billion
+    n_format = Number(n / 1000000).toFixed(1) + 'M'
+  } else {
+    // At least a billion
+    n_format = Number(n / 1000000000).toFixed(1) + 'B'
+  }
+  return n_format
 }
 
 export const parseTwitterDate = (d) => {

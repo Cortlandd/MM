@@ -35,7 +35,6 @@ interface Props {
 }
 
 const InstagramConversation = ({ navigation, route }: Props) => {
-  const RECORDS_PER_FETCH = 8
   const { conversation, recipient } = route.params
   const { conversationMessages, createMessage, updateMessage, updateSingleMessage, updateMessageBulk } = useMessages(conversation)
   const images = Images()

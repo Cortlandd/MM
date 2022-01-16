@@ -63,7 +63,7 @@ export class DatabaseInitialization {
     transaction.executeSql(`CREATE TABLE IF NOT EXISTS Recipients (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,name TEXT,first_name TEXT,last_name TEXT,image TEXT,friend_since_year TEXT,username TEXT,works_at TEXT,education TEXT,city TEXT,state TEXT,follower_count TEXT,following_count TEXT,post_count TEXT,join_date TEXT,biography TEXT,verified INTEGER,is_mutual_friends INTEGER,mutual_friends_count TEXT,mutual_friend TEXT,created_at TEXT);`)
 
     // Messages table
-    transaction.executeSql(`CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,text TEXT,conversation_id INTEGER,is_from_me INTEGER,group_id INTEGER, time TEXT, show_timestamp INTEGER, message_seen INTEGER, message_first_in_group INTEGER, message_last_in_group INTEGER);`)
+    transaction.executeSql(`CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,text TEXT,conversation_id INTEGER,is_from_me INTEGER,image TEXT,group_id INTEGER, time TEXT, show_timestamp INTEGER, message_seen INTEGER, message_first_in_group INTEGER, message_last_in_group INTEGER);`)
 
     // Version table
     transaction.executeSql(`CREATE TABLE IF NOT EXISTS Version(version_id INTEGER PRIMARY KEY NOT NULL,version INTEGER);`)

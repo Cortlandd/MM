@@ -19,7 +19,7 @@ export default function ({ Colors }) {
       backgroundColor: Colors.primary,
     },
     backgroundReset: {
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.primary,
     },
     textInput: {
       borderWidth: 1,

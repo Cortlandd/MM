@@ -65,7 +65,7 @@ export interface Recipient {
   biography?: string
   verified?: number
   is_mutual_friends?: number
-  mutual_friends_count?: number
+  mutual_friends_count?: string
   mutual_friend?: string
   created_at?: string
   friend_since_year?: string

@@ -5,12 +5,15 @@ import Images from '@/Theme/Images'
 import { useTheme } from '@/Theme'
 import Icons from '@/Theme/Icons'
 import { validateBoolean } from '@/Config/Utils'
+import * as Utils from '@/Config/Utils'
 
 const InstagramProfile = ({ recipient }) => {
   const images = Images()
   const icons = Icons()
   const { Fonts, darkMode } = useTheme()
 
+  console.log(recipient)
+  
   return (
     <ThemeProvider
       useDark={darkMode}
@@ -24,15 +27,16 @@ const InstagramProfile = ({ recipient }) => {
         }}
         size={100}
         rounded={true}
-        source={recipient.image ? { uri: recipient.image } : icons.sample_bag}
+        source={recipient.image !== "" ? { uri: "~/Documents/" + Utils.extractFilename(recipient.image) } : icons.sample_bag}
       />
       <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
         <Text
           style={{
             ...Fonts.textRegular,
-            fontWeight: 'bold',
+            color: darkMode ? 'white' : 'black',
             alignSelf: 'center',
             fontSize: 18,
+            fontWeight: '700',
           }}
         >
           {recipient.name}
@@ -44,9 +48,9 @@ const InstagramProfile = ({ recipient }) => {
       <View
         style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
       >
-        {recipient.username ? (<Text style={{ fontSize: 15, color: 'gray' }}>{recipient.username}</Text>) : null}
-        {recipient.name ? (<Text style={{ fontSize: 15, color: 'gray' }}> · </Text>) : null}
-        <Text style={{ fontSize: 15, color: 'gray' }}>Instagram</Text>
+        {recipient.username ? (<Text style={{ fontSize: 16, color: 'gray', fontWeight: '400', }}>{recipient.username}</Text>) : null}
+        {recipient.name ? (<Text style={{ fontSize: 16, color: 'gray', fontWeight: '400', }}> · </Text>) : null}
+        <Text style={{ fontSize: 16, color: 'gray', fontWeight: '400', }}>Instagram</Text>
       </View>
       <View
         style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
@@ -54,16 +58,16 @@ const InstagramProfile = ({ recipient }) => {
         <Text
           style={{
             color: 'gray',
-            fontWeight: darkMode ? '600' : '400',
+            fontWeight: '400',
             fontSize: 16,
           }}
         >
-          {recipient.follower_count} followers
+          {Utils.convertFollowNumber(recipient.follower_count)} followers
         </Text>
         <Text
           style={{
             color: 'gray',
-            fontWeight: darkMode ? '600' : '400',
+            fontWeight: '400',
             fontSize: 16,
           }}
         >
@@ -73,11 +77,11 @@ const InstagramProfile = ({ recipient }) => {
         <Text
           style={{
             color: 'gray',
-            fontWeight: darkMode ? '600' : '400',
+            fontWeight: '400',
             fontSize: 16,
           }}
         >
-          {recipient.post_count} posts
+          {Utils.convertFollowNumber(recipient.post_count)} posts
         </Text>
       </View>
       {validateBoolean(recipient.is_mutual_friends) && recipient.mutual_friend && recipient.mutual_friends_count ? (
@@ -87,7 +91,7 @@ const InstagramProfile = ({ recipient }) => {
               color: 'gray',
               flexDirection: 'row',
               alignSelf: 'center',
-              fontWeight: darkMode ? '600' : '400',
+              fontWeight: '400',
               fontSize: 16,
             }}
           >
@@ -99,7 +103,7 @@ const InstagramProfile = ({ recipient }) => {
               flexDirection: 'row',
               alignSelf: 'center',
               marginBottom: 10,
-              fontWeight: darkMode ? '600' : '400',
+              fontWeight: '400',
               fontSize: 16,
             }}
           >
@@ -113,7 +117,7 @@ const InstagramProfile = ({ recipient }) => {
               color: 'gray',
               flexDirection: 'row',
               alignSelf: 'center',
-              fontWeight: darkMode ? '600' : '400',
+              fontWeight: '400',
               fontSize: 16,
             }}
           >
@@ -126,7 +130,7 @@ const InstagramProfile = ({ recipient }) => {
           flexDirection: 'row',
           alignSelf: 'center',
           borderWidth: 1,
-          borderColor: darkMode ? 'white' : 'lightgray',
+          borderColor: darkMode ? 'gray' : 'lightgray',
           paddingTop: 5,
           paddingBottom: 5,
           paddingLeft: 13,

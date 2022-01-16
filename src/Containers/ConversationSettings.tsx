@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '@/Navigators/Main'
-import { View, TextInput, Text, ActivityIndicator } from 'react-native'
+import { View, TextInput, Text, ActivityIndicator, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 import { RouteProp } from '@react-navigation/native'
 import { Button, Switch, Avatar, Input, Icon, Overlay } from 'react-native-elements'
 import { SettingsData, SettingsScreen } from 'react-native-settings-screen'
@@ -19,6 +19,8 @@ import * as RNFS from 'react-native-fs'
 import * as Utils from '@/Config/Utils'
 import { Asset, ImagePickerResponse, launchImageLibrary } from 'react-native-image-picker'
 import { useConversations } from '@/Hooks/useConversations'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useTheme } from '@/Theme'
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'ConversationSettings'>,
@@ -29,13 +31,24 @@ const ConversationSettings = ({ navigation, route }: Props) => {
   const { conversation, recipient, backRoute, platform } = route.params
   const { createConversation, refreshConversations } = useConversations()
   const { updateRecipient, createRecipient } = useRecipients(conversation?.id)
+  const { Fonts, darkMode } = useTheme()
+  
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={saveRecipient} style={{ marginRight: 15 }}>
+          <Text style={{ color: '#006ee6', fontSize: 18 }}>Save</Text>
+        </TouchableOpacity>
+      )
+    })
+  })
   
   // Misc
   const [tempImage, setTempImage] = useState<string>()
   const [tempImagePath, setTempImagePath] = useState<string>()
   const [tempImageName, setTempImageName] = useState<string>()
   const [overlayVisible, setOverlayVisible] = useState(false)
-  const [urlInput, setUrlInput] = useState<string>('')
+  const [urlInput, setUrlInput] = useState<string>()
   const [activityIndicatorAnimating, setActivityIndicatorAnimating] = useState(false)
   
   // Recipient
@@ -58,15 +71,44 @@ const ConversationSettings = ({ navigation, route }: Props) => {
   const [mutualFriendsCount, setMutualFriendsCount] = useState(recipient?.mutual_friends_count)
   const [mutualFriend, setMutualFriend] = useState(recipient?.mutual_friend)
   const [friendSinceYear, setFriendSinceYear] = useState(recipient?.friend_since_year)
+
+  /*
+  useEffect(() => {
+    recipient.image = image
+
+    // Strings
+    if (name !== "") recipient.name = name
+    if (username !== "") recipient.username = username
+    if (followerCount !== "") recipient.follower_count = followerCount
+    if (postCount !== "") recipient.post_count = postCount
+    if (mutualFriend !== "") recipient.mutual_friend = mutualFriend
+    if (friendSinceYear !== "") recipient.friend_since_year = friendSinceYear
+    if (biography !== "") recipient.biography = biography
+    if (followingCount !== "") recipient.following_count = followingCount
+    if (firstName !== "") recipient.first_name = firstName
+    if (lastName !== "") recipient.last_name = lastName
+    if (worksAt !== "") recipient.works_at = worksAt
+    if (education !== "") recipient.education = education
+    if (city !== "") recipient.city = city
+    if (state !== "") recipient.state = state
+
+    // Dates?
+    if (joinDate !== "") recipient.join_date = joinDate
+
+    // Boolean
+    recipient.is_mutual_friends = booleanToInteger(isMutualFriends)
+    recipient.verified = booleanToInteger(verified)
+  }, [name, firstName, lastName, image, username, worksAt, education, city, state, followerCount, followingCount, postCount, joinDate, biography, verified, isMutualFriends, mutualFriendsCount, mutualFriend, friendSinceYear])
+  */
   
   useEffect(() => {
-    if (urlInput !== "" || tempImage !== undefined && tempImageName !== undefined) {
+    if (urlInput !== undefined || (tempImage !== undefined && tempImageName !== undefined)) {
       processLocalImage()
     }
   }, [tempImage, urlInput, tempImageName])
   
   function processLocalImage() {
-    if (urlInput !== "") {
+    if (urlInput !== undefined) {
       const filename = image.substring(image.lastIndexOf('/') + 1);
       const ret = RNFS.downloadFile({ fromUrl: image, toFile: Utils.imagePath(filename)});
       return ret.promise.then(async res => {
@@ -80,7 +122,9 @@ const ConversationSettings = ({ navigation, route }: Props) => {
         .then().finally(() => {
           setImage(newPath)
           setTempImage(newPath)
-          console.log('newImage', image)
+
+          recipient.image = newPath
+          console.log('newImage', recipient.image)
         })
     }
   }
@@ -118,7 +162,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
         } else if (platform === Config.messagingPlatforms.Twitter) {
           return (<TwitterFooter name={name} username={username} following_count={followingCount} follower_count={followerCount} join_date={joinDate} biography={biography} verified={verified} />)
         } else if (platform === Config.messagingPlatforms.Instagram) {
-          return (<InstagramFooter name={name} tempImage={tempImage ? tempImage : image} username={username} image={image} verified={verified} follower_count={followerCount} is_mutual_friends={isMutualFriends} mutual_friend={mutualFriend} post_count={postCount} mutual_friends_count={mutualFriendsCount} friend_since_year={friendSinceYear} />)
+          return (<InstagramFooter name={name} tempImage={tempImage} username={username} image={image} verified={verified} follower_count={followerCount} is_mutual_friends={isMutualFriends} mutual_friend={mutualFriend} post_count={postCount} mutual_friends_count={mutualFriendsCount} friend_since_year={friendSinceYear} />)
         }
       }
     },
@@ -130,7 +174,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
           title: 'Image',
           renderAccessory: () => (
             <View>
-              <Avatar rounded={true} title={"Image"} source={{ uri: tempImage ? tempImage : image }} />
+              <Avatar rounded={true} title={"Image"} source={{ uri: tempImage ? tempImage : "~/Documents/" + Utils.extractFilename(image) }} />
             </View>
           ),
           onPress: () => setOverlayVisible(true),
@@ -145,31 +189,75 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       {
         title: 'Display Name',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setName} placeholder={'Name'} value={name} />
+          <TextInput
+            style={{ color: 'orange' }}
+            returnKeyType={'next'}
+            onSubmitEditing={() => this.usernameTextInput.focus()}
+            placeholderTextColor={'lightgray'}
+            onChangeText={setName}
+            placeholder={'Name'}
+            value={name}
+          />
         )
       },
       {
         title: 'Username',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setUsername} placeholder={'Username'} value={username} />
+          <TextInput 
+            returnKeyType={'next'}
+            ref={(input) => { this.usernameTextInput = input }}
+            onSubmitEditing={() => this.followerCountTextInput.focus()}
+            style={{ color: 'orange' }}
+            placeholderTextColor={'lightgray'}
+            onChangeText={setUsername}
+            placeholder={'Username'}
+            value={username}
+          />
         )
       },
       {
         title: 'Follower Count',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={(value) => setFollowerCount(value.toString())} placeholder={'Follower Count'} value={followerCount?.toString()} />
+          <TextInput
+            returnKeyType={'next'}
+            ref={(input) => { this.followerCountTextInput = input }}
+            onSubmitEditing={() => this.postCountTextInput.focus()}
+            style={{ color: 'orange' }}
+            placeholderTextColor={'lightgray'}
+            onChangeText={(value) => setFollowerCount(value.toString())}
+            placeholder={'Follower Count'}
+            value={followerCount?.toString()}
+          />
         )
       },
       {
         title: 'Post Count',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={(value) => setPostCount(value.toString())} placeholder={'Post Count'} value={postCount?.toString()} />
+          <TextInput
+            returnKeyType={'next'}
+            ref={(input) => { this.postCountTextInput = input }}
+            onSubmitEditing={() => this.followSinceTextInput.focus() }
+            style={{ color: 'orange' }}
+            placeholderTextColor={'lightgray'}
+            onChangeText={(value) => setPostCount(value.toString())}
+            placeholder={'Post Count'}
+            value={postCount?.toString()}
+          />
         )
       },
       {
         title: 'Follow Since Year',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={(value) => setFriendSinceYear(value.toString())} placeholder={'Friend Since Year'} value={friendSinceYear?.toString()} />
+          <TextInput
+            returnKeyType={'next'}
+            style={{ color: 'orange' }}
+            ref={(input) => { this.followSinceTextInput = input; }}
+            onSubmitEditing={() => this.mutualFollowerTextInput.focus() }
+            placeholderTextColor={'lightgray'}
+            onChangeText={(value) => setFriendSinceYear(value.toString())}
+            placeholder={'Friend Since Year'}
+            value={friendSinceYear?.toString()}
+          />
         )
       },
       {
@@ -181,13 +269,29 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       {
         title: 'Mutual Follower Name',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setMutualFriend} placeholder={'Mutual Friend'} value={mutualFriend} />
+          <TextInput
+            returnKeyType={'next'}
+            style={{ color: 'orange' }}
+            ref={(input) => { this.mutualFollowerTextInput = input }}
+            placeholderTextColor={'lightgray'}
+            onSubmitEditing={() => this.mutualFollowTextInput.focus()}
+            onChangeText={setMutualFriend}
+            placeholder={'Mutual Friend'}
+            value={mutualFriend}
+          />
         )
       },
       {
         title: 'Mutual Follows Count',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={(value) => setMutualFriendsCount(value)} placeholder={'Mutual Follow Count'} value={mutualFriendsCount} />
+          <TextInput
+            style={{ color: 'orange' }}
+            ref={(input) => { this.mutualFollowTextInput = input }}
+            placeholderTextColor={'lightgray'}
+            onChangeText={(value) => setMutualFriendsCount(value.toString())}
+            placeholder={'Mutual Follow Count'}
+            value={mutualFriendsCount}
+          />
         )
       },
       {
@@ -204,13 +308,28 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       {
         title: 'First Name',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setFirstName} placeholder={'First Name'} value={firstName} />
+          <TextInput
+            returnKeyType={'next'}
+            style={{ color: 'orange' }}
+            onSubmitEditing={() => this.lastNameTextInput.focus()}
+            placeholderTextColor={'lightgray'} 
+            onChangeText={setFirstName} 
+            placeholder={'First Name'} 
+            value={firstName} 
+          />
         )
       },
       {
         title: 'Last Name',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setLastName} placeholder={'Last Name'} value={lastName} />
+          <TextInput
+            ref={(input) => { this.lastNameTextInput = input }}
+            style={{ color: 'orange' }}
+            placeholderTextColor={'lightgray'}
+            onChangeText={setLastName}
+            placeholder={'Last Name'}
+            value={lastName}
+          />
         )
       },
     )
@@ -221,13 +340,13 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       {
         title: 'Display Name',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setName} placeholder={'Name'} value={name} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={setName} placeholder={'Name'} value={name} />
         )
       },
       {
         title: 'Username',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setUsername} placeholder={'Username'} value={username} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={setUsername} placeholder={'Username'} value={username} />
         )
       },
       {
@@ -235,25 +354,25 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       },
       {
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setBiography} multiline={true} numberOfLines={4} placeholder={'Biography'} value={biography} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={setBiography} multiline={true} numberOfLines={4} placeholder={'Biography'} value={biography} />
         )
       },
       {
         title: 'Follower Count',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setFollowerCount} placeholder={'Follower Count'} value={followerCount.toString()} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={(value) => setFollowerCount(value.toString())} placeholder={'Follower Count'} value={followerCount?.toString()} />
         )
       },
       {
         title: 'Following Count',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setFollowingCount} placeholder={'Following Count'} value={followingCount.toString()} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={(value) => setFollowingCount(value.toString())} placeholder={'Following Count'} value={followingCount?.toString()} />
         )
       },
       {
         title: 'Join Date',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setJoinDate} placeholder={'Join Date'} value={joinDate} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={setJoinDate} placeholder={'Join Date'} value={joinDate} />
         )
       },
       {
@@ -270,13 +389,28 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       {
         title: 'First Name',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setFirstName} placeholder={'First Name'} value={firstName} />
+          <TextInput
+            returnKeyType={'next'}
+            onSubmitEditing={() => this.lastNameTextInput.focus()}
+            style={{ color: 'orange' }}
+            placeholderTextColor={'lightgray'}
+            onChangeText={setFirstName}
+            placeholder={'First Name'}
+            value={firstName} />
         )
       },
       {
         title: 'Last Name',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setLastName} placeholder={'Last Name'} value={lastName} />
+          <TextInput
+            returnKeyType={'next'}
+            
+            ref={(input) => this.lastNameTextInput = input}
+            style={{ color: 'orange' }}
+            placeholderTextColor={'lightgray'}
+            onChangeText={setLastName}
+            placeholder={'Last Name'}
+            value={lastName} />
         )
       },
       {
@@ -288,25 +422,25 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       {
         title: 'Works At',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setWorksAt} placeholder={'Works At'} value={worksAt} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={setWorksAt} placeholder={'Works At'} value={worksAt} />
         )
       },
       {
         title: 'Education',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setEducation} placeholder={'Education'} value={education} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={setEducation} placeholder={'Education'} value={education} />
         )
       },
       {
         title: 'City',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setCity} placeholder={'City'} value={city} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={setCity} placeholder={'City'} value={city} />
         )
       },
       {
         title: 'State',
         renderAccessory: () => (
-          <TextInput style={{ color: 'orange' }} onChangeText={setState} placeholder={'State'} value={state} />
+          <TextInput style={{ color: 'orange' }} placeholderTextColor={'lightgray'} onChangeText={setState} placeholder={'State'} value={state} />
         )
       },
       
@@ -348,6 +482,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       if (followerCount !== "") rec.follower_count = followerCount
       if (postCount !== "") rec.post_count = postCount
       if (mutualFriend !== "") rec.mutual_friend = mutualFriend
+      if (mutualFriendsCount !== "") rec.mutual_friends_count = mutualFriendsCount
       if (friendSinceYear !== "") rec.friend_since_year = friendSinceYear
       if (biography !== "") rec.biography = biography
       if (followingCount !== "") rec.following_count = followingCount
@@ -376,6 +511,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
         createConversation(conversation).then((c) => {
           setActivityIndicatorAnimating(false)
           refreshConversations().then(() => {
+            console.log('Recipient Image', recipient.image)
             navigation.popToTop()
             navigation.navigate(Utils.determineRoute(platform), { conversation: c, recipient: r })
           })
@@ -383,8 +519,6 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       })
     } else { // Updating Recipient
       console.log('Updating Recipient')
-      
-      recipient.image = image
 
       // Strings
       if (name !== "") recipient.name = name
@@ -392,6 +526,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       if (followerCount !== "") recipient.follower_count = followerCount
       if (postCount !== "") recipient.post_count = postCount
       if (mutualFriend !== "") recipient.mutual_friend = mutualFriend
+      if (mutualFriendsCount !== "") recipient.mutual_friends_count = mutualFriendsCount
       if (friendSinceYear !== "") recipient.friend_since_year = friendSinceYear
       if (biography !== "") recipient.biography = biography
       if (followingCount !== "") recipient.following_count = followingCount
@@ -410,13 +545,18 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       recipient.verified = booleanToInteger(verified)
       
       updateRecipient(recipient.id, recipient).then(() => {
+        console.log('Recipient Image', recipient.image)
         return navigation.navigate(backRoute, { recipient: recipient })
       })
     }
   }
   
   return (
-    <View style={{ flex: 1, position: "relative" }}>
+    <KeyboardAwareScrollView
+      extraScrollHeight={30}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      style={{ flex: 1, position: "relative" }}
+    >
       <Overlay isVisible={overlayVisible} onBackdropPress={() => setOverlayVisible(false)}>
         <View style={{ width: 350, padding: 20 }}>
           <Text style={{ fontSize: 24, fontWeight: '500', textAlign: 'center' }}>Profile Image</Text>
@@ -430,7 +570,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
                 <Icon
                   name={'arrow-forward'}
                   color={'white'}
-                  style={{ backgroundColor: Utils.isValidURL(urlInput) ? '#2089dc' : 'lightgray', borderRadius: 50, padding: 5 }}
+                  style={{ backgroundColor: Utils.isValidURL(urlInput || '') ? '#2089dc' : 'lightgray', borderRadius: 50, padding: 5 }}
                   type={'ionicon'}
                   onPress={() => {
                     setImage(urlInput)
@@ -443,7 +583,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
               )}
             />
           </View>
-          <Text style={{ fontSize: 16, fontWeight: '400', textAlign: 'center', marginBottom: 10, color: 'gray' }}>Or</Text>
+          <Text style={{ fontSize: 16, fontWeight: '400', textAlign: 'center', marginBottom: 10, color: 'lightgray' }}>Or</Text>
           <Button
             icon={
               <Icon name={'image'} type={'ionicon'} color={'white'} />
@@ -454,13 +594,9 @@ const ConversationSettings = ({ navigation, route }: Props) => {
           />
         </View>
       </Overlay>
-      <ActivityIndicator style={{ display: activityIndicatorAnimating ? "flex" : "none" }} animating={activityIndicatorAnimating} color={'gray'} size={'large'} />
-      <SettingsScreen data={conversationData} />
-      <Button
-        title={'Save'}
-        onPress={saveRecipient}
-      />
-    </View>
+      <ActivityIndicator style={{ display: activityIndicatorAnimating ? "flex" : "none" }} animating={activityIndicatorAnimating} color={'lightgray'} size={'large'} />
+      <SettingsScreen style={{ backgroundColor: darkMode ? 'black' : 'white' }} data={conversationData} />
+    </KeyboardAwareScrollView>
   )
 }
 

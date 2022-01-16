@@ -36,6 +36,7 @@ const IndexHomeContainer = ({ navigation }) => {
         }
       >
         <ListItem.Swipeable
+          containerStyle={{ backgroundColor: darkMode ? 'black' : 'white' }}
           bottomDivider={true}
           rightContent={
             <Button
@@ -60,10 +61,10 @@ const IndexHomeContainer = ({ navigation }) => {
               <ListItem.Title>
                 {conversationRecipient && (
                   <View style={{ flexDirection: 'row', alignContent: 'center' }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16, color: darkMode ? 'white' : 'black' }}>
                       {conversationRecipient.name || `${conversationRecipient.first_name} ${conversationRecipient.last_name}`}
                     </Text>
-                    <Text style={{ color: 'gray', marginLeft: 5 }}>
+                    <Text style={{ color: darkMode ? 'white' : 'black', marginLeft: 5 }}>
                       {conversationRecipient.username && `@${conversationRecipient.username}`}
                     </Text>
                     {Utils.validateBoolean(conversationRecipient.verified) && (
@@ -75,7 +76,7 @@ const IndexHomeContainer = ({ navigation }) => {
                 )}
               </ListItem.Title>
               <ListItem.Subtitle>
-                <Text style={{ color: 'gray', fontSize: 12 }}>{Utils.dateValidation(conversation.updated_at)}</Text>
+                <Text style={{ color: darkMode ? 'white' : 'black', fontSize: 12 }}>{Utils.dateValidation(conversation.updated_at)}</Text>
               </ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron />

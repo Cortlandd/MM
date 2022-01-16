@@ -105,6 +105,12 @@ function MainStackScreen() {
         component={ConversationSettings}
         options={{
           title: 'Conversation Settings',
+          headerTitleStyle: {
+            color: darkMode ? 'white' : 'black'
+          },
+          headerStyle: {
+            backgroundColor: darkMode ? 'black' : 'white',
+          }
         }}
       />
     </MainStack.Navigator>

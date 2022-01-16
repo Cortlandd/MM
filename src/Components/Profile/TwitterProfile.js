@@ -37,6 +37,7 @@ const TwitterProfile = ({ recipient }) => {
             <Text style={{ fontWeight: 'bold' }}>
               {recipient.follower_count
                 ? convert(recipient.follower_count)
+                // TODO: Fix this
                 : convert(12345)}
             </Text>
             <Text style={{ color: '#657786' }}> Followers</Text>

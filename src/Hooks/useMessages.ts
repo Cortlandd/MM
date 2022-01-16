@@ -27,7 +27,7 @@ export function useMessages(conversation: Conversation) {
 
   async function createMessage(message: Message, conversation_id: number): Promise<void> {
     await database.createMessage(message, conversation_id)
-    // RETHINK THIS
+    // TODO: RETHINK THIS
     
     await refreshMessages()
   }
@@ -53,14 +53,6 @@ export function useMessages(conversation: Conversation) {
     await database.updateSingleMessage(message)
     await refreshMessages()
   }
-
-  async function processTwitterMessage(message: Message): Promise<void> {
-    await database.processTwitterMessage(message)
-
-    // RETHINK THIS
-
-    await refreshMessages()
-  }
   
   return {
     conversationMessages,
@@ -69,7 +61,6 @@ export function useMessages(conversation: Conversation) {
     getMessage,
     updateMessage,
     updateMessageBulk,
-    processTwitterMessage,
     updateSingleMessage,
   }
 }

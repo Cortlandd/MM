@@ -4,6 +4,7 @@ import { useTheme } from '@/Theme'
 import { Avatar, ThemeProvider } from 'react-native-elements'
 import { Text, View } from 'react-native'
 import { validateBoolean } from '@/Config/Utils'
+import * as Utils from '@/Config/Utils'
 
 interface Props {
   name: string,
@@ -36,7 +37,7 @@ const InstagramFooter = ({...props}: Props) => {
         }}
         size={100}
         rounded={true}
-        source={props.tempImage ? { uri: props.tempImage ? props.tempImage : props.image } : {}}
+        source={props.tempImage !== undefined || props.image !== "" ? { uri: props.tempImage !== undefined ? props.tempImage : "~/Documents/" + Utils.extractFilename(props.image) } : {}}
       />
       <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
         <Text
@@ -54,28 +55,28 @@ const InstagramFooter = ({...props}: Props) => {
         ) : null }
       </View>
       <View
-        style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
+        style={{ flexDirection: 'row', alignSelf: 'center' }}
       >
-        {props.username ? (<Text style={{ fontSize: 15 }}>{props.username}</Text>) : null}
-        {props.name ? (<Text style={{ fontSize: 15 }}> · </Text>) : null}
-        <Text style={{ fontSize: 15 }}>Instagram</Text>
+        {props.username ? (<Text style={{ fontSize: 15, color: 'gray' }}>{props.username}</Text>) : null}
+        {props.name ? (<Text style={{ fontSize: 15, color: 'gray' }}> · </Text>) : null}
+        <Text style={{ fontSize: 15, color: 'gray' }}>Instagram</Text>
       </View>
       <View
-        style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
+        style={{ flexDirection: 'row', alignSelf: 'center' }}
       >
         <Text
           style={{
             color: 'gray',
-            fontWeight: darkMode ? '600' : '400',
+            fontWeight: '400',
             fontSize: 16,
           }}
         >
-          {props.follower_count} followers
+          {Utils.convertFollowNumber(props.follower_count)} followers
         </Text>
         <Text
           style={{
             color: 'gray',
-            fontWeight: darkMode ? '600' : '400',
+            fontWeight: '400',
             fontSize: 16,
           }}
         >
@@ -85,11 +86,11 @@ const InstagramFooter = ({...props}: Props) => {
         <Text
           style={{
             color: 'gray',
-            fontWeight: darkMode ? '600' : '400',
+            fontWeight: '400',
             fontSize: 16,
           }}
         >
-          {props.post_count} posts
+          {Utils.convertFollowNumber(props.post_count)} posts
         </Text>
       </View>
       {validateBoolean(props.is_mutual_friends) && props.mutual_friend !== "" && props.mutual_friends_count !== null ? (
@@ -99,7 +100,7 @@ const InstagramFooter = ({...props}: Props) => {
               color: 'gray',
               flexDirection: 'row',
               alignSelf: 'center',
-              fontWeight: darkMode ? '600' : '400',
+              fontWeight: '400',
               fontSize: 16,
             }}
           >
@@ -111,7 +112,7 @@ const InstagramFooter = ({...props}: Props) => {
               flexDirection: 'row',
               alignSelf: 'center',
               marginBottom: 10,
-              fontWeight: darkMode ? '600' : '400',
+              fontWeight: '400',
               fontSize: 16,
             }}
           >
@@ -119,13 +120,13 @@ const InstagramFooter = ({...props}: Props) => {
           </Text>
         </View>
       ) : (
-        <View style={{ marginBottom: 10 }}>
+        <View style={{ marginBottom: 5 }}>
           <Text
             style={{
               color: 'gray',
               flexDirection: 'row',
               alignSelf: 'center',
-              fontWeight: darkMode ? '600' : '400',
+              fontWeight: '400',
               fontSize: 16,
             }}
           >
@@ -138,7 +139,7 @@ const InstagramFooter = ({...props}: Props) => {
           flexDirection: 'row',
           alignSelf: 'center',
           borderWidth: 1,
-          borderColor: darkMode ? 'white' : 'lightgray',
+          borderColor: darkMode ? 'gray' : 'lightgray',
           paddingTop: 5,
           paddingBottom: 5,
           paddingLeft: 13,
