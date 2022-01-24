@@ -7,7 +7,7 @@ import { useTheme } from '@/Theme'
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height)
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width)
 
-const InstagramTextInput = ({ messageInput, setMessageInput, onSend }) => {
+const InstagramTextInput = ({ messageInput, setMessageInput, onSend, onImageUpload }) => {
   const icons = Icons()
   const { Fonts, darkMode } = useTheme()
 
@@ -38,7 +38,7 @@ const InstagramTextInput = ({ messageInput, setMessageInput, onSend }) => {
             <TouchableOpacity style={styles.btnNavigation}>
               <Image style={{ width: 30, height: 30, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_microphone} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnNavigation}>
+            <TouchableOpacity style={styles.btnNavigation} onPress={onImageUpload}>
               <Image style={{ width: 25, height: 25, tintColor: darkMode ? '#fff' : '#000' }} source={icons.instagram_photo} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnNavigation}>

@@ -1,6 +1,7 @@
 export interface Message {
   id: number
   text?: string
+  image?: string
   time: string
   conversation_id: number
   is_from_me?: number

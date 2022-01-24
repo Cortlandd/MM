@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   Animated,
 } from 'react-native'
-import { Avatar } from 'react-native-elements'
+import { Avatar, Image } from 'react-native-elements'
 import Images from '@/Theme/Images'
 import { Message, Recipient } from '@/Config/Types'
 import { validateBoolean } from '@/Config/Utils'
 import { useTheme } from '@/Theme'
+import * as Utils from '@/Config/Utils'
 
 interface Props {
   message: Message
@@ -33,20 +34,20 @@ const InstagramMessage = ({ message, lastMessage, recipient }: Props) => {
     },
     message: {
       borderColor: '#ddd',
-      borderWidth: 1,
-      borderRadius: 20,
+      borderWidth: message.is_from_me ? 0 : 1,
+      borderRadius: 22,
       maxWidth: SCREEN_WIDTH * 0.6,
       backgroundColor: '#ddd',
-      marginHorizontal: 15,
+      marginHorizontal: !message.is_from_me ? 15 : 5,
     },
     textMessage: {
-      paddingHorizontal: 15,
+      paddingHorizontal: 16,
     },
     msgText: {
       justifyContent: 'center',
       alignItems: 'center',
       paddingVertical: 10,
-      ...message.is_from_me && {color: 'black'},
+      ...message.is_from_me ? {color: 'black'} : null,
       ...!message.is_from_me && { color: darkMode ? 'white' : 'black' },
     },
     myMessage: {
@@ -108,47 +109,91 @@ const InstagramMessage = ({ message, lastMessage, recipient }: Props) => {
     <View>
       {validateBoolean(message.show_timestamp) ? (
         <View style={{ alignSelf: 'center', marginBottom: 10, marginTop: 10 }}>
-          <Text style={{ color: 'gray', textAlign: 'center' }}>
+          <Text style={{ color: '#8e8e8e', textAlign: 'center' }}>
             {dateValidation(message.time)}
           </Text>
         </View>
       ) : null}
-      <TouchableOpacity
-        style={{
-          ...styles.messageItem,
-          justifyContent: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
-          paddingBottom: 0,
-        }}
-        activeOpacity={1}
-      >
-        <View style={{
-          ...styles.yourAvatar,
-          marginLeft: 5,
-          ...validateBoolean(message.is_from_me) && { display: 'none' }
-        }}>
-          <Avatar
-            style={styles.yourAvatar}
-            rounded={true}
-            avatarStyle={!validateBoolean(message.message_last_in_group) && { display: 'none' }}
-            source={
-              recipient && recipient.image ? {uri: recipient.image} : images.sample_profile_woman
-            }
-          />
-          {/* Set constraint so that if the last message and current has 15 min difference show other don't. */}
-        </View>
-        <View
-          style={[
-            styles.message,
-            validateBoolean(message.is_from_me) ? styles.myMessage : styles.yourMessage,
-            styles.textMessage,
-            {
-              alignItems: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
-            },
-          ]}
+      {!message.image ? (
+        <TouchableOpacity
+          style={{
+            ...styles.messageItem,
+            justifyContent: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
+            paddingBottom: 0,
+          }}
+          activeOpacity={1}
         >
-          <Text style={styles.msgText}>{message.text}</Text>
-        </View>
-      </TouchableOpacity>
+          <View style={{
+            ...styles.yourAvatar,
+            marginLeft: 5,
+            ...validateBoolean(message.is_from_me) && { display: 'none' }
+          }}>
+            <Avatar
+              style={styles.yourAvatar}
+              rounded={true}
+              avatarStyle={!validateBoolean(message.message_last_in_group) ? { display: 'none' } : {}}
+              source={
+                recipient && recipient.image ? {uri: Utils.getImageFromPath(recipient.image)} : images.sample_profile_woman
+              }
+            />
+            {/* Set constraint so that if the last message and current has 15 min difference show other don't. */}
+          </View>
+          <View
+            style={[
+              styles.message,
+              !validateBoolean(message.is_from_me) && styles.yourMessage,
+              styles.textMessage,
+              {
+                alignItems: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
+              },
+            ]}
+          >
+            <Text style={styles.msgText}>{message.text}</Text>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            marginVertical: 3,
+            alignItems: 'flex-end',
+            justifyContent: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
+            paddingBottom: 0,
+          }}
+          activeOpacity={1}
+        >
+          {/* Profile icons */}
+          <View style={{
+            ...styles.yourAvatar,
+            marginLeft: 5,
+            ...validateBoolean(message.is_from_me) && { display: 'none' }
+          }}>
+            <Avatar
+              style={styles.yourAvatar}
+              rounded={true}
+              avatarStyle={!validateBoolean(message.message_last_in_group) ? { display: 'none' } : {}}
+              source={
+                recipient && recipient.image ? {uri: Utils.getImageFromPath(recipient.image)} : images.sample_profile_woman
+              }
+            />
+            {/* Set constraint so that if the last message and current has 15 min difference show other don't. */}
+          </View>
+          <View
+            style={[
+              !validateBoolean(message.is_from_me) && styles.yourMessage,
+              {
+                alignItems: validateBoolean(message.is_from_me) ? 'flex-end' : 'flex-start',
+                maxWidth: SCREEN_WIDTH * 0.6,
+                marginHorizontal: 5,
+                
+              },
+            ]}
+          >
+            <Avatar containerStyle={{ width: 150, height: 200 }} avatarStyle={{ borderRadius: 20 }} source={{ uri: Utils.getMessageImageFromPath(message.image) }} />
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   )
 }

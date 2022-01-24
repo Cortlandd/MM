@@ -139,8 +139,35 @@ export const imagePath = (file_name) => {
   return `${extension}${RNFS.DocumentDirectoryPath}/${file_name}`
 }
 
+export const messageImagePath = (fileName) => {
+  const extension = Platform.OS === 'android' ? 'file://' : ''
+  return `${extension}${RNFS.DocumentDirectoryPath}/Messages/${fileName}`
+}
+
+export const getImageFromPath = (path) => {
+  if (path === "") return
+
+  const fileName = extractFilename(path)
+  return `~/Documents/${fileName}`
+}
+
+export const getMessageImageFromPath = (path) => {
+  const fileName = extractFilename(path)
+  return `~/Documents/Messages/${fileName}`
+}
+
 export const extractFilename = (path) => {
+  if (path === null || path == "") return ""
+
   return path.replace(/^.*[\\\/]/, '')
+}
+
+export const cleanupMessageImage = (path) => {
+  RNFS.exists(getMessageImageFromPath(path)).then((exists) => {
+    if (exists) {
+      RNFS.unlink(getMessageImageFromPath(path)).then(() => Promise.resolve())
+    }
+  })
 }
 
 export const isValidURL = (str) => {

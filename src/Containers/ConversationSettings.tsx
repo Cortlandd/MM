@@ -5,7 +5,6 @@ import { View, TextInput, Text, ActivityIndicator, KeyboardAvoidingView, Touchab
 import { RouteProp } from '@react-navigation/native'
 import { Button, Switch, Avatar, Input, Icon, Overlay } from 'react-native-elements'
 import { SettingsData, SettingsScreen } from 'react-native-settings-screen'
-import { booleanToInteger, validateBoolean } from '@/Config/Utils'
 import { Config } from '@/Config'
 import { CommonActions } from '@react-navigation/native';
 import IMessageFooter from '@/Components/Footer/IMessageFooter'
@@ -44,6 +43,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
   })
   
   // Misc
+  const [updatingImage, setUpdatingImage] = useState(false)
   const [tempImage, setTempImage] = useState<string>()
   const [tempImagePath, setTempImagePath] = useState<string>()
   const [tempImageName, setTempImageName] = useState<string>()
@@ -66,8 +66,8 @@ const ConversationSettings = ({ navigation, route }: Props) => {
   const [postCount, setPostCount] = useState(recipient?.post_count)
   const [joinDate, setJoinDate] = useState(recipient?.join_date)
   const [biography, setBiography] = useState(recipient?.biography)
-  const [verified, setVerified] = useState(validateBoolean(recipient?.verified))
-  const [isMutualFriends, setIsMutualFriends] = useState(validateBoolean(recipient?.is_mutual_friends))
+  const [verified, setVerified] = useState(Utils.validateBoolean(recipient?.verified))
+  const [isMutualFriends, setIsMutualFriends] = useState(Utils.validateBoolean(recipient?.is_mutual_friends))
   const [mutualFriendsCount, setMutualFriendsCount] = useState(recipient?.mutual_friends_count)
   const [mutualFriend, setMutualFriend] = useState(recipient?.mutual_friend)
   const [friendSinceYear, setFriendSinceYear] = useState(recipient?.friend_since_year)
@@ -102,34 +102,40 @@ const ConversationSettings = ({ navigation, route }: Props) => {
   */
   
   useEffect(() => {
-    if (urlInput !== undefined || (tempImage !== undefined && tempImageName !== undefined)) {
+    if (updatingImage) {
       processLocalImage()
     }
-  }, [tempImage, urlInput, tempImageName])
+  }, [updatingImage])
   
   function processLocalImage() {
-    if (urlInput !== undefined) {
-      const filename = image.substring(image.lastIndexOf('/') + 1);
-      const ret = RNFS.downloadFile({ fromUrl: image, toFile: Utils.imagePath(filename)});
+
+    if (urlInput.length > 0) {
+      const filename = urlInput.substring(urlInput.lastIndexOf('/') + 1);
+      const newPath = Utils.imagePath(filename)
+      const ret = RNFS.downloadFile({ fromUrl: urlInput, toFile: newPath});
       return ret.promise.then(async res => {
-        setTempImagePath(Utils.imagePath(filename))
+        if (res.statusCode == 200) {
+          setImage(newPath) 
+        }
+        setUpdatingImage(false)
       }).catch(err => {
         console.error('Download Error: ', err);
+        setUpdatingImage(false)
       });
     } else if (tempImage !== undefined) {
       const newPath = Utils.imagePath(tempImageName)
       return RNFS.moveFile(tempImage, newPath)
-        .then().finally(() => {
+        .then(() => {
           setImage(newPath)
           setTempImage(newPath)
-
-          recipient.image = newPath
-          console.log('newImage', recipient.image)
+          setUpdatingImage(false)
         })
     }
   }
 
   const handleImageUpload = () => {
+    setUrlInput(undefined)
+
     let res: ImagePickerResponse
 
     return launchImageLibrary({ mediaType: 'photo' }).then((response) => {
@@ -145,7 +151,6 @@ const ConversationSettings = ({ navigation, route }: Props) => {
         setTempImagePath(uri)
         setTempImageName(fileName)
   
-        setUrlInput('')
         setOverlayVisible(false)
       }
     })
@@ -174,7 +179,7 @@ const ConversationSettings = ({ navigation, route }: Props) => {
           title: 'Image',
           renderAccessory: () => (
             <View>
-              <Avatar rounded={true} title={"Image"} source={{ uri: tempImage ? tempImage : "~/Documents/" + Utils.extractFilename(image) }} />
+              <Avatar rounded={true} title={"Image"} source={{ uri: tempImage ? tempImage : (image && "~/Documents/" + Utils.extractFilename(image)) }} />
             </View>
           ),
           onPress: () => setOverlayVisible(true),
@@ -469,6 +474,8 @@ const ConversationSettings = ({ navigation, route }: Props) => {
     setActivityIndicatorAnimating(true)
     // TODO: May not need to update image
 
+    setUpdatingImage(true)
+    
     if (backRoute === 'Home') { // New Recipient
       console.log('Creating New Recipient')
       
@@ -497,8 +504,8 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       if (joinDate !== "") rec.join_date = joinDate
 
       // Boolean
-      rec.is_mutual_friends = booleanToInteger(isMutualFriends)
-      rec.verified = booleanToInteger(verified)
+      rec.is_mutual_friends = Utils.booleanToInteger(isMutualFriends)
+      rec.verified = Utils.booleanToInteger(verified)
 
       const conversation: Conversation = {
         created_at: Utils.getDatetimeForSqlite(),
@@ -511,7 +518,6 @@ const ConversationSettings = ({ navigation, route }: Props) => {
         createConversation(conversation).then((c) => {
           setActivityIndicatorAnimating(false)
           refreshConversations().then(() => {
-            console.log('Recipient Image', recipient.image)
             navigation.popToTop()
             navigation.navigate(Utils.determineRoute(platform), { conversation: c, recipient: r })
           })
@@ -520,6 +526,10 @@ const ConversationSettings = ({ navigation, route }: Props) => {
     } else { // Updating Recipient
       console.log('Updating Recipient')
 
+      if (recipient) {
+        if (image !== recipient?.image) recipient.image = image
+      }
+      
       // Strings
       if (name !== "") recipient.name = name
       if (username !== "") recipient.username = username
@@ -541,11 +551,10 @@ const ConversationSettings = ({ navigation, route }: Props) => {
       if (joinDate !== "") recipient.join_date = joinDate
       
       // Boolean
-      recipient.is_mutual_friends = booleanToInteger(isMutualFriends)
-      recipient.verified = booleanToInteger(verified)
+      recipient.is_mutual_friends = Utils.booleanToInteger(isMutualFriends)
+      recipient.verified = Utils.booleanToInteger(verified)
       
       updateRecipient(recipient.id, recipient).then(() => {
-        console.log('Recipient Image', recipient.image)
         return navigation.navigate(backRoute, { recipient: recipient })
       })
     }
@@ -573,10 +582,8 @@ const ConversationSettings = ({ navigation, route }: Props) => {
                   style={{ backgroundColor: Utils.isValidURL(urlInput || '') ? '#2089dc' : 'lightgray', borderRadius: 50, padding: 5 }}
                   type={'ionicon'}
                   onPress={() => {
-                    setImage(urlInput)
                     setTempImage(urlInput)
-                    const filename = urlInput.substring(urlInput.lastIndexOf('/') + 1);
-                    setTempImagePath(Utils.imagePath(filename))
+                    setImage(urlInput)
                     setOverlayVisible(false)
                   }}
                 />

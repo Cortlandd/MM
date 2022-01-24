@@ -37,7 +37,7 @@ const InstagramFooter = ({...props}: Props) => {
         }}
         size={100}
         rounded={true}
-        source={props.tempImage !== undefined || props.image !== "" ? { uri: props.tempImage !== undefined ? props.tempImage : "~/Documents/" + Utils.extractFilename(props.image) } : {}}
+        source={props.tempImage !== undefined || props.image !== "" ? { uri: props.tempImage !== "" ? props.tempImage : "~/Documents/" + Utils.extractFilename(props.image) } : {}}
       />
       <View style={{ flexDirection: 'row', alignSelf: 'center', alignItems: 'center' }}>
         <Text

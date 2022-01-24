@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   View,
   TouchableOpacity,
@@ -28,6 +28,8 @@ import { RouteProp } from '@react-navigation/native'
 import { Message } from '@/Config/Types'
 import { useMessages } from '@/Hooks/useMessages'
 import { useRecipients } from '@/Hooks/useRecipients'
+import { Asset, ImagePickerResponse, launchImageLibrary } from 'react-native-image-picker'
+import * as RNFS from 'react-native-fs'
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'InstagramConversation'>;
@@ -40,11 +42,11 @@ const InstagramConversation = ({ navigation, route }: Props) => {
   const images = Images()
   const { darkMode } = useTheme()
 
-  const [messagesData, setMessagesData] = useState(conversationMessages)
   const [message, setMessage] = useState('')
   const [selectedReceiverIndex, setSelectedReceiverIndex] = useState(1)
+  const scrollViewRef = useRef();
 
-  const sendMessage = () => {
+  const sendMessage = (image: string = "") => {
     const msg: Message = {
       time: Utils.getDatetimeForSqlite(),
       text: message,
@@ -57,6 +59,8 @@ const InstagramConversation = ({ navigation, route }: Props) => {
       message_seen: booleanToInteger(true), // True 
     }
     
+    if (image !== "") msg.image = image
+    
     handleMessageData(msg)
     setMessage('')
   }
@@ -65,7 +69,31 @@ const InstagramConversation = ({ navigation, route }: Props) => {
     createMessage(message, conversation && conversation.id)
   }
   
-  const handleMessageData = (msg: Message) => {
+  const uploadImage = () => {
+    console.log("Uploading Image...")
+    
+    let res: ImagePickerResponse
+
+    return launchImageLibrary({ mediaType: 'photo' }).then((response) => {
+      if (response !== undefined && !response.didCancel && response.errorMessage !== '' && response.assets.length > 0) {
+        res = response.assets[0]
+
+        const fileName = res.fileName
+        const uri = res.uri
+        sendImage(uri, fileName)
+      }
+    })
+  }
+  
+  function sendImage(uri: string, filename: string) {
+    const newPath = Utils.messageImagePath(filename)
+    return RNFS.moveFile(uri, newPath)
+      .then().finally(() => {
+        sendMessage(newPath)
+      })
+  }
+  
+  const handleMessageData = (msg: Message, image: string = "") => {
     let message: Message = msg
 
     // Get message by time, because timestamp is always unique and subtract 1 to get the previous message
@@ -132,7 +160,7 @@ const InstagramConversation = ({ navigation, route }: Props) => {
           enabled={true}
         >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled ref={scrollViewRef} onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
               <InstagramProfile recipient={recipient} />
               <FlatList
                 data={conversationMessages}
@@ -164,7 +192,8 @@ const InstagramConversation = ({ navigation, route }: Props) => {
           <InstagramTextInput
             messageInput={message}
             setMessageInput={setMessage}
-            onSend={sendMessage}
+            onSend={() => sendMessage()}
+            onImageUpload={uploadImage}
           />
         </KeyboardAvoidingView>
       </SafeAreaView>

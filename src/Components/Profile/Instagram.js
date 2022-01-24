@@ -23,7 +23,7 @@ const InstagramProfile = ({ recipient }) => {
         containerStyle={{
           alignSelf: 'center',
           marginTop: 20,
-          marginBottom: 10,
+          marginBottom: 8,
         }}
         size={100}
         rounded={true}
@@ -48,16 +48,16 @@ const InstagramProfile = ({ recipient }) => {
       <View
         style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
       >
-        {recipient.username ? (<Text style={{ fontSize: 16, color: 'gray', fontWeight: '400', }}>{recipient.username}</Text>) : null}
-        {recipient.name ? (<Text style={{ fontSize: 16, color: 'gray', fontWeight: '400', }}> · </Text>) : null}
-        <Text style={{ fontSize: 16, color: 'gray', fontWeight: '400', }}>Instagram</Text>
+        {recipient.username ? (<Text style={{ fontSize: 16, color: '#8e8e8e', fontWeight: '400', }}>{recipient.username}</Text>) : null}
+        {recipient.name ? (<Text style={{ fontSize: 16, color: '#8e8e8e', fontWeight: '400', }}> · </Text>) : null}
+        <Text style={{ fontSize: 16, color: '#8e8e8e', fontWeight: '400', }}>Instagram</Text>
       </View>
       <View
         style={{ flexDirection: 'row', alignSelf: 'center', marginBottom: 3 }}
       >
         <Text
           style={{
-            color: 'gray',
+            color: '#8e8e8e',
             fontWeight: '400',
             fontSize: 16,
           }}
@@ -66,7 +66,7 @@ const InstagramProfile = ({ recipient }) => {
         </Text>
         <Text
           style={{
-            color: 'gray',
+            color: '#8e8e8e',
             fontWeight: '400',
             fontSize: 16,
           }}
@@ -76,7 +76,7 @@ const InstagramProfile = ({ recipient }) => {
         </Text>
         <Text
           style={{
-            color: 'gray',
+            color: '#8e8e8e',
             fontWeight: '400',
             fontSize: 16,
           }}
@@ -88,18 +88,19 @@ const InstagramProfile = ({ recipient }) => {
         <View>
           <Text
             style={{
-              color: 'gray',
+              color: '#8e8e8e',
               flexDirection: 'row',
               alignSelf: 'center',
               fontWeight: '400',
               fontSize: 16,
+              marginBottom: 3
             }}
           >
             You follow each other on Instagram
           </Text>
           <Text
             style={{
-              color: 'gray',
+              color: '#8e8e8e',
               flexDirection: 'row',
               alignSelf: 'center',
               marginBottom: 10,
@@ -114,7 +115,7 @@ const InstagramProfile = ({ recipient }) => {
         <View style={{ marginBottom: 10 }}>
           <Text
             style={{
-              color: 'gray',
+              color: '#8e8e8e',
               flexDirection: 'row',
               alignSelf: 'center',
               fontWeight: '400',
@@ -130,7 +131,7 @@ const InstagramProfile = ({ recipient }) => {
           flexDirection: 'row',
           alignSelf: 'center',
           borderWidth: 1,
-          borderColor: darkMode ? 'gray' : 'lightgray',
+          borderColor: '#8e8e8e',
           paddingTop: 5,
           paddingBottom: 5,
           paddingLeft: 13,

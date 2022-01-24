@@ -3,6 +3,7 @@ import { Conversation, Message, Recipient } from '@/Config/Types'
 import { DatabaseInitialization } from '@/Config/Database/DatabaseInitialization'
 import { AppState, AppStateStatus } from 'react-native'
 import { booleanToInteger, validateBoolean, getDatetimeForSqlite } from '@/Config/Utils'
+import * as Utils from '../Utils'
 
 const DATABASE_NAME = 'MsgMaker.db'
 const DATABASE_VERSION = '1.0'
@@ -207,10 +208,31 @@ async function getMessage(message_id: number): Promise<Message> {
 
 // DELETE
 
+async function deleteConversationImages(conversation_id: number): Promise<void> {
+  return getDatabase()
+    .then((db) => db.executeSql(`SELECT * FROM Messages WHERE conversation_id = ${conversation_id} AND image NOT NULL OR image != "";`))
+    .then(([results]) => {
+      if (results === undefined) {
+        Promise.resolve()
+      }
+
+      const count = results.rows.length
+
+      for (let i = 0; i < count; i++) {
+        const message = results.rows.item(i)
+        Utils.cleanupMessageImage(message.image)
+      }
+      
+      Promise.resolve()
+    })
+}
+
 async function deleteConversation(conversation_id: number): Promise<void> {
   // const database = getDatabase()
   // database.then((db) => db.executeSql(`DELETE FROM Messages WHERE conversation_id = ${conversation_id};`,)).then(() => Promise.resolve())
   // database.then((db) => db.executeSql(`DELETE FROM Recipients WHERE ROWID IN (SELECT ROWID FROM Conversations WHERE id = ${conversation_id});`))
+  
+  await deleteConversationImages(conversation_id)
   
   return getDatabase()
     .then((db) => {
